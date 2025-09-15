@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name" translatable="false">Oremos Católico</string>
+    <string name="configurations">Switirhisiwa</string>
+    <string name="small">Xitsongo</string>
+    <string name="normal">Ntolovelo</string>
+    <string name="large">Lexikulu</string>
+    <string name="huge">Xikulu</string>
+    <string name="search_song_or_pray">Pesquisar Cântico / Oração</string>
+    <string name="loading">Ku layicha...</string>
+    <string name="cancel">Khansela</string>
+    <string name="is_loved">I xirhandziwa</string>
+    <string name="is_not_loved">a hi xirhandziwa</string>
+    <string name="solid">Tiyile</string>
+    <string name="gradient">Gradient</string>
+    <string name="principal_color">Muhlovo lowukulu</string>
+    <string name="secondary_color">Muhlovo wa vumbirhi</string>
+    <string name="search_loved">Lavisisa swirhandziwa</string>
+    <string name="none_pray_or_song_found">Nenhuma oração ou cântico encontrado</string>
+    <string name="pray">Xikhongelo</string>
+    <string name="song">Risimu</string>
+    <string name="prays">Swikhongelo</string>
+    <string name="songs">Tinsimu</string>
+    <string name="light">Rivoni</string>
+    <string name="dark">Xinyama</string>
+    <string name="system">Sisitimi</string>
+    <string name="appearance">Xivumbeko</string>
+    <string name="mode">Mode</string>
+    <string name="app_color">Muhlovo wa app</string>
+    <string name="about">Eka</string>
+    <string name="apply">Hlayisa</string>
+    <string name="go_back">ku tlhelela endzhaku</string>
+    <string name="options">Swihlawulekisi</string>
+    <string name="grouped_songs">Cânticos Agrupados</string>
+    <string name="loved">Swirhandziwa</string>
+    <string name="more_pages">Matluka man’wana</string>
+    <string name="home">Kaya</string>
+    <string name="more">Swo tala</string>
+    <string name="language">Ririmi</string>
+    <string name="font_size">Vukulu bya fonto</string>
+    <string name="pt">Xiputukezi</string>
+    <string name="ts">Xitxangana</string>
+    <string name="reminder">xi kumbukiso</string>
+    <string name="share">nhiquela</string>
+    <string name="fullscreen">telefon alata</string>
+
+</resources>

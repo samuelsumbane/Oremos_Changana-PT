@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name" translatable="false">"Oremos Católico "</string>
+    <string name="configurations">Configurações</string>
+    <string name="small">Pequeno</string>
+    <string name="normal">Normal</string>
+    <string name="large">Grande</string>
+    <string name="huge">Enorme</string>
+    <string name="search_song_or_pray">Pesquisar Cântico / Oração</string>
+    <string name="loading">Carregando...</string>
+    <string name="cancel">Cancel</string>
+    <string name="is_loved">É favorito</string>
+    <string name="is_not_loved">Não é favorito</string>
+    <string name="solid">Sólida</string>
+    <string name="gradient">Gradiente</string>
+    <string name="principal_color">Cor principal</string>
+    <string name="secondary_color">Cor secundária</string>
+    <string name="search_loved">Pesquisar favoritos</string>
+    <string name="none_pray_or_song_found">Nenhuma oração ou cântico encontrado</string>
+    <string name="pray">Oração</string>
+    <string name="song">Cântico</string>
+    <string name="prays">Orações</string>
+    <string name="songs">Cânticos</string>
+    <string name="light">Claro</string>
+    <string name="dark">Escuro</string>
+    <string name="system">Sistema</string>
+    <string name="appearance">Aparência</string>
+    <string name="mode">Modo</string>
+    <string name="app_color">Cor do app</string>
+    <string name="about">Sobre</string>
+    <string name="apply">Aplicar</string>
+    <string name="go_back">Voltar</string>
+    <string name="options">Opções</string>
+    <string name="grouped_songs">Cânticos agrupados</string>
+    <string name="loved">Favoritos</string>
+    <string name="more_pages">Mais paginas</string>
+    <string name="home">Casa</string>
+    <string name="more">Mais</string>
+    <string name="language">Idioma</string>
+    <string name="font_size">Tamanho da letra</string>
+    <string name="pt">Português</string>
+    <string name="ts">Changana</string>
+    <string name="reminder">Lembrete</string>
+    <string name="share">Partilhar</string>
+    <string name="fullscreen">Tela cheia</string>
+    <string name="copy">Copiar</string>
+    <string name="copied_text">Texto copiado</string>
+</resources>
