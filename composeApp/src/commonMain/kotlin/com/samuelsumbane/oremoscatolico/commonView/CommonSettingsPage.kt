@@ -1,4 +1,4 @@
-package com.samuelsumbane.oremoscatolico.view
+package com.samuelsumbane.oremoscatolico.commonView
 
 import androidx.compose.runtime.Composable
 
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
+import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuelsumbane.oremoscatolico.repository.AppMode
@@ -42,16 +44,18 @@ import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 //import com.samuelsumbane.oremoscatolico.repository.Configs.mode
-import com.samuelsumbane.oremoscatolico.AboutAppScreen
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.AppearanceScreen
-import com.samuelsumbane.oremoscatolico.ConfigColumn
+import com.samuelsumbane.oremoscatolico.createSettings
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
+import com.samuelsumbane.oremoscatolico.globalComponents.ConfigColumn
 import com.samuelsumbane.oremoscatolico.globalComponents.KeyValueTextRow
 import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.globalComponents.MinCircular
 import com.samuelsumbane.oremoscatolico.globalComponents.RadioButtonDialog
+import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
+import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
@@ -74,10 +78,17 @@ import oremoscatolico.composeapp.generated.resources.system
 import oremoscatolico.composeapp.generated.resources.ts
 import org.jetbrains.compose.resources.stringResource
 import java.util.Locale
+import kotlin.collections.iterator
 
+object CommonSettingsScreen : Screen {
+    @Composable
+    override fun Content() {
+        CommonSettingsPage()
+    }
+}
 
 @Composable
-fun DesktopSettingsPage() {
+fun CommonSettingsPage() {
     val navigator = LocalNavigator.currentOrThrow
     var showModeDialog by remember { mutableStateOf(false) }
 
@@ -123,7 +134,7 @@ fun DesktopSettingsPage() {
     appLanguage = localesAndLanguages[appLocale] ?: stringResource(Res.string.pt)
 
     //
-    val configViewModel = remember { ConfigScreenViewModel() }
+    val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
 
     LaunchedEffect(Unit) {
         val defaultConfigValues = configViewModel.loadConfigurations()
@@ -141,14 +152,18 @@ fun DesktopSettingsPage() {
     val scrollState = rememberScrollState()
 
     Scaffold { paddingValues ->
-        Row(Modifier.fillMaxSize()
-            .padding(paddingValues)) {
-            AppSideBar(navigator, PageName.SETTINGS.value)
+        Row(Modifier
+            .padding(paddingValues)
+            .fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (isDesktop()) AppSideBar(navigator, PageName.SETTINGS.value)
 
             if (mode.isNotBlank()) {
                 Row(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .platformWidth()
+                        .fillMaxHeight(),
                 ) {
                     Column(
                         modifier = Modifier
@@ -306,20 +321,22 @@ fun DesktopSettingsPage() {
                             Spacer(Modifier.height(70.dp))
 
                             Button(
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                modifier = Modifier
+                                    .padding(bottom = 20.dp)
+                                    .align(Alignment.CenterHorizontally),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = ColorObject.mainColor
                                 ),
-                                onClick = { navigator.push(AboutAppScreen) }
+                                onClick = { navigator.push(CommonSettingsScreen) }
                             ) {
                                 Text("Sobre", color = Color.White)
                             }
                         }
                     }
 
-                    AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
 
                 }
+                    if (isDesktop()) AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
             } else {
 //                coroutineScope.launch {
 //                    val defaultConfigValues = configViewModel.loadConfigurations()

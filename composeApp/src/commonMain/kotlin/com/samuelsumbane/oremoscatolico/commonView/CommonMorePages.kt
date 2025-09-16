@@ -35,8 +35,10 @@ import com.samuelsumbane.oremoscatolico.FestasMoveisScreen
 import com.samuelsumbane.oremoscatolico.LicionarioScreen
 import com.samuelsumbane.oremoscatolico.RemindersScreen
 import com.samuelsumbane.oremoscatolico.SantoralScreen
+import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.MorePagesBtn
 import com.samuelsumbane.oremoscatolico.isAndroid
+import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.appendix
@@ -53,17 +55,12 @@ object MorePagesScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        MorePages(navigator) {
-
-        }
+        MorePages(navigator)
     }
 }
 
 @Composable
-fun MorePages(
-    navigator: Navigator,
-    sidebar: @Composable () -> Unit
-) {
+fun MorePages(navigator: Navigator, ) {
 //    val configuration = LocalConfiguration.current
 //    val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
     val curvePercent = 16
@@ -71,7 +68,6 @@ fun MorePages(
 
     Scaffold(
         bottomBar = { BottomNav(navigator, PageName.MOREPAGES.value) }
-
     ) { paddingValues ->
         Row(Modifier
 //            .fillMaxSize()
@@ -79,7 +75,7 @@ fun MorePages(
 //            .background(Color.Green)
         ) {
 //            CommonSideBarScreen(PageName.PRAYS.value)
-            sidebar()
+            if (isDesktop()) AppSideBar(navigator, PageName.PRAYS.value)
 
             Column(
                 Modifier

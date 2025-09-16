@@ -5,11 +5,8 @@ import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -37,18 +34,16 @@ import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.Configs.thememode
 import com.samuelsumbane.oremoscatolico.commonView.About
-import com.samuelsumbane.oremoscatolico.commonView.LovedDataPage
 import com.samuelsumbane.oremoscatolico.commonView.RemindersPages.ConfigureReminder
 import com.samuelsumbane.oremoscatolico.commonView.RemindersPages.RemindersPage
 import com.samuelsumbane.oremoscatolico.commonView.settingsPages.AppearancePage
 //import com.samuelsumbane.oremoscatolico.globalComponents.showSnackbar
 import com.samuelsumbane.oremoscatolico.repository.ReminderDbHelper
-import com.samuelsumbane.oremoscatolico.repository.scheduleTaskAt
 import com.samuelsumbane.oremoscatolico.view.DesktopHomePage
 //import com.samuelsumbane.oremoscatolico.view.DesktopPraysScreen
-import com.samuelsumbane.oremoscatolico.view.DesktopSettingsPage
+import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsPage
+import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsScreen
 //import com.samuelsumbane.oremoscatolico.view.DesktopSettingsPage
-import com.samuelsumbane.oremoscatolico.commonView.CommonSongsPage
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.icon
@@ -130,7 +125,7 @@ fun main() = application {
 //                SideEffect { change }
 
                 OremosCatolicoTheme(darkTheme = appMode) {
-                    Navigator(HomeScreen)
+                    Navigator(CommonSettingsScreen)
 //                    Navigator(DesktopSettingsScreen)
 //                    Navigator(RemindersScreen)
 //            Navigator(DesktopPraysScreen)
@@ -141,48 +136,6 @@ fun main() = application {
         }
 
         repository.close()
-    }
-}
-
-
-
-
-
-
-actual object MorePagesScreen : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-//        MorePages(navigator, sidebar = { DesktopSideBar(navigator, PageName.MOREPAGES.value) })
-    }
-}
-
-object DesktopSettingsScreen : Screen {
-    @Composable
-    override fun Content() {
-        DesktopSettingsPage()
-    }
-}
-
-object AboutAppScreen : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        About(navigator, onGithubClickedLink = {
-//            val intent = Intent(Intent.ACTION_VIEW, githubLink.toUri())
-//            context.startActivity(intent)
-        })
-    }
-}
-
-
-
-object AppearanceScreen : Screen {
-    @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-
-        AppearancePage(navigator)
     }
 }
 

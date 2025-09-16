@@ -1,6 +1,7 @@
 package com.samuelsumbane.oremoscatolico.commonView
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -114,10 +115,10 @@ fun About(
 
         Box(
             modifier = Modifier
-//                .background(Color.Red)
                 .padding(paddingVales)
                 .fillMaxSize(),
         ) {
+
             Column(
                 modifier = Modifier
 //                    .background(Color.Blue)

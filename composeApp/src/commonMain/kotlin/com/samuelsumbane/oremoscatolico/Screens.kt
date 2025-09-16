@@ -8,10 +8,12 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.russhwolf.settings.Settings
+import com.samuelsumbane.oremoscatolico.commonView.About
 import com.samuelsumbane.oremoscatolico.commonView.commonMorePages.Licionario
 import com.samuelsumbane.oremoscatolico.view.morepagesPackage.Apendice
 import com.samuelsumbane.oremoscatolico.commonView.commonMorePages.FestasMoveis
 import com.samuelsumbane.oremoscatolico.commonView.commonMorePages.Santoral
+import com.samuelsumbane.oremoscatolico.commonView.settingsPages.AppearancePage
 
 object SantoralScreen : Screen {
     @Composable
@@ -93,3 +95,24 @@ expect fun BottomNav(
     navigator: Navigator,
     activePage: String
 )
+
+
+object CommonAboutAppScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        About(navigator, onGithubClickedLink = {
+//            val intent = Intent(Intent.ACTION_VIEW, githubLink.toUri())
+//            context.startActivity(intent)
+        })
+    }
+}
+
+object AppearanceScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+
+        AppearancePage(navigator)
+    }
+}

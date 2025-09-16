@@ -781,3 +781,17 @@ fun Modifier.platformWidth(): Modifier {
         this.width(500.dp)
     }
 }
+
+@Composable
+fun ConfigColumn(
+    title: String,
+    content: @Composable () -> Unit
+) {
+    Spacer(modifier = Modifier.height(30.dp))
+
+    Column {
+        Text(text = title, fontSize = 15.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+        Spacer(modifier = Modifier.height(10.dp))
+        content()
+    }
+}

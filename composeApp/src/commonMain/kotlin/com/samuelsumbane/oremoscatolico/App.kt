@@ -1,27 +1,11 @@
 package com.samuelsumbane.oremoscatolico
 
-
-
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.russhwolf.settings.Settings
-
-
-//expect fun createSettings(): Settings
-// jvmMain
-//actual fun createSettings(): Settings {
-//    val prefs = Preferences.userRoot().node("OremosChangana")
-//    return PreferencesSettings(prefs)
-//}
-
-// androidMain
-//actual fun createSettings(): Settings {
-//    // E como fica para android
-//}
 
 
 
