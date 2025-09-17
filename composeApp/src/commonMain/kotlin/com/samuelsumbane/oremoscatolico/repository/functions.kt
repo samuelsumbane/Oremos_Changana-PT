@@ -1,5 +1,11 @@
 package com.samuelsumbane.oremoscatolico.repository
 
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -9,9 +15,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 
-enum class DataCollection {
-    SONGS, PRAYS
-}
+enum class DataCollection { SONGS, PRAYS }
 
 
 // Verify if is number or not --------->>
@@ -105,3 +109,36 @@ fun splitTimestamp(timestamp: Long): Pair<Long, Long> {
 }
 
 fun getCurrentTimestamp(): Long = System.currentTimeMillis()
+
+fun parseStyledText(text: String): AnnotatedString {
+    return buildAnnotatedString {
+        var i = 0
+        var bold = false
+        var italic = false
+
+        while (i < text.length) {
+            when {
+                text.startsWith("\\b", i) -> {
+                    bold = !bold
+                    i += 2
+                }
+                text.startsWith("\\i", i) -> {
+                    italic = !italic
+                    i += 2
+                }
+                else -> {
+                    withStyle(
+                        style = SpanStyle(
+                            fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal,
+                            fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
+                        )
+                    ) {
+                        append(text[i])
+                    }
+                    i++
+                }
+            }
+        }
+    }
+}
+

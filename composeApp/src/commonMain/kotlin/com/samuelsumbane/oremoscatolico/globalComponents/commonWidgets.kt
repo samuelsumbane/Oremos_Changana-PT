@@ -72,6 +72,7 @@ import com.samuelsumbane.oremoscatolico.isAndroid
 import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.PageName
+import com.samuelsumbane.oremoscatolico.repository.parseStyledText
 import com.samuelsumbane.oremoscatolico.ui.theme.Orange
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.arrow_upward
@@ -501,7 +502,7 @@ fun pagerContent(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = body.trimIndent(),
+                text = parseStyledText(body.trimIndent()),
                 fontSize = textFontSize(),
                 softWrap = true,
                 modifier = Modifier.padding(15.dp).fillMaxWidth(),
