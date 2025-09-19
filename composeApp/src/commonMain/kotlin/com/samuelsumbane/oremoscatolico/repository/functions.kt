@@ -6,6 +6,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
+import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -115,6 +117,8 @@ fun parseStyledText(text: String): AnnotatedString {
         var i = 0
         var bold = false
         var italic = false
+        var semiBold = false
+        var small = false
 
         while (i < text.length) {
             when {
@@ -126,11 +130,20 @@ fun parseStyledText(text: String): AnnotatedString {
                     italic = !italic
                     i += 2
                 }
+                text.startsWith("\\m", i) -> {
+                    semiBold = !semiBold
+                    i += 2
+                }
+                text.startsWith("\\s", i) -> {
+                    small = !small
+                    i += 2
+                }
                 else -> {
                     withStyle(
                         style = SpanStyle(
-                            fontWeight = if (bold) FontWeight.Bold else FontWeight.Normal,
-                            fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal
+                            fontWeight = if (bold) FontWeight.Bold else if (semiBold) FontWeight.SemiBold else FontWeight.Normal,
+                            fontStyle = if (italic) FontStyle.Italic else FontStyle.Normal,
+                            fontSize = if (small) 10.sp else textFontSize()
                         )
                     ) {
                         append(text[i])

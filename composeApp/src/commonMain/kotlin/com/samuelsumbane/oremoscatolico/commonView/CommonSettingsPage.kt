@@ -154,6 +154,7 @@ fun CommonSettingsPage() {
     Scaffold { paddingValues ->
         Row(Modifier
             .padding(paddingValues)
+            .padding(end = 5.dp)
             .fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {

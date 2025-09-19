@@ -119,9 +119,7 @@ fun AppearancePage(navigator: Navigator) {
                     ) {
                         for (eachList in colorList) {
                             Row(
-//                                modifier = Modifier.fillMaxSize(0.8f),
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f),
+                                modifier = Modifier.fillMaxWidth(0.8f),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 for (color in eachList) {
@@ -131,8 +129,8 @@ fun AppearancePage(navigator: Navigator) {
                                         ColorObject.mainColor = color
                                         themeColor = color
 
-                                        ColorObject.secondColor = Color.Unspecified
-                                        configViewModel.saveConfiguration(ConfigEntry.SecondThemeColor, Color.Unspecified.toArgb())
+                                        ColorObject.secondColor = Color.Transparent
+                                        configViewModel.saveConfiguration(ConfigEntry.SecondThemeColor, Color.Transparent.toArgb())
                                     }
                                 }
                             }

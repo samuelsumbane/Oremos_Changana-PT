@@ -299,6 +299,7 @@ fun spaceAroundContentWidget(content: @Composable () -> Unit) {
 
 @Composable
 fun RowPreviewColor(color: Color) {
+    println("O estado do ${ColorObject.secondColor == Color.Transparent}")
     Row(
         modifier = Modifier
             .padding(12.dp)

@@ -166,11 +166,9 @@ data class EachPageScreen(
             showShortcutButton: Boolean = true
         ) {
             HorizontalPager(state = pagerState, pageSpacing = 15.dp) { page ->
-
                 if (data == songsData) {
                     songsData.first { it.id == page + 1 }.run {
                         pagerContent(
-                            navigator = navigator,
                             modifier = modifier,
                             title = "$number - ${title.uppercase()}",
                             subTitle = subTitle,
@@ -187,7 +185,6 @@ data class EachPageScreen(
                 } else {
                     praysData.first { it.id == page + 1 }.run {
                         pagerContent(
-                            navigator = navigator,
                             modifier = modifier,
                             title = title.uppercase(),
                             subTitle = subTitle,
@@ -332,7 +329,6 @@ data class EachPageScreen(
         ) { paddingValues ->
             pager(modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxWidth(fraction = if (isDesktop()) 0.5f else 1f)
             )
         }
 

@@ -4,9 +4,11 @@ package com.samuelsumbane.oremoscatolico.commonView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -121,15 +123,15 @@ fun CommonPraysPage(navigator: Navigator) {
                             }
 
                             Row(Modifier.fillMaxSize().padding(paddingVales)) {
-                            if (isDesktop()) AppSideBar(navigator, PageName.PRAYS.value)
-
+                                if (isDesktop()) AppSideBar(navigator, PageName.PRAYS.value)
 
                                 Row(
-                                    modifier = Modifier.fillMaxSize(),
-//                                    contentAlignment = Alignment.CenterHorizontally
+                                    modifier = Modifier
+                                        .padding(end = 12.dp)
+                                        .weight(1f)
+                                    ,
                                     horizontalArrangement = Arrangement.Center
                                 ) {
-
                                     LazyColumn(
                                         state = listState,
                                         modifier = Modifier
@@ -151,16 +153,6 @@ fun CommonPraysPage(navigator: Navigator) {
                                                 loved = pray.id in lovedIdPrays,
                                                 onToggleLoved = { id ->
                                                     coroutineScope.launch {
-//                                                        val newSet = lovedIdPrays.toMutableSet().apply {
-//                                                            if (contains(id)) {
-//                                                                remove(id)
-//                                                                println("remove $id")
-//                                                            } else {
-//                                                                add(id)
-//                                                                println("add: $id")
-//                                                            }
-//                                                        }
-
                                                         if (id in lovedIdPrays) {
                                                             lovedIdPrays -= id
                                                         } else {
@@ -171,33 +163,26 @@ fun CommonPraysPage(navigator: Navigator) {
                                                             ConfigEntry.FavoritePrays, lovedIdPrays
                                                         )
 
-
-//                                            saveIdSet(context, newSet, SetIdPreference.PRAYS_ID.preferenceName)
-//                                            lovedIdPrays = newSet
-
-
-
-//                                                        println("new set is: $newSet")
                                                     }
                                                 }
                                             )
                                         }
                                     }
+                                }
 
-                                    if (isAndroid()) {
-                                        if (showUpButton) {
-                                            ScrollToFirstItemBtn(modifier = Modifier
-    //                                            .align(alignment = Alignment.BottomEnd)
-                                                .background(Color.Red)
-    //                                            .align(alignment = Alignment.Bottom)
-                                            ) {
-                                                coroutineScope.launch { listState.scrollToItem(0) }
-                                            }
+                                if (isAndroid()) {
+                                    if (showUpButton) {
+                                        ScrollToFirstItemBtn(modifier = Modifier
+                                            //                                            .align(alignment = Alignment.BottomEnd)
+                                            .background(Color.Red)
+                                            //                                            .align(alignment = Alignment.Bottom)
+                                        ) {
+                                            coroutineScope.launch { listState.scrollToItem(0) }
                                         }
-                                    } else {
-                                        AditionalVerticalScroll(lazyListState = listState, scrollState = null)
                                     }
-
+                                } else {
+                                    AditionalVerticalScroll(lazyListState = listState, scrollState = null)
+                                    Spacer(Modifier.width(5.dp))
                                 }
                             }
 

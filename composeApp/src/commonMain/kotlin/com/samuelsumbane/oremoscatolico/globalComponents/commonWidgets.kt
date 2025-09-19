@@ -457,12 +457,11 @@ fun MenuContent(
  
 
 
-@Composable
+//@Composable
 fun textFontSize() = FontSize.fromString(configFontSize).size
 
 @Composable
 fun pagerContent(
-    navigator: Navigator,
     modifier: Modifier,
     title: String,
     subTitle: String,
@@ -470,51 +469,43 @@ fun pagerContent(
     showShortcutButton: Boolean = true
 ) {
     val scrollState = rememberScrollState()
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomCenter
-    ) {
+
+    Row(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = modifier
-                .fillMaxSize()
+                .weight(1f)
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Text(
-                text = title,
-                fontWeight = FontWeight.Bold,
-                fontSize = (textFontSize().value + 2).sp,
-                textAlign = TextAlign.Center,
-                softWrap = true,
-                modifier = Modifier.padding(20.dp)
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = subTitle,
-                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
-                textAlign = TextAlign.Center,
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = parseStyledText(body.trimIndent()),
-                fontSize = textFontSize(),
-                softWrap = true,
-                modifier = Modifier.padding(15.dp).fillMaxWidth(),
-                textAlign = TextAlign.Justify,
-            )
+            // For content
+            Column(Modifier.fillMaxWidth(if (isDesktop()) 0.5f else 1f)) {
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(
+                    text = title,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = (textFontSize().value + 2).sp,
+                    textAlign = TextAlign.Center,
+                    softWrap = true,
+                    modifier = Modifier.padding(20.dp)
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = subTitle,
+                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = parseStyledText(body.trimIndent()),
+                    fontSize = textFontSize(),
+                    softWrap = true,
+                    modifier = Modifier.padding(15.dp).fillMaxWidth(),
+                    textAlign = TextAlign.Justify,
+                )
+            }
         }
+        if (isDesktop()) AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
 
-        if (isDesktop()) {
-            AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
-        }
-
-//        if (showShortcutButton) ShortcutsButton(navigator)
     }
 }
 

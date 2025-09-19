@@ -1,12 +1,16 @@
 package com.samuelsumbane.oremoscatolico
 
+import androidx.compose.foundation.LocalScrollbarStyle
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.ScrollbarStyle
 import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -43,6 +48,7 @@ import com.samuelsumbane.oremoscatolico.view.DesktopHomePage
 //import com.samuelsumbane.oremoscatolico.view.DesktopPraysScreen
 import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsPage
 import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsScreen
+import com.samuelsumbane.oremoscatolico.commonView.PraysScreen
 //import com.samuelsumbane.oremoscatolico.view.DesktopSettingsPage
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import oremoscatolico.composeapp.generated.resources.Res
@@ -125,7 +131,8 @@ fun main() = application {
 //                SideEffect { change }
 
                 OremosCatolicoTheme(darkTheme = appMode) {
-                    Navigator(CommonSettingsScreen)
+                    Navigator(PraysScreen)
+//                    Navigator(AppearanceScreen)
 //                    Navigator(DesktopSettingsScreen)
 //                    Navigator(RemindersScreen)
 //            Navigator(DesktopPraysScreen)
@@ -205,17 +212,34 @@ actual fun AditionalVerticalScroll(
     lazyListState: LazyListState?,
     scrollState: ScrollState?
 ) {
+    val scrollBarModifier = Modifier
+//        .background(Color.Gray)
+        .fillMaxHeight()
+        .width(12.dp)
+
+    val scrollBarStyle = ScrollbarStyle(
+        minimalHeight = 80.dp,
+        thickness = 12.dp,
+        shape = RoundedCornerShape(50),
+        hoverDurationMillis = 500,
+        unhoverColor = Color.Gray,
+        hoverColor = Color.Gray
+    )
+
+
     if (lazyListState != null) {
         VerticalScrollbar(
             adapter = rememberScrollbarAdapter(lazyListState),
-            modifier = Modifier.fillMaxHeight().width(12.dp)
+            modifier = scrollBarModifier,
+            style = scrollBarStyle
         )
     }
 
     if (scrollState != null) {
         VerticalScrollbar(
             adapter = rememberScrollbarAdapter(scrollState),
-            modifier = Modifier.fillMaxHeight().width(12.dp)
+            modifier = scrollBarModifier,
+            style = scrollBarStyle
         )
     }
 }
