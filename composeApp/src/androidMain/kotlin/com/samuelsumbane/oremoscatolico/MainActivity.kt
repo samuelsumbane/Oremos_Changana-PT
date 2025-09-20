@@ -1,6 +1,7 @@
 package com.samuelsumbane.oremoscatolico
 
-import android.app.Application
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.os.Build
@@ -14,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,11 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.preferencesDataStoreFile
-import androidx.lifecycle.AndroidViewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
@@ -39,29 +35,20 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import com.russhwolf.settings.datastore.DataStoreSettings
 import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuelsumbane.oremoscatolico.commonView.AgroupedSongsScreen
-import com.samuelsumbane.oremoscatolico.commonView.LovedDataPage
-import com.samuelsumbane.oremoscatolico.commonView.LovedDataScreen
-import com.samuelsumbane.oremoscatolico.commonView.MorePagesScreen
 import com.samuelsumbane.oremoscatolico.commonView.PraysScreen
 import com.samuelsumbane.oremoscatolico.commonView.RemindersPages.ConfigureReminder
 import com.samuelsumbane.oremoscatolico.commonView.RemindersPages.RemindersPage
+import com.samuelsumbane.oremoscatolico.components.AndroidSearchContainer
 import com.samuelsumbane.oremoscatolico.components.BottomAppBarPrincipal
 import com.samuelsumbane.oremoscatolico.data.praysData
 import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.Configs.thememode
-import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.view.Home
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import java.util.Locale
-import java.util.prefs.Preferences
 
 //import com.russhwolf.settings.PreferencesSettings
 
@@ -77,6 +64,15 @@ class  MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalPermissionsApi::class)
     @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        super.onResume()
+        AndroidSettingsHelper.setCurrentActivity(this)
+    }
+    override fun onPause() {
+        super.onPause()
+        AndroidSettingsHelper.setCurrentActivity(null)
+    }
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -138,7 +134,7 @@ class  MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
-                            Navigator(MorePagesScreen)
+                            Navigator(HomeScreen)
                         }
                     }
                 }
@@ -194,8 +190,14 @@ actual fun AditionalVerticalScroll(lazyListState: LazyListState?, scrollState: S
 //    return DataStoreSettings(dataStore)
 //}
 
+@SuppressLint("StaticFieldLeak")
 object AndroidSettingsHelper {
     private var applicationContext: Context? = null
+    private var currentActivity: Activity? = null
+
+    fun setCurrentActivity(activity: Activity?) {
+        currentActivity = activity
+    }
 
     fun initialize(context: Context) {
         applicationContext = context.applicationContext
@@ -210,16 +212,18 @@ object AndroidSettingsHelper {
         return SharedPreferencesSettings(prefs)
     }
 
-    fun getReturn(): Context {
-        return applicationContext ?: throw IllegalStateException("Context not initialized")
-    }
+    fun getContext(): Context =
+        currentActivity ?: applicationContext
+        ?: throw IllegalStateException("Context not initialized")
+
+
 }
 actual fun createSettings(): Settings {
     return AndroidSettingsHelper.getSettings()
 }
 
 actual class ReminderRepository actual constructor() {
-    private val context = AndroidSettingsHelper.getReturn()  // cast explícito, vai lançar ClassCastException se não for Context
+    private val context = AndroidSettingsHelper.getContext()  // cast explícito, vai lançar ClassCastException se não for Context
     private val dbHelper = ReminderDbHelper(context)
 
     actual fun insert(reminder: Reminder): Long {
@@ -281,4 +285,20 @@ actual fun BottomNav(
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
     if (isPortrait) BottomAppBarPrincipal(navigator, activePage, "")
+}
+
+@Composable
+actual fun searchWidget(
+    searchInputLabel: String,
+    searchValue: (String) -> Unit
+) {
+    AndroidSearchContainer(
+        searchInputLabel = searchInputLabel,
+        searchValue = searchValue
+    )
+}
+
+actual fun shareContent(text: String) {
+    val context = AndroidSettingsHelper.getContext()
+    shareText(context, text)
 }

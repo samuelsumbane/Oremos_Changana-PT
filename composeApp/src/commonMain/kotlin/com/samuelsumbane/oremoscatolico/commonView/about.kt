@@ -7,10 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -89,7 +91,7 @@ fun About(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {Text(text="Sobre o app", color = MaterialTheme.colorScheme.tertiary)},
+                title = {Text(text = "Sobre o app", color = MaterialTheme.colorScheme.tertiary)},
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color.Transparent
                 ),
@@ -112,7 +114,6 @@ fun About(
         val snackbarHostState = remember { SnackbarHostState() }
         val copiedTextMessage = stringResource(Res.string.copied_text)
 
-
         Box(
             modifier = Modifier
                 .padding(paddingVales)
@@ -127,7 +128,7 @@ fun About(
                     .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Oremos Changana - Português(PT)", color = textColor, modifier = Modifier.padding(top = 36.dp), fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text("Oremos Changana - Português(PT)", color = textColor, modifier = Modifier.padding(top = 36.dp), fontSize = textFontSize(), fontWeight = FontWeight.Bold)
 
                 Spacer(modifier = Modifier.height(30.dp))
 
@@ -238,7 +239,14 @@ fun About(
             }
 
             if (isDesktop()) {
-                AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
+                Column(
+                    Modifier.fillMaxHeight()
+                        .width(12.dp)
+                        .align(Alignment.CenterEnd)
+
+                ) {
+                    AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
+                }
             }
         }
     }

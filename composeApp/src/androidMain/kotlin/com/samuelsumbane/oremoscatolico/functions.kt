@@ -92,6 +92,7 @@ fun shareText(context: Context, text: String) {
     context.startActivity(Intent.createChooser(shareIntent, "Compartilhar via"))
 }
 
+
 @RequiresApi(Build.VERSION_CODES.O)
 fun convertLongToDateString(long: Long): String{
     val instant = Instant.ofEpochMilli(long)

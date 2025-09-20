@@ -41,8 +41,9 @@ import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.lazyColumn
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.isNumber
-import oremoscatolico.composeapp.generated.resources.Oremos_desktop_wallpaper
+//import oremoscatolico.composeapp.generated.resources.Oremos_desktop_wallpaper
 import oremoscatolico.composeapp.generated.resources.Res
+import oremoscatolico.composeapp.generated.resources.oremosdesktoppic
 import oremoscatolico.composeapp.generated.resources.search_song_or_pray
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -91,7 +92,7 @@ fun DesktopHomePage() {
             ) {
 
                 Image(
-                    painter = painterResource(Res.drawable.Oremos_desktop_wallpaper),
+                    painter = painterResource(Res.drawable.oremosdesktoppic),
                     contentDescription = "Home wallpaper",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop

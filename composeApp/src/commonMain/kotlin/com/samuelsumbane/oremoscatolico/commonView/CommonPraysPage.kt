@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,11 +48,13 @@ import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
 import com.samuelsumbane.oremoscatolico.isAndroid
 import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
+import com.samuelsumbane.oremoscatolico.searchWidget
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import kotlinx.coroutines.launch
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.prays
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 
@@ -92,12 +96,12 @@ fun CommonPraysPage(navigator: Navigator) {
                                 containerColor = Color.Transparent
                             ),
                             navigationIcon = {
-//                                IconButton(onClick = { navigator.pop() } )
+//                                IconButton(onClick = { navigator.pop() } ) {
+//                                    Icon(painterResource(), contentDescription = "Go back")
+//                                }
                             },
                             actions = {
-//                                DesktopSearchContainer {
-//                                    searchValue = it
-//                                }
+                                searchWidget { searchValue = it }
                             }
                         )
                     },

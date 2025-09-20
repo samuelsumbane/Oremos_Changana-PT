@@ -46,6 +46,7 @@ import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 //import com.samuelsumbane.oremoscatolico.repository.Configs.mode
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.AppearanceScreen
+import com.samuelsumbane.oremoscatolico.CommonAboutAppScreen
 import com.samuelsumbane.oremoscatolico.createSettings
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.ConfigColumn
@@ -328,14 +329,12 @@ fun CommonSettingsPage() {
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = ColorObject.mainColor
                                 ),
-                                onClick = { navigator.push(CommonSettingsScreen) }
+                                onClick = { navigator.push(CommonAboutAppScreen) }
                             ) {
                                 Text("Sobre", color = Color.White)
                             }
                         }
                     }
-
-
                 }
                     if (isDesktop()) AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
             } else {

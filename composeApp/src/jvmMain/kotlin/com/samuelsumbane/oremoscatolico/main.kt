@@ -49,6 +49,7 @@ import com.samuelsumbane.oremoscatolico.view.DesktopHomePage
 import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsPage
 import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsScreen
 import com.samuelsumbane.oremoscatolico.commonView.PraysScreen
+import com.samuelsumbane.oremoscatolico.desktopWidgets.DesktopSearchContainer
 //import com.samuelsumbane.oremoscatolico.view.DesktopSettingsPage
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import oremoscatolico.composeapp.generated.resources.Res
@@ -136,8 +137,8 @@ fun main() = application {
 //                    Navigator(DesktopSettingsScreen)
 //                    Navigator(RemindersScreen)
 //            Navigator(DesktopPraysScreen)
-//                Navigator(AboutAppScreen)
-//                Navigator(DesktopAgrouppedScreen)
+//                Navigator(CommonAboutAppScreen)
+//                Navigator(CommonAboutAppScreen)
                 }
             }
         }
@@ -260,4 +261,17 @@ actual fun BottomNav(
     /**
      * On the desktop, this function will not do anything
      */
+}
+
+@Composable
+actual fun searchWidget(
+    searchInputLabel: String,
+    searchValue: (String) -> Unit
+) {
+    DesktopSearchContainer(searchInputLabel, searchValue)
+}
+
+
+actual fun shareContent(text: String) {
+    // Actually nothing happens in Desktop
 }

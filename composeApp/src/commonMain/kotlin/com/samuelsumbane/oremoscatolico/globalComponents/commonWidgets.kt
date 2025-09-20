@@ -412,10 +412,7 @@ fun MenuContent(
     pages.forEach {
         Box(
             modifier = Modifier
-                .clickable {
-                    onMenuBtnClicked(it)
-                    println("clicked now is $it")
-                }
+                .clickable { onMenuBtnClicked(it) }
                 .padding(8.dp)
                 .drawWithContent {
                     drawContent()
@@ -455,7 +452,6 @@ fun MenuContent(
     }
 }
  
-
 
 //@Composable
 fun textFontSize() = FontSize.fromString(configFontSize).size

@@ -187,7 +187,8 @@ fun Home(navigator: Navigator) {
             ) {
                 Box(Modifier.fillMaxSize()) {
                     Image(
-                        painter = painterResource(id = R.drawable.homepic),
+                        painter = painterResource(id = R.drawable.oremosmobilepic),
+//                        painter = painterResource(id = R.drawable.homepic),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop

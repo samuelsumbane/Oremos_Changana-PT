@@ -2,6 +2,9 @@ package com.samuelsumbane.oremoscatolico.commonView
 
 //import com.samuelsumbane.oremoscatolico.globalComponents.DataCollection
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,6 +32,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -41,6 +45,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
+//import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
 import com.samuelsumbane.oremoscatolico.BottomNav
 import com.samuelsumbane.oremoscatolico.ConfigureReminderScreen
 import com.samuelsumbane.oremoscatolico.createSettings
@@ -54,6 +59,7 @@ import com.samuelsumbane.oremoscatolico.isAndroid
 import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.PageName
+import com.samuelsumbane.oremoscatolico.shareContent
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 
@@ -63,6 +69,7 @@ import oremoscatolico.composeapp.generated.resources.content_copy
 import oremoscatolico.composeapp.generated.resources.copied_text
 import oremoscatolico.composeapp.generated.resources.copy
 import oremoscatolico.composeapp.generated.resources.fullscreen
+import oremoscatolico.composeapp.generated.resources.fullscreen_exit
 import oremoscatolico.composeapp.generated.resources.more_vert
 import oremoscatolico.composeapp.generated.resources.notifications
 import oremoscatolico.composeapp.generated.resources.options
@@ -200,138 +207,156 @@ data class EachPageScreen(
             }
         }
 
-
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = if (dataCollection == DataCollection.SONGS) stringResource(Res.string.song) else stringResource(Res.string.pray) ,
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                    }, colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ), navigationIcon = {
-                        IconButton( onClick = { navigator.pop() }) {
-
-                            Icon(
-                                painter = painterResource(resource = Res.drawable.outline_arrow_back),
-//                                contentDescription = stringResource(R.string.go_back)
-                                contentDescription = "go back"
-                            )
-                        }
-                    }, actions = {
-//                        val context = LocalContext.current
-                        // ---------->>
-                        StarButton(lovedState = isItemLoved) {
-                            coroutineScope.launch {
-                                if (dataCollection == DataCollection.SONGS) {
-                                    if (pageContentId in lovedIdSongs) {
-                                        lovedIdSongs -= pageContentId
-                                    } else {
-                                        lovedIdSongs += pageContentId
-                                    }
-
-                                    configViewModal.saveConfiguration(
-                                        ConfigEntry.FavoriteSongs, lovedIdSongs
-                                    )
-                                } else {
-                                    if (pageContentId in lovedIdPrays) {
-                                        lovedIdPrays -= pageContentId
-                                    } else {
-                                        lovedIdPrays += pageContentId
-                                    }
-
-                                    configViewModal.saveConfiguration(
-                                        ConfigEntry.FavoritePrays, lovedIdPrays
-                                    )
-                                }
-                            }
-                        }
-
-                            IconButton(onClick = { expanded = !expanded }) {
-                            Icon(
-                                painterResource(Res.drawable.more_vert),
-                                contentDescription = stringResource(Res.string.options)
-                            )
-                            DropdownMenu(
-                                expanded = expanded,
-                                onDismissRequest = { expanded = false },
-                                properties = PopupProperties(focusable = true),
-                                modifier = Modifier.shadow(
-                                    elevation = 3.dp,
-                                    spotColor = Color.DarkGray
-                                )
-                            ) {
-                                for((name, icon) in btnsIcons) {
-                                    DropdownMenuItem(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        text = { Text(name) },
-                                        trailingIcon = {
-                                            Icon(
-                                                painterResource(icon),
-                                                contentDescription = "l",
-                                                Modifier.size(18.dp)
-                                            )
-                                        },
-                                        onClick = {
-                                            when (name) {
-                                                reminder -> {
-                                                    navigator.push(
-                                                        ConfigureReminderScreen(
-                                                            itemId = pageContentId,
-                                                            table = if (data == songsData) "Song" else "Pray",
-                                                            reminderIdParam = 0L
-                                                        )
-                                                    )
-                                                }
-
-                                                share -> {
-                                                    //                                                            shareText(
-//                                                                context,
-//                                                            text = if (data == songsData)
-//                                                                "$pageNumber - $pageTitle \n $pageBody"
-//                                                            else "$pageTitle \n $pageBody"
-//                                                        )
-                                                }
-
-                                                fullscreen -> isFullScreen = true
-
-                                                copy -> {
-                                                    clipboardManager.setText(
-                                                    AnnotatedString(if (data == songsData) {
-                                                        "$pageNumber - $pageTitle \n\n $pageSubTitle \n\n $pageBody"
-                                                        } else {
-                                                            "$pageTitle \n\n $pageSubTitle \n\n $pageBody"
-                                                        })
-                                                    )
-                                                    //
-                                                    showSnackbar(scope, snackbarHostState, message = copiedTextMessage)
-                                                    expanded = false
-                                                }
-                                            }
-
-                                        }
-                                    )
-                                }
-                            }
-//                        }
-                        }
-
-                    })
-            },
-            bottomBar = {
-                BottomNav(navigator, PageName.SONGSGROUP.value)
-            },
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState)
-            }
-        ) { paddingValues ->
-            pager(modifier = Modifier
-                .padding(paddingValues)
-            )
+        val pageContent = if (data == songsData) {
+            "$pageNumber - $pageTitle \n\n $pageSubTitle \n\n $pageBody"
+        } else {
+            "$pageTitle \n\n $pageSubTitle \n\n $pageBody"
         }
 
+        if (isFullScreen) {
+            Column(
+                modifier = Modifier.fillMaxSize().background(Color.Red)
+            ) {
+                IconButton(
+                    onClick = {
+                        isFullScreen = false
+                        expanded = false
+                    },
+                    modifier = Modifier
+                        .padding(top = 30.dp, end = 5.dp)
+                        .align(Alignment.End)
+                        .background(Color.Green)
+                ) {
+                    Icon(
+                        painterResource(Res.drawable.fullscreen_exit),
+                        contentDescription = "Toggle fullscreen",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+                pager(modifier = Modifier, showShortcutButton = false)
+            }
+        } else {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = if (dataCollection == DataCollection.SONGS) stringResource(
+                                    Res.string.song
+                                ) else stringResource(Res.string.pray),
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                        }, colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        ), navigationIcon = {
+                            IconButton(onClick = { navigator.pop() }) {
+
+                                Icon(
+                                    painter = painterResource(resource = Res.drawable.outline_arrow_back),
+                                    //                                contentDescription = stringResource(R.string.go_back)
+                                    contentDescription = "go back"
+                                )
+                            }
+                        }, actions = {
+                            //                        val context = LocalContext.current
+                            // ---------->>
+                            StarButton(lovedState = isItemLoved) {
+                                coroutineScope.launch {
+                                    if (dataCollection == DataCollection.SONGS) {
+                                        if (pageContentId in lovedIdSongs) {
+                                            lovedIdSongs -= pageContentId
+                                        } else {
+                                            lovedIdSongs += pageContentId
+                                        }
+
+                                        configViewModal.saveConfiguration(
+                                            ConfigEntry.FavoriteSongs, lovedIdSongs
+                                        )
+                                    } else {
+                                        if (pageContentId in lovedIdPrays) {
+                                            lovedIdPrays -= pageContentId
+                                        } else {
+                                            lovedIdPrays += pageContentId
+                                        }
+
+                                        configViewModal.saveConfiguration(
+                                            ConfigEntry.FavoritePrays, lovedIdPrays
+                                        )
+                                    }
+                                }
+                            }
+
+                            IconButton(onClick = { expanded = !expanded }) {
+                                Icon(
+                                    painterResource(Res.drawable.more_vert),
+                                    contentDescription = stringResource(Res.string.options)
+                                )
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false },
+                                    properties = PopupProperties(focusable = true),
+                                    modifier = Modifier.shadow(
+                                        elevation = 3.dp,
+                                        spotColor = Color.DarkGray
+                                    )
+                                ) {
+                                    for ((name, icon) in btnsIcons) {
+                                        DropdownMenuItem(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            text = { Text(name) },
+                                            trailingIcon = {
+                                                Icon(
+                                                    painterResource(icon),
+                                                    contentDescription = "l",
+                                                    Modifier.size(18.dp)
+                                                )
+                                            },
+                                            onClick = {
+                                                when (name) {
+                                                    reminder -> {
+                                                        navigator.push(
+                                                            ConfigureReminderScreen(
+                                                                itemId = pageContentId,
+                                                                table = if (data == songsData) "Song" else "Pray",
+                                                                reminderIdParam = 0L
+                                                            )
+                                                        )
+                                                    }
+
+                                                    share -> shareContent(pageContent)
+
+                                                    fullscreen -> isFullScreen = true
+
+                                                    copy -> {
+                                                        clipboardManager.setText(
+                                                            AnnotatedString(pageContent)
+                                                        )
+
+                                                        showSnackbar(
+                                                            scope,
+                                                            snackbarHostState,
+                                                            message = copiedTextMessage
+                                                        )
+                                                        expanded = false
+                                                    }
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        })
+                },
+                bottomBar = {
+                    BottomNav(navigator, PageName.SONGSGROUP.value)
+                },
+                snackbarHost = {
+                    SnackbarHost(hostState = snackbarHostState)
+                }
+            ) { paddingValues ->
+                pager(modifier = Modifier.padding(paddingValues))
+            }
+        }
     }
 }
 

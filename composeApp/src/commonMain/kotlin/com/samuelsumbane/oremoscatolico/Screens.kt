@@ -116,3 +116,13 @@ object AppearanceScreen : Screen {
         AppearancePage(navigator)
     }
 }
+@Composable
+expect fun searchWidget(
+    searchInputLabel: String = "Pesquisar oração",
+    searchValue: (String) -> Unit
+)
+
+
+
+// This function will works only on Android (maybe in IOS in future)
+expect fun shareContent(text: String)
