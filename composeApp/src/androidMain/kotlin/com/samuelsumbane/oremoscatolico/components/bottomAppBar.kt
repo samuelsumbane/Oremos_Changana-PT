@@ -106,7 +106,7 @@ fun BottomAppBarPrincipal(
                 .fillMaxSize()
                 .height(80.dp)
                 .background(Color.Transparent)
-                .padding(10.dp, 0.dp, 10.dp, 7.dp),
+                .padding(7.dp, 0.dp, 7.dp, 7.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.background,
             )

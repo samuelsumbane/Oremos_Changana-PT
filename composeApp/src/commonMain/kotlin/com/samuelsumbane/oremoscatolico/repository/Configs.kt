@@ -8,7 +8,7 @@ enum class AppMode(val value: String) {
 
 
 object Configs {
-    var fontSize: String = "Large"
+//    var fontSize: String = FontSize.BIG.string
 //    var font: State<String>
     var thememode: String = ""
     var appLocale: String = "pt"

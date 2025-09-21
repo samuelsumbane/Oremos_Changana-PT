@@ -34,6 +34,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.Settings
 import com.samuel.oremoschanganapt.repository.ColorObject
+import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
 //import com.samuelsumbane.ReminderRepository
 import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
@@ -48,6 +49,7 @@ import com.samuelsumbane.oremoscatolico.view.DesktopHomePage
 //import com.samuelsumbane.oremoscatolico.view.DesktopPraysScreen
 import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsPage
 import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsScreen
+import com.samuelsumbane.oremoscatolico.commonView.MorePagesScreen
 import com.samuelsumbane.oremoscatolico.commonView.PraysScreen
 import com.samuelsumbane.oremoscatolico.desktopWidgets.DesktopSearchContainer
 //import com.samuelsumbane.oremoscatolico.view.DesktopSettingsPage
@@ -85,7 +87,7 @@ fun main() = application {
 //        val allReminders = repository.getAll()
 //        println("Total de lembretes: ${allReminders.size}")
 
-        var fontSize by remember { mutableStateOf("") }
+//        var fontSize by remember { mutableStateOf("") }
         var themeMode by remember { mutableStateOf("") }
         var themeColor by remember { mutableStateOf(Color.Unspecified) }
         var secondThemeColor by remember { mutableStateOf(Color.Unspecified) }
@@ -100,13 +102,12 @@ fun main() = application {
         // To keep the density as Android (jetpack compose)
         LaunchedEffect(Unit) {
             val configurations = configViewModel.loadConfigurations()
-            //
 
 //        updateLocale(context, locale = Locale(if (initialLanguage == "404") "pt" else initialLanguage))
             appLocale = configurations.locale
             Locale.setDefault(Locale(appLocale))
 
-            Configs.fontSize = fontSize
+            configFontSize = configurations.fontSize
             themeMode = configurations.themeMode
             println("mode $thememode")
             ColorObject.mainColor = Color(configurations.themeColor)
@@ -132,7 +133,7 @@ fun main() = application {
 //                SideEffect { change }
 
                 OremosCatolicoTheme(darkTheme = appMode) {
-                    Navigator(PraysScreen)
+                    Navigator(MorePagesScreen)
 //                    Navigator(AppearanceScreen)
 //                    Navigator(DesktopSettingsScreen)
 //                    Navigator(RemindersScreen)
@@ -197,23 +198,15 @@ actual object HomeScreen : Screen {
     }
 }
 
-//@Composable
-//actual fun AditionalVerticalScroll(scrollState: AppScrollState) {
-//    VerticalScrollbar(
-//        adapter = when (scrollState) {
-//            AppScrollState.LazyListState -> rememberScrollbarAdapter(scrollState)
-//            AppScrollState.ScrollState -> rememberScrollbarAdapter(scrollState)
-//        },
-//        modifier = Modifier.fillMaxHeight().width(12.dp)
-//    )
-//}
+
 
 @Composable
 actual fun AditionalVerticalScroll(
+    modifier: Modifier,
     lazyListState: LazyListState?,
     scrollState: ScrollState?
 ) {
-    val scrollBarModifier = Modifier
+    val scrollBarModifier = modifier
 //        .background(Color.Gray)
         .fillMaxHeight()
         .width(12.dp)
@@ -274,4 +267,12 @@ actual fun searchWidget(
 
 actual fun shareContent(text: String) {
     // Actually nothing happens in Desktop
+}
+
+
+@Composable
+actual fun shortcutButtonWidget(navigator: Navigator) {
+    /**
+     * On the desktop, this function will not do anything
+     */
 }

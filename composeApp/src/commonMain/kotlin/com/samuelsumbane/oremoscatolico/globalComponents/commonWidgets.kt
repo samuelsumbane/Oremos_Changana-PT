@@ -70,6 +70,7 @@ import com.samuelsumbane.oremoscatolico.data.Pray
 import com.samuelsumbane.oremoscatolico.db.data.Song
 import com.samuelsumbane.oremoscatolico.isAndroid
 import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.parseStyledText
@@ -99,7 +100,8 @@ fun HomeTexts(text: String, fontSize: Int) {
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
         color = Color.White,
-        fontSize = fontSize.sp
+        fontSize = fontSize.sp,
+        modifier = Modifier.padding(10.dp)
     )
 }
 
@@ -500,7 +502,9 @@ fun pagerContent(
                 )
             }
         }
-        if (isDesktop()) AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
+        if (isDesktop()) AditionalVerticalScroll(
+            modifier = Modifier,
+            lazyListState = null, scrollState = scrollState)
 
     }
 }
@@ -778,7 +782,7 @@ fun ConfigColumn(
     Spacer(modifier = Modifier.height(30.dp))
 
     Column {
-        Text(text = title, fontSize = 15.sp, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold)
+        Text(text = title, fontSize = textFontSize(), fontWeight = FontWeight.SemiBold)
         Spacer(modifier = Modifier.height(10.dp))
         content()
     }

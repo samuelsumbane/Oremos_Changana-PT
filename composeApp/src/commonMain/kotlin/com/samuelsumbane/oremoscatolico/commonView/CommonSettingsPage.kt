@@ -22,9 +22,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +45,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuelsumbane.oremoscatolico.repository.AppMode
 import com.samuel.oremoschanganapt.repository.ColorObject
+import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
 import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 //import com.samuelsumbane.oremoscatolico.repository.Configs.mode
@@ -64,6 +69,7 @@ import com.samuelsumbane.oremoscatolico.viewmodels.OremosLangsMap
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.app_color
 import oremoscatolico.composeapp.generated.resources.appearance
+import oremoscatolico.composeapp.generated.resources.arrow_back
 import oremoscatolico.composeapp.generated.resources.configurations
 import oremoscatolico.composeapp.generated.resources.dark
 import oremoscatolico.composeapp.generated.resources.font_size
@@ -77,6 +83,7 @@ import oremoscatolico.composeapp.generated.resources.pt
 import oremoscatolico.composeapp.generated.resources.small
 import oremoscatolico.composeapp.generated.resources.system
 import oremoscatolico.composeapp.generated.resources.ts
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import java.util.Locale
 import kotlin.collections.iterator
@@ -88,6 +95,7 @@ object CommonSettingsScreen : Screen {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonSettingsPage() {
     val navigator = LocalNavigator.currentOrThrow
@@ -111,7 +119,7 @@ fun CommonSettingsPage() {
 
     var visibleAppearanceTab by remember { mutableStateOf(false) }
     var showFontSizesDialog by remember { mutableStateOf(false) }
-    var selectedFontSizeOption by remember { mutableStateOf(Configs.fontSize) }
+    var selectedFontSizeOption by remember { mutableStateOf(configFontSize) }
 
     val fontSizeOptions = mapOf(
         "Small" to stringResource(Res.string.small),
@@ -141,7 +149,7 @@ fun CommonSettingsPage() {
         val defaultConfigValues = configViewModel.loadConfigurations()
         actualOremosVersion = OremosLangsMap[defaultConfigValues.currentOremos] ?: ""
         mode = defaultConfigValues.themeMode
-        Configs.fontSize = defaultConfigValues.fontSize
+        configFontSize = defaultConfigValues.fontSize
     }
 
     var themeName = when (mode) {
@@ -151,11 +159,24 @@ fun CommonSettingsPage() {
     }
 
     val scrollState = rememberScrollState()
+    val pageTitle = stringResource(Res.string.configurations)
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = pageTitle) },
+                navigationIcon = {
+                    IconButton(onClick = { navigator.pop() } ) {
+                        Icon(painterResource(Res.drawable.arrow_back), contentDescription = "Go back")
+                    }
+                },
+            )
+        }
+    ) { paddingValues ->
         Row(Modifier
             .padding(paddingValues)
             .padding(end = 5.dp)
+//            .background(Color.Blue)
             .fillMaxSize(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -166,6 +187,7 @@ fun CommonSettingsPage() {
                     modifier = Modifier
                         .platformWidth()
                         .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Column(
                         modifier = Modifier
@@ -177,14 +199,8 @@ fun CommonSettingsPage() {
                     ) {
                         Spacer(Modifier.height(50.dp))
 
-                        Text(text = stringResource(Res.string.configurations))
-
-                        Spacer(Modifier.height(30.dp))
-
                         Column(
-                            modifier = Modifier
-                                .width(400.dp)
-//                        .background(Color.Red)
+                            modifier = Modifier.width(400.dp)
                         ) {
 
                             ConfigColumn(
@@ -236,10 +252,10 @@ fun CommonSettingsPage() {
 
                             ConfigColumn(title = "Preferências") {
 
-                                if (Configs.fontSize.isNotBlank()) {
+                                if (configFontSize.isNotBlank()) {
                                     KeyValueTextRow(
                                         key = stringResource(Res.string.font_size),
-                                        value = fontSizeOptions[Configs.fontSize] ?: "Normal_") {
+                                        value = fontSizeOptions[configFontSize] ?: "Normal_") {
 //                                    value = "Normal" ?: "") {
                                         showFontSizesDialog = true
                                     }
@@ -286,7 +302,7 @@ fun CommonSettingsPage() {
                                             val newFontSizeValue = fontSizeOptions.entries.first { it.value == option }.key
 
                                             configViewModel.saveConfiguration(ConfigEntry.ConfigFontSize, newFontSizeValue)
-                                            Configs.fontSize = newFontSizeValue
+                                            configFontSize = newFontSizeValue
 
                                             showFontSizesDialog = false
                                         },
@@ -319,24 +335,14 @@ fun CommonSettingsPage() {
                                     }
                                 }
                             }
-
-                            Spacer(Modifier.height(70.dp))
-
-                            Button(
-                                modifier = Modifier
-                                    .padding(bottom = 20.dp)
-                                    .align(Alignment.CenterHorizontally),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = ColorObject.mainColor
-                                ),
-                                onClick = { navigator.push(CommonAboutAppScreen) }
-                            ) {
-                                Text("Sobre", color = Color.White)
-                            }
                         }
                     }
                 }
-                    if (isDesktop()) AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
+                    if (isDesktop()) AditionalVerticalScroll(
+                        modifier = Modifier,
+                        lazyListState = null,
+                        scrollState = scrollState
+                    )
             } else {
 //                coroutineScope.launch {
 //                    val defaultConfigValues = configViewModel.loadConfigurations()

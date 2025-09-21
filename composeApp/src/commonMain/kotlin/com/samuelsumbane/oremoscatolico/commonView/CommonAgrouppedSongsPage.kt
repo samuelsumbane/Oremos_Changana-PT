@@ -137,7 +137,11 @@ fun CommonAgroupedPage(navigator: Navigator) {
                         }
                     }
 
-                    if (isDesktop()) AditionalVerticalScroll(lazyListState = listState, scrollState = null)
+                    if (isDesktop()) AditionalVerticalScroll(
+                        modifier = Modifier,
+                        lazyListState = listState,
+                        scrollState = null
+                    )
                 }
 
             }

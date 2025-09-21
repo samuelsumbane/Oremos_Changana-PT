@@ -245,7 +245,9 @@ fun About(
                         .align(Alignment.CenterEnd)
 
                 ) {
-                    AditionalVerticalScroll(lazyListState = null, scrollState = scrollState)
+                    AditionalVerticalScroll(
+                        modifier = Modifier,
+                        lazyListState = null, scrollState = scrollState)
                 }
             }
         }

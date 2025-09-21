@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -28,8 +29,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.ApendixScreen
 import com.samuelsumbane.oremoscatolico.BottomNav
+import com.samuelsumbane.oremoscatolico.CommonAboutAppScreen
 //import com.samuelsumbane.oremoscatolico.CommonSideBarScreen
 import com.samuelsumbane.oremoscatolico.FestasMoveisScreen
 import com.samuelsumbane.oremoscatolico.LicionarioScreen
@@ -41,12 +44,14 @@ import com.samuelsumbane.oremoscatolico.isAndroid
 import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import oremoscatolico.composeapp.generated.resources.Res
+import oremoscatolico.composeapp.generated.resources.about
 import oremoscatolico.composeapp.generated.resources.appendix
 import oremoscatolico.composeapp.generated.resources.cruz
 import oremoscatolico.composeapp.generated.resources.date_range
 import oremoscatolico.composeapp.generated.resources.more_pages
 import oremoscatolico.composeapp.generated.resources.notifications
 import oremoscatolico.composeapp.generated.resources.party
+import oremoscatolico.composeapp.generated.resources.settings
 import oremoscatolico.composeapp.generated.resources.star
 import org.jetbrains.compose.resources.stringResource
 
@@ -70,25 +75,26 @@ fun MorePages(navigator: Navigator, ) {
         bottomBar = { BottomNav(navigator, PageName.MOREPAGES.value) }
     ) { paddingValues ->
         Row(Modifier
-//            .fillMaxSize()
+            .fillMaxSize()
             .padding(paddingValues)
 //            .background(Color.Green)
         ) {
 //            CommonSideBarScreen(PageName.PRAYS.value)
             if (isDesktop()) AppSideBar(navigator, PageName.PRAYS.value)
+            val scrollState = rememberScrollState()
 
             Column(
                 Modifier
-                    .fillMaxSize()
+                    .weight(1f)
 //                    .background(MaterialTheme.colorScheme.background)
 //                    .background(Color.Red)
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(Res.string.more_pages), fontSize = 24.sp, fontStyle = FontStyle.Italic)
+                Text(text = stringResource(Res.string.more_pages), fontSize = 24.sp, fontStyle = FontStyle.Italic, modifier = Modifier.padding(top = 40.dp, bottom = 30.dp))
                 Column(
-                    modifier = Modifier.fillMaxWidth(fraction = if (isAndroid()) 0.80f else 0.38f),
+                    modifier = Modifier.fillMaxWidth(fraction = if (isAndroid()) 0.80f else 0.40f),
                     verticalArrangement = Arrangement.spacedBy(25.dp)
                 ) {
                     MorePagesButtonRow {
@@ -148,10 +154,9 @@ fun MorePages(navigator: Navigator, ) {
                             icon = Res.drawable.notifications,
                             description = "pagina de lembretes",
                             text = "Lembretes",
-                            Modifier.weight(1f),
-                            shape = RoundedCornerShape(curvePercent, noCurve, noCurve, curvePercent)
+                            Modifier.height(100.dp).weight(1f),
+                            shape = RoundedCornerShape(curvePercent)
                         ) {
-//                            navigator.navigate("reminderspage")
                             navigator.push(RemindersScreen)
                         }
 
@@ -161,15 +166,42 @@ fun MorePages(navigator: Navigator, ) {
                             icon = Res.drawable.star,
                             description = "Pagina de orações e cânticos favoritos",
                             text = "Favoritos",
-                            Modifier.weight(1f),
-                            shape = RoundedCornerShape(noCurve, curvePercent, curvePercent, noCurve)
+                            Modifier.height(100.dp).weight(1f),
+                            shape = RoundedCornerShape(curvePercent)
                         ) { navigator.push(LovedDataScreen) }
+                    }
 
+
+                    MorePagesButtonRow {
+                        MorePagesBtn(
+                            icon = Res.drawable.settings,
+                            description = "",
+                            text = "Configurações",
+                            Modifier
+                                .height(100.dp)
+                                .weight(1f),
+                            shape = RoundedCornerShape(curvePercent)
+                        ) { navigator.push(CommonSettingsScreen) }
+
+                        if (isAndroid()) {
+                            Spacer(Modifier.width(25.dp))
+
+                            MorePagesBtn(
+                                icon = null,
+                                description = "",
+                                text = stringResource(Res.string.about),
+                                Modifier
+                                    .height(100.dp)
+                                    .weight(1f),
+                                shape = RoundedCornerShape(curvePercent)
+                            ) { navigator.push(CommonAboutAppScreen) }
+                        }
 
                     }
 
                 }
             }
+            if (isDesktop()) AditionalVerticalScroll(modifier = Modifier, null, scrollState)
 
 //            ShortcutsButton(navigator)
         }

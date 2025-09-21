@@ -3,6 +3,7 @@ package com.samuelsumbane.oremoscatolico
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
@@ -70,6 +71,7 @@ expect object HomeScreen : Screen
 
 @Composable
 expect fun AditionalVerticalScroll(
+    modifier: Modifier,
     lazyListState: LazyListState?,
     scrollState: ScrollState?
 )
@@ -126,3 +128,6 @@ expect fun searchWidget(
 
 // This function will works only on Android (maybe in IOS in future)
 expect fun shareContent(text: String)
+
+@Composable
+expect fun shortcutButtonWidget(navigator: Navigator)

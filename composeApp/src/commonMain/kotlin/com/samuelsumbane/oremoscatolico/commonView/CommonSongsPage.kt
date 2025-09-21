@@ -8,6 +8,7 @@ import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -55,6 +56,7 @@ import com.samuelsumbane.oremoscatolico.isAndroid
 import com.samuelsumbane.oremoscatolico.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.isNumber
+import com.samuelsumbane.oremoscatolico.shortcutButtonWidget
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import kotlinx.coroutines.launch
@@ -236,9 +238,11 @@ fun CommonSongsPage(value: String, readbleValue: String) {
                     } else data
                 }
 
-                Row(Modifier
+                Box(
+                    Modifier
 //                        .background(Color.Red)
-                    .fillMaxSize().padding(paddingVales)) {
+                    .fillMaxSize().padding(paddingVales)
+                ) {
                     if (isDesktop()) AppSideBar(navigator, PageName.SONGSGROUP.value)
 
                     Row(modifier = Modifier
@@ -279,22 +283,27 @@ fun CommonSongsPage(value: String, readbleValue: String) {
                             }
                         }
 
-                        if (isAndroid()) {
-                            if (showUpButton) {
-                                ScrollToFirstItemBtn(
-                                    modifier = Modifier.align(alignment = Alignment.Bottom)
-                                ) {
-                                    coroutineScope.launch {
-                                        listState.scrollToItem(0)
-                                    }
-                                }
+                        if (isDesktop()) {
+                            AditionalVerticalScroll(
+                                modifier = Modifier,
+                                lazyListState = listState,
+                                scrollState = null
+                            )
+                        }
+                    }
+
+                    shortcutButtonWidget(navigator)
+
+                    if (showUpButton) {
+                        ScrollToFirstItemBtn(
+                            modifier = Modifier.align(alignment = Alignment.BottomEnd)
+                        ) {
+                            coroutineScope.launch {
+                                listState.scrollToItem(0)
                             }
-                        } else {
-                            AditionalVerticalScroll(lazyListState = listState, scrollState = null)
                         }
                     }
                 }
-                //                ShortcutsButton(navigator)
             }
         }
     }

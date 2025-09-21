@@ -36,11 +36,14 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.samuel.oremoschanganapt.repository.ColorObject
+import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
+import com.samuelsumbane.oremoscatolico.commonView.CommonSettingsScreen
 import com.samuelsumbane.oremoscatolico.commonView.PraysScreen
 import com.samuelsumbane.oremoscatolico.commonView.RemindersPages.ConfigureReminder
 import com.samuelsumbane.oremoscatolico.commonView.RemindersPages.RemindersPage
 import com.samuelsumbane.oremoscatolico.components.AndroidSearchContainer
 import com.samuelsumbane.oremoscatolico.components.BottomAppBarPrincipal
+import com.samuelsumbane.oremoscatolico.components.ShortcutsButton
 import com.samuelsumbane.oremoscatolico.data.praysData
 import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.repository.Configs
@@ -92,7 +95,7 @@ class  MainActivity : ComponentActivity() {
 
             LaunchedEffect(Unit) {
                 val defaultConfigs = configViewModel.loadConfigurations()
-                fontSize = defaultConfigs.fontSize
+//                fontSize = defaultconfig
                 themeMode = defaultConfigs.themeMode
                 themeColor = Color(defaultConfigs.themeColor)
                 secondThemeColor = if (defaultConfigs.secondThemeColor == 0)
@@ -104,7 +107,7 @@ class  MainActivity : ComponentActivity() {
                 updateLocale(context, locale = Locale(if (initialLanguage == "404") "pt" else initialLanguage))
                 appLocale = initialLanguage
 
-                Configs.fontSize = fontSize
+                configFontSize = defaultConfigs.fontSize
                 thememode = themeMode
             }
 
@@ -175,20 +178,13 @@ actual object HomeScreen : Screen {
 }
 
 @Composable
-actual fun AditionalVerticalScroll(lazyListState: LazyListState?, scrollState: ScrollState?) {
-    //TIP nothing happens in desktop
+actual fun AditionalVerticalScroll(
+    modifier: Modifier,
+    lazyListState: LazyListState?,
+    scrollState: ScrollState?) {
+    // Nothing happens in desktop
 }
 
-//actual fun createSettings(): Settings {
-//    val prefs = Preferences.userRoot().node("OremosChangana")
-//    return PreferencesSettings(prefs)
-//}
-
-//actual fun createSettings(androidContext: Any?): Settings {
-//    require(androidContext is Context) { "Android context required!" }
-//    val dataStore = androidContext.createDataStore(name = "OremosChangana")
-//    return DataStoreSettings(dataStore)
-//}
 
 @SuppressLint("StaticFieldLeak")
 object AndroidSettingsHelper {
@@ -301,4 +297,9 @@ actual fun searchWidget(
 actual fun shareContent(text: String) {
     val context = AndroidSettingsHelper.getContext()
     shareText(context, text)
+}
+
+@Composable
+actual fun shortcutButtonWidget(navigator: Navigator) {
+    ShortcutsButton(navigator)
 }

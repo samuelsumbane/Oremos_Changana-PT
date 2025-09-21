@@ -37,15 +37,19 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.repository.ColorObject
+import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
 import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.Configs.thememode
 import com.samuelsumbane.oremoscatolico.R
+import com.samuelsumbane.oremoscatolico.createSettings
 import com.samuelsumbane.oremoscatolico.globalComponents.DefTabButton
 import com.samuelsumbane.oremoscatolico.globalComponents.ExpandContentTabBtn
 import com.samuelsumbane.oremoscatolico.globalComponents.KeyValueTextRow
 import com.samuelsumbane.oremoscatolico.globalComponents.RadioButtonDialog
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
+import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
+import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -81,6 +85,10 @@ fun AppearanceWidget(
     var expanded by remember { mutableStateOf(false) }
     var coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    val configViewMode = remember { ConfigScreenViewModel(createSettings()) }
+
+//    Launched
 
     DefTabButton {
         ExpandContentTabBtn(
@@ -134,6 +142,7 @@ fun AppearanceWidget(
                         CoroutineScope(Dispatchers.IO).launch {
                             modeOptions[option]?.let {
 //                                saveThemeMode(context, it)
+//                                configViewMode.saveConfiguration(ConfigEntry.)
                                 println("new mode is $it")
                             }
                         }
@@ -150,7 +159,7 @@ fun PreferencesWidget(navigator: Navigator) {
 
     var visibleAppearanceTab by remember { mutableStateOf(false) }
     var showFontSizesDialog by remember { mutableStateOf(false) }
-    var selectedFontSizeOption by remember { mutableStateOf(Configs.fontSize) }
+    var selectedFontSizeOption by remember { mutableStateOf(configFontSize) }
 
     val fontSizeOptions = mapOf(
         "Small" to stringResource(R.string.small),
@@ -186,7 +195,7 @@ fun PreferencesWidget(navigator: Navigator) {
 
                     KeyValueTextRow(
                         key = stringResource(R.string.font_size),
-                        value = fontSizeOptions[Configs.fontSize] ?: "") {
+                        value = fontSizeOptions[configFontSize] ?: "") {
                         showFontSizesDialog = true
                     }
 

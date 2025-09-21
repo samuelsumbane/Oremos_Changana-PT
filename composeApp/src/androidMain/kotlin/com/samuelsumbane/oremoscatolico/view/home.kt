@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.items
@@ -18,6 +19,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -32,6 +34,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.repository.ColorObject
+import com.samuelsumbane.oremoscatolico.CommonAboutAppScreen
 import com.samuelsumbane.oremoscatolico.R
 import com.samuelsumbane.oremoscatolico.components.*
 import com.samuelsumbane.oremoscatolico.createSettings
@@ -45,6 +48,7 @@ import com.samuelsumbane.oremoscatolico.globalComponents.HomeTexts
 import com.samuelsumbane.oremoscatolico.globalComponents.InputSearch
 import com.samuelsumbane.oremoscatolico.globalComponents.PrayRow
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
+import com.samuelsumbane.oremoscatolico.globalComponents.AppTitleWidget
 import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.lazyColumn
 import com.samuelsumbane.oremoscatolico.isAndroid
@@ -122,153 +126,79 @@ fun Home(navigator: Navigator) {
     var iconColorState by remember { mutableStateOf("Keep")}
     val navigator = LocalNavigator.currentOrThrow
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        gesturesEnabled = true,
-        drawerContent = {
-            ModalDrawerSheet(
-                Modifier
-                    .padding(end = 10.dp, top = 24.dp)
-                    .statusBarsPadding()
-                    .width(if (isPortrait) inVertical.dp else inHorizontal.dp )
+
+    Scaffold(
+        bottomBar = {
+            if (isPortrait) BottomAppBarPrincipal(navigator,PageName.HOME.value, iconColorState)
+        }
+    ) {
+        Box(Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.oremosmobilepic),
+//                        painter = painterResource(id = R.drawable.homepic),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Brush.verticalGradient(colors = listOf(Color.Black.copy(alpha = 0.5f), Color.Transparent)))
+            )
+
+            if (!isPortrait) AppSideBar(navigator, "home")
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color.Transparent),
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(30.dp))
 
-                Column (
-                    Modifier.fillMaxWidth(0.95f)
-                        .padding(start = 12.dp)
-                        .fillMaxHeight()
-                        .verticalScroll(scrollState),
+                Spacer(Modifier.height(140.dp))
+
+                InputSearch(
+                    value = textInputValue, onValueChange = { textInputValue = it },
+                    placeholder = stringResource(R.string.search_song_or_pray),
+                    modifier = Modifier
+                        .fillMaxWidth(0.75f)
+                        .height(45.dp)
+//                                .background(color = searchBgColor, shape = RoundedCornerShape(35.dp)),
+                )
+
+                Spacer(Modifier.height(80.dp))
+                AppTitleWidget(navigator)
+            }
+
+            if (showModal) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(0.90f)
+                        .heightIn(min = 90.dp, max = 500.dp)
+                        .background(Color.Black.copy(alpha = 0.8f), RoundedCornerShape(15.dp))
+                        .align(Alignment.CenterEnd),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = stringResource(R.string.configurations).uppercase(), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, fontStyle = FontStyle.Italic)
+                    lazyColumn {
+                        items (filteredPrays) { pray ->
+                            PrayRow(
+                                navigator, pray = pray,
+                                showStarButton = false,
+                            )
+                        }
 
-                        IconButton(
-                            onClick = { scope.launch { drawerState.close() } },
-                        ) {
-                            Icon(
-                                Icons.Default.Close,
-                                contentDescription = "Close sidebar",
-                                tint = MaterialTheme.colorScheme.tertiary,
+                        items (filteredSongs) { song ->
+                            SongRow(
+                                navigator, song = song,
+                                blackBackground = true,
+                                showStarButton = false
                             )
                         }
                     }
-
-                    Spacer(Modifier.height(12.dp))
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        Spacer(Modifier.height(75.dp))
-
-                        Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
-                            // appearance ------->>
-                            AppearanceWidget(navigator, mode)
-                            //
-                            PreferencesWidget(navigator)
-                            // About --------->>
-                            RowAbout(navigator)
-                        }
-                    }
-
                 }
             }
         }
-    ) {
-            Scaffold(
-                bottomBar = {
-                    if (isPortrait) BottomAppBarPrincipal(navigator,PageName.HOME.value, iconColorState)
-                }
-            ) {
-                Box(Modifier.fillMaxSize()) {
-                    Image(
-                        painter = painterResource(id = R.drawable.oremosmobilepic),
-//                        painter = painterResource(id = R.drawable.homepic),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                    Box(modifier = Modifier
-                        .fillMaxSize()
-                        .background(Brush.verticalGradient(colors = listOf(Color.Black.copy(alpha = 0.5f), Color.Transparent)))
-                    )
-
-                    if (!isPortrait) AppSideBar(navigator, "home")
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(color = Color.Transparent),
-                        verticalArrangement = Arrangement.SpaceAround,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Row (Modifier.fillMaxWidth()
-                            .padding(top = 35.dp)
-                        ) {
-                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu",
-                                    tint = Color.White, modifier = Modifier.size(30.dp))
-                            }
-                        }
-
-                        Spacer(Modifier.height(20.dp))
-
-                        InputSearch(
-                            value = textInputValue, onValueChange = { textInputValue = it },
-                            placeholder = stringResource(R.string.search_song_or_pray),
-                            modifier = Modifier
-                                .fillMaxWidth(0.75f)
-                                .height(45.dp)
-//                                .background(color = searchBgColor, shape = RoundedCornerShape(35.dp)),
-                        )
-
-                        Spacer(Modifier.height(20.dp))
-                        Column {
-                            HomeTexts(text = "Oremos", fontSize = 45)
-                            Spacer(modifier = Modifier.height(9.dp))
-                            HomeTexts(text = "A HI KHONGELENI", fontSize = 23)
-                        }
-                    }
-
-                    if (showModal) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth(0.90f)
-                                .heightIn(min = 90.dp, max = 500.dp)
-                                .background(Color.Black.copy(alpha = 0.8f), RoundedCornerShape(15.dp))
-                                .align(Alignment.CenterEnd),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            lazyColumn {
-                                items (filteredPrays) { pray ->
-                                    PrayRow(
-                                        navigator, pray = pray,
-                                        showStarButton = false,
-                                    )
-                                }
-
-                                items (filteredSongs) { song ->
-                                    SongRow(
-                                        navigator, song = song,
-                                        blackBackground = true,
-                                        showStarButton = false
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-//        } else {
-//            LoadingScreen()
-//        }
     }
 
 }

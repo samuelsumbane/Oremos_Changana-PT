@@ -34,6 +34,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuelsumbane.oremoscatolico.data.praysData
 import com.samuelsumbane.oremoscatolico.db.data.songsData
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
+import com.samuelsumbane.oremoscatolico.globalComponents.AppTitleWidget
 import com.samuelsumbane.oremoscatolico.globalComponents.HomeTexts
 import com.samuelsumbane.oremoscatolico.globalComponents.InputSearch
 import com.samuelsumbane.oremoscatolico.globalComponents.PrayRow
@@ -127,10 +128,8 @@ fun DesktopHomePage() {
                     )
 
                     Spacer(Modifier.height(170.dp))
-                    Column {
-                        HomeTexts(text = "Oremos católico", fontSize = 45)
-//                        Spacer(modifier = Modifier.height(9.dp))
-                    }
+                    AppTitleWidget(navigator)
+
                 }
 
                 if (showModal) {
