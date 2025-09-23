@@ -55,8 +55,8 @@ import com.samuelsumbane.oremoscatolico.db.data.songsData
 import com.samuelsumbane.oremoscatolico.globalComponents.StarButton
 import com.samuelsumbane.oremoscatolico.globalComponents.pagerContent
 import com.samuelsumbane.oremoscatolico.globalComponents.showSnackbar
-import com.samuelsumbane.oremoscatolico.isAndroid
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.shareContent
@@ -112,9 +112,9 @@ data class EachPageScreen(
 
 
         val btnsIcons = buildMap {
-            put(reminder, Res.drawable.notifications)
             if (isDesktop()) {
                 put(copy, Res.drawable.content_copy)
+                put(reminder, Res.drawable.notifications)
             }
             if (isAndroid()) {
                 put(share, Res.drawable.outline_share)

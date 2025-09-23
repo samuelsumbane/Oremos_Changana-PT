@@ -53,7 +53,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import oremoscatolico.composeapp.generated.resources.Res

@@ -61,7 +61,7 @@ import com.samuelsumbane.oremoscatolico.globalComponents.MinCircular
 import com.samuelsumbane.oremoscatolico.globalComponents.RadioButtonDialog
 import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel

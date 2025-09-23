@@ -55,7 +55,7 @@ import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.globalComponents.PrayRow
 import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.lazyColumn
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.isNumber
 import com.samuelsumbane.oremoscatolico.states.AppState.isLoading

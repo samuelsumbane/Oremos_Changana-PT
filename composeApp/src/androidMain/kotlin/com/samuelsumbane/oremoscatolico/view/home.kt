@@ -51,7 +51,7 @@ import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.AppTitleWidget
 import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.lazyColumn
-import com.samuelsumbane.oremoscatolico.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.isNumber
 import com.samuelsumbane.oremoscatolico.view.sideBar.PreferencesWidget

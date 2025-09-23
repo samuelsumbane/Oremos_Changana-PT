@@ -68,11 +68,10 @@ import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.commonView.EachPageScreen
 import com.samuelsumbane.oremoscatolico.data.Pray
 import com.samuelsumbane.oremoscatolico.db.data.Song
-import com.samuelsumbane.oremoscatolico.isAndroid
-import com.samuelsumbane.oremoscatolico.isDesktop
-import com.samuelsumbane.oremoscatolico.repository.Configs
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.PageName
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.parseStyledText
 import com.samuelsumbane.oremoscatolico.ui.theme.Orange
 import oremoscatolico.composeapp.generated.resources.Res

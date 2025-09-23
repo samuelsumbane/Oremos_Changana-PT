@@ -1,4 +1,4 @@
-package com.samuelsumbane.oremoscatolico.commonView.RemindersPages
+package com.samuelsumbane.oremoscatolico.view.RemindersPages
 
 
 import androidx.compose.foundation.background

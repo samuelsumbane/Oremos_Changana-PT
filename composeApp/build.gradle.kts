@@ -49,9 +49,6 @@ kotlin {
 
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-
-            implementation("org.xerial:sqlite-jdbc:3.42.0.0")
-
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
         }
         commonTest.dependencies {
@@ -60,6 +57,10 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+
+            implementation("org.xerial:sqlite-jdbc:3.42.0.0")
+
+            implementation("org.slf4j:slf4j-simple:2.0.9")
         }
     }
 }
@@ -102,9 +103,24 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.samuelsumbane.oremoscatolico"
+            packageName = "Oremos-Changana"
             packageVersion = "1.0.0"
+
+            windows {
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/icon.webp"))
+            }
+            macOS {
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/icon.webp"))
+            }
+            linux {
+                shortcut = true
+                appCategory = "Utility"
+                iconFile.set(project.file("src/jvmMain/resources/icLauncher.png"))
+
+                menuGroup = "Utility"
+//                dependsOn("libsqlite3-0")
+                dependsOn("libsqlite3-0", "libgtk-3-0", "libx11-6")
+            }
         }
     }
 }
-

@@ -5,6 +5,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
@@ -155,3 +156,14 @@ fun parseStyledText(text: String): AnnotatedString {
     }
 }
 
+
+fun isAndroid(): Boolean {
+    return try {
+        Class.forName("android.app.Activity")
+        true
+    } catch (e: ClassNotFoundException) {
+        false
+    }
+}
+
+fun isDesktop(): Boolean = !isAndroid()

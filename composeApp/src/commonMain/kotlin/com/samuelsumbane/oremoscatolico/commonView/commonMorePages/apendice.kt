@@ -51,7 +51,7 @@ import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuelsumbane.oremoscatolico.globalComponents.CenteratorForMorePages
 import com.samuelsumbane.oremoscatolico.globalComponents.ItemRow
 import com.samuelsumbane.oremoscatolico.globalComponents.TextIconRow
-import com.samuelsumbane.oremoscatolico.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
 //import com.samuelsumbane.oremoscatolico.repository.ColorObject
 import com.samuelsumbane.oremoscatolico.ui.theme.DarkColor
 import oremoscatolico.composeapp.generated.resources.Res

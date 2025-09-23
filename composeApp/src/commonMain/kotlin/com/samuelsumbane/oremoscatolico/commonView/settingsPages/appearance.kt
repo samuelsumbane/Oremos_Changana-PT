@@ -34,7 +34,7 @@ import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuelsumbane.oremoscatolico.createSettings
 import com.samuelsumbane.oremoscatolico.globalComponents.appearanceWidgets.RowPreviewColor
 import com.samuelsumbane.oremoscatolico.globalComponents.appearanceWidgets.colorSelectBox
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.ui.theme.Blue
 import com.samuelsumbane.oremoscatolico.ui.theme.BlueColor
 import com.samuelsumbane.oremoscatolico.ui.theme.Green

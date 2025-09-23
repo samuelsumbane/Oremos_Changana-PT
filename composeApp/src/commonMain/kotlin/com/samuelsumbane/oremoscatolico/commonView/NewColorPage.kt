@@ -35,7 +35,7 @@
 //import com.samuel.oremoschanganapt.repository.ColorObject
 //import com.samuelsumbane.oremoscatolico.globalComponents.CancelButton
 //import com.samuelsumbane.oremoscatolico.globalComponents.appearanceWidgets.ColorPickerHSV
-//import com.samuelsumbane.oremoscatolico.isDesktop
+//import com.samuelsumbane.oremoscatolico.repository.isDesktop
 //import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 //import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 //import kotlinx.coroutines.launch

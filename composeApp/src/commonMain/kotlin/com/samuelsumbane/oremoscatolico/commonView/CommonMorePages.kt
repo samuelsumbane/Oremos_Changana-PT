@@ -40,8 +40,8 @@ import com.samuelsumbane.oremoscatolico.RemindersScreen
 import com.samuelsumbane.oremoscatolico.SantoralScreen
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.MorePagesBtn
-import com.samuelsumbane.oremoscatolico.isAndroid
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.about
@@ -121,7 +121,6 @@ fun MorePages(navigator: Navigator, ) {
                         }
                     }
 
-
                     MorePagesButtonRow {
                         MorePagesBtn(
                             icon = Res.drawable.date_range,
@@ -149,19 +148,34 @@ fun MorePages(navigator: Navigator, ) {
 
                     Spacer(Modifier.width(25.dp))
 
-                    MorePagesButtonRow {
-                        MorePagesBtn(
-                            icon = Res.drawable.notifications,
-                            description = "pagina de lembretes",
-                            text = "Lembretes",
-                            Modifier.height(100.dp).weight(1f),
-                            shape = RoundedCornerShape(curvePercent)
-                        ) {
-                            navigator.push(RemindersScreen)
+                    if (isAndroid()) {
+                        MorePagesButtonRow {
+                            MorePagesBtn(
+                                icon = Res.drawable.notifications,
+                                description = "pagina de lembretes",
+                                text = "Lembretes",
+                                Modifier.height(100.dp).weight(1f),
+                                shape = RoundedCornerShape(curvePercent)
+                            ) {
+                                navigator.push(RemindersScreen)
+                            }
+
+                            Spacer(Modifier.width(25.dp))
+
+                            MorePagesBtn(
+                                icon = Res.drawable.settings,
+                                description = "",
+                                text = "Configurações",
+                                Modifier
+                                    .height(100.dp)
+                                    .weight(1f),
+                                shape = RoundedCornerShape(curvePercent)
+                            ) { navigator.push(CommonSettingsScreen) }
+
                         }
+                    }
 
-                        Spacer(Modifier.width(25.dp))
-
+                    MorePagesButtonRow {
                         MorePagesBtn(
                             icon = Res.drawable.star,
                             description = "Pagina de orações e cânticos favoritos",
@@ -169,23 +183,8 @@ fun MorePages(navigator: Navigator, ) {
                             Modifier.height(100.dp).weight(1f),
                             shape = RoundedCornerShape(curvePercent)
                         ) { navigator.push(LovedDataScreen) }
-                    }
 
-
-                    MorePagesButtonRow {
-                        MorePagesBtn(
-                            icon = Res.drawable.settings,
-                            description = "",
-                            text = "Configurações",
-                            Modifier
-                                .height(100.dp)
-                                .weight(1f),
-                            shape = RoundedCornerShape(curvePercent)
-                        ) { navigator.push(CommonSettingsScreen) }
-
-                        if (isAndroid()) {
-                            Spacer(Modifier.width(25.dp))
-
+                                Spacer(Modifier.width(25.dp))
                             MorePagesBtn(
                                 icon = null,
                                 description = "",
@@ -195,10 +194,7 @@ fun MorePages(navigator: Navigator, ) {
                                     .weight(1f),
                                 shape = RoundedCornerShape(curvePercent)
                             ) { navigator.push(CommonAboutAppScreen) }
-                        }
-
                     }
-
                 }
             }
             if (isDesktop()) AditionalVerticalScroll(modifier = Modifier, null, scrollState)

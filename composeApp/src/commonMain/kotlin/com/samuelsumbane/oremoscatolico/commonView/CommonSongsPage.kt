@@ -52,8 +52,8 @@ import com.samuelsumbane.oremoscatolico.globalComponents.ScrollToFirstItemBtn
 import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
-import com.samuelsumbane.oremoscatolico.isAndroid
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.isNumber
 import com.samuelsumbane.oremoscatolico.shortcutButtonWidget

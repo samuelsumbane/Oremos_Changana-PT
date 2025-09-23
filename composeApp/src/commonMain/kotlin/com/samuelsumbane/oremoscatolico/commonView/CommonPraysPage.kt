@@ -43,7 +43,7 @@ import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.globalComponents.PrayRow
 import com.samuelsumbane.oremoscatolico.globalComponents.ScrollToFirstItemBtn
 import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.searchWidget
 import com.samuelsumbane.oremoscatolico.shortcutButtonWidget

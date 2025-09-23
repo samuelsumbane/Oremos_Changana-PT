@@ -43,8 +43,8 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.globalComponents.showSnackbar
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
-import com.samuelsumbane.oremoscatolico.isAndroid
-import com.samuelsumbane.oremoscatolico.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.ui.theme.Blue
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.arrow_back

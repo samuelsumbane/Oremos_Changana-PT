@@ -32,7 +32,7 @@ import com.samuelsumbane.oremoscatolico.data.praysData
 import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.globalComponents.PrayRow
 import com.samuelsumbane.oremoscatolico.globalComponents.ScrollToFirstItemBtn
-import com.samuelsumbane.oremoscatolico.isAndroid
+import com.samuelsumbane.oremoscatolico.repository.isAndroid
 import com.samuelsumbane.oremoscatolico.states.AppState.isSearchInputVisible
 import kotlinx.coroutines.launch
 import oremoscatolico.composeapp.generated.resources.Res
