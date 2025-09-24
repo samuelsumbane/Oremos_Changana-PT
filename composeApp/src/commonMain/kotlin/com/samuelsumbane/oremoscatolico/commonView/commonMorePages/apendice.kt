@@ -53,7 +53,6 @@ import com.samuelsumbane.oremoscatolico.globalComponents.ItemRow
 import com.samuelsumbane.oremoscatolico.globalComponents.TextIconRow
 import com.samuelsumbane.oremoscatolico.repository.isAndroid
 //import com.samuelsumbane.oremoscatolico.repository.ColorObject
-import com.samuelsumbane.oremoscatolico.ui.theme.DarkColor
 import oremoscatolico.composeapp.generated.resources.Res
 import oremoscatolico.composeapp.generated.resources.arrow_back
 import oremoscatolico.composeapp.generated.resources.go_back
@@ -69,7 +68,7 @@ fun Apendice(navigator: Navigator){
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text="Apêndice", color = MaterialTheme.colorScheme.tertiary) },
+                title = { Text(text = "Apêndice", color = MaterialTheme.colorScheme.tertiary) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
                 ),

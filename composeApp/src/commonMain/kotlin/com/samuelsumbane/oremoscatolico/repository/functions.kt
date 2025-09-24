@@ -1,5 +1,6 @@
 package com.samuelsumbane.oremoscatolico.repository
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -9,6 +10,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
+import com.samuelsumbane.oremoscatolico.states.UIState.themeMode
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
@@ -155,6 +157,7 @@ fun parseStyledText(text: String): AnnotatedString {
         }
     }
 }
+
 
 
 fun isAndroid(): Boolean {

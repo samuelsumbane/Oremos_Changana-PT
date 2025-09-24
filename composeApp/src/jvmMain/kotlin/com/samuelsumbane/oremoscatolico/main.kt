@@ -24,18 +24,17 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.Settings
 import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
 import com.samuelsumbane.oremoscatolico.commonView.AgroupedSongsScreen
-import com.samuelsumbane.oremoscatolico.commonView.MorePagesScreen
-import com.samuelsumbane.oremoscatolico.commonView.PraysScreen
-import com.samuelsumbane.oremoscatolico.commonView.SongsScreen
 import com.samuelsumbane.oremoscatolico.desktopWidgets.DesktopSearchContainer
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
+import com.samuelsumbane.oremoscatolico.states.UIState.configFontSize
+import com.samuelsumbane.oremoscatolico.states.UIState.themeMode
 import com.samuelsumbane.oremoscatolico.view.DesktopHomePage
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import oremoscatolico.composeapp.generated.resources.Res
@@ -44,28 +43,25 @@ import org.jetbrains.compose.resources.painterResource
 import java.util.Locale
 import java.util.prefs.Preferences
 
+//import com.samuelsumbane.oremoscatolico.
 
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "Oremos Católico",
+        state = rememberWindowState(
+            width = 1050.dp,   // largura inicial
+            height = 680.dp  // altura inicial
+        ),
         icon = painterResource(Res.drawable.icon),
-        alwaysOnTop = true
     ) {
-//        App()
 
-//        var fontSize by remember { mutableStateOf("") }
-        var themeMode by remember { mutableStateOf("") }
-        var themeColor by remember { mutableStateOf(Color.Unspecified) }
-        var secondThemeColor by remember { mutableStateOf(Color.Unspecified) }
-        var initialLanguage by remember { mutableStateOf("") }
-
-        //
-        var coroutineScope = rememberCoroutineScope()
         val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
 //        var configurations by remember { mutableStateOf(AppConfigs.Default) }
 //        var configurations by remember { mutableStateOf<AppConfigs>() }
         // To keep the density as Android (jetpack compose)
+
+
         LaunchedEffect(Unit) {
             val configurations = configViewModel.loadConfigurations()
 
@@ -99,7 +95,7 @@ fun main() = application {
 //                    Navigator(AppearanceScreen)
 //                    Navigator(DesktopSettingsScreen)
 //                    Navigator(RemindersScreen)
-            Navigator(AgroupedSongsScreen)
+            Navigator(HomeScreen)
 //                Navigator(CommonAboutAppScreen)
                 }
             }
@@ -232,3 +228,4 @@ actual fun shortcutButtonWidget(navigator: Navigator) {
      * On the desktop, this function will not do anything
      */
 }
+

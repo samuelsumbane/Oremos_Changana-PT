@@ -36,7 +36,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
+import com.samuelsumbane.oremoscatolico.states.UIState.configFontSize
 import com.samuelsumbane.oremoscatolico.view.RemindersPages.ConfigureReminder
 import com.samuelsumbane.oremoscatolico.view.RemindersPages.RemindersPage
 import com.samuelsumbane.oremoscatolico.components.AndroidSearchContainer
@@ -46,6 +46,8 @@ import com.samuelsumbane.oremoscatolico.data.praysData
 import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.Configs.thememode
+import com.samuelsumbane.oremoscatolico.states.UIState
+import com.samuelsumbane.oremoscatolico.states.UIState.themeMode
 import com.samuelsumbane.oremoscatolico.view.Home
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import java.util.Locale
@@ -76,13 +78,11 @@ class  MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             // Enable edge-to-edge (optional, but recommended for consistency)
             WindowCompat.setDecorFitsSystemWindows(window, false)
 
             val context = LocalContext.current
             var fontSize by remember { mutableStateOf("") }
-            var themeMode by remember { mutableStateOf("") }
             var themeColor by remember { mutableStateOf(Color.Unspecified) }
             var secondThemeColor by remember { mutableStateOf(Color.Unspecified) }
 //            val themeColor by getThemeColor(context).collectAsState(initial = Color.Unspecified)
@@ -208,7 +208,6 @@ object AndroidSettingsHelper {
     fun getContext(): Context =
         currentActivity ?: applicationContext
         ?: throw IllegalStateException("Context not initialized")
-
 
 }
 actual fun createSettings(): Settings {

@@ -44,7 +44,7 @@ import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
+import com.samuelsumbane.oremoscatolico.states.UIState.isFullScreen
 //import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
 import com.samuelsumbane.oremoscatolico.BottomNav
 import com.samuelsumbane.oremoscatolico.ConfigureReminderScreen
@@ -110,15 +110,12 @@ data class EachPageScreen(
         val coroutineScope = rememberCoroutineScope()
         val configViewModal = remember { ConfigScreenViewModel(createSettings()) }
 
-
         val btnsIcons = buildMap {
-            if (isDesktop()) {
-                put(copy, Res.drawable.content_copy)
-                put(reminder, Res.drawable.notifications)
-            }
+            if (isDesktop()) put(copy, Res.drawable.content_copy)
             if (isAndroid()) {
                 put(share, Res.drawable.outline_share)
                 put(fullscreen, Res.drawable.fullscreen)
+                put(reminder, Res.drawable.notifications)
             }
         }
 

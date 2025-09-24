@@ -1,7 +1,6 @@
 package com.samuelsumbane.oremoscatolico.commonView
 
-import androidx.compose.runtime.Composable
-
+//import com.samuelsumbane.oremoscatolico.repository.Configs.mode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +26,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,21 +35,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.samuelsumbane.oremoscatolico.repository.AppMode
 import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
-import com.samuelsumbane.oremoscatolico.repository.Configs
-import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
-//import com.samuelsumbane.oremoscatolico.repository.Configs.mode
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.AppearanceScreen
-import com.samuelsumbane.oremoscatolico.CommonAboutAppScreen
 import com.samuelsumbane.oremoscatolico.createSettings
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.ConfigColumn
@@ -61,8 +52,12 @@ import com.samuelsumbane.oremoscatolico.globalComponents.MinCircular
 import com.samuelsumbane.oremoscatolico.globalComponents.RadioButtonDialog
 import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
-import com.samuelsumbane.oremoscatolico.repository.isDesktop
+import com.samuelsumbane.oremoscatolico.repository.AppMode
+import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.PageName
+import com.samuelsumbane.oremoscatolico.repository.isDesktop
+import com.samuelsumbane.oremoscatolico.states.UIState.configFontSize
+import com.samuelsumbane.oremoscatolico.states.UIState.themeMode
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import com.samuelsumbane.oremoscatolico.viewmodels.OremosLangsMap
@@ -86,7 +81,6 @@ import oremoscatolico.composeapp.generated.resources.ts
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import java.util.Locale
-import kotlin.collections.iterator
 
 object CommonSettingsScreen : Screen {
     @Composable
@@ -241,8 +235,10 @@ fun CommonSettingsPage() {
                                     onOptionSelected = { option ->
                                         selectedModeOption = option
                                         showModeDialog = false
-                                        configViewModel.saveConfiguration(ConfigEntry.ThemeMode, modeOptions.entries.first { it.value == option }.key)
+                                        val newMode = modeOptions.entries.first { it.value == option }.key
+                                        configViewModel.saveConfiguration(ConfigEntry.ThemeMode, newMode)
                                         themeName = option
+                                        themeMode = newMode
 
 //                                restartActivity(context)
                                     },

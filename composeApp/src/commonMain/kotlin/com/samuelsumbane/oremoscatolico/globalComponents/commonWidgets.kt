@@ -63,7 +63,7 @@ import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.repository.FontSize
-import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
+import com.samuelsumbane.oremoscatolico.states.UIState.configFontSize
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.commonView.EachPageScreen
 import com.samuelsumbane.oremoscatolico.data.Pray

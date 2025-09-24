@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -26,19 +24,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.view.states.UIState.configFontSize
-import com.samuelsumbane.oremoscatolico.repository.Configs
+import com.samuelsumbane.oremoscatolico.states.UIState.configFontSize
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.Configs.thememode
 import com.samuelsumbane.oremoscatolico.R
@@ -48,13 +43,10 @@ import com.samuelsumbane.oremoscatolico.globalComponents.ExpandContentTabBtn
 import com.samuelsumbane.oremoscatolico.globalComponents.KeyValueTextRow
 import com.samuelsumbane.oremoscatolico.globalComponents.RadioButtonDialog
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
-import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import oremoscatolico.composeapp.generated.resources.Res
-import java.util.Locale
 
 // AppearanceWidget --------->>
 @Composable

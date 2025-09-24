@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +43,7 @@ import com.samuelsumbane.oremoscatolico.ui.theme.Orange
 import com.samuelsumbane.oremoscatolico.ui.theme.Pink
 import com.samuelsumbane.oremoscatolico.ui.theme.Purple
 import com.samuelsumbane.oremoscatolico.ui.theme.Red
-import com.samuelsumbane.oremoscatolico.ui.theme.RedButton
+import com.samuelsumbane.oremoscatolico.ui.theme.OliveGreen
 import com.samuelsumbane.oremoscatolico.ui.theme.Tomato
 import com.samuelsumbane.oremoscatolico.ui.theme.Turquoise
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
@@ -59,7 +58,6 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppearancePage(navigator: Navigator) {
-    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,19 +75,13 @@ fun AppearancePage(navigator: Navigator) {
             )
         },
     ) { innerValues ->
-        val itemBgColor = ColorObject.mainColor
         val scrollState = rememberScrollState()
 //        var color by remember { mutableStateOf(Color.Red) }
 //        val context = LocalContext.current
         var themeColor by remember { mutableStateOf(ColorObject.mainColor) }
-        val secondThemeColor by remember { mutableStateOf(ColorObject.secondColor) }
-        var color by remember { mutableStateOf<Color>(themeColor) }
-        var secondColor by remember { mutableStateOf<Color>(secondThemeColor) }
-        var isSolidColorTabSelected by remember { mutableStateOf(false) }
-
         val colorList = listOf(
             listOf(Lightgray, Lightblue, Blue, BlueColor),
-            listOf(Orange, Tomato, Red, RedButton),
+            listOf(Orange, Tomato, Red, OliveGreen),
             listOf(Pink, Purple, Turquoise, Green)
         )
 
