@@ -2,6 +2,8 @@ import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -61,7 +63,19 @@ kotlin {
     }
 }
 
+val keystorePropertiesFile = rootProject.file("local.properties")
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
     namespace = "com.samuelsumbane.oremoscatolico"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -69,8 +83,8 @@ android {
         applicationId = "com.samuelsumbane.oremoscatolico"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 8
+        versionName = "5.0"
     }
     packaging {
         resources {
@@ -79,7 +93,16 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro"
+            )
+
+            ndk {
+                debugSymbolLevel = "FULL" //Generate full debug symbols
+            }
         }
     }
     compileOptions {
@@ -87,6 +110,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "**/*.version"
+        }
+        jniLibs {
+            useLegacyPackaging = false // Importante para compatibilidade
+        }
+    }
+    lint {
+        disable += "NullSafeMutableLiveData"
+    }
+//    signingConfig = signingConfigs.getByName("release")
 }
 
 dependencies {

@@ -49,6 +49,7 @@ import com.samuelsumbane.oremoscatolico.globalComponents.InputSearch
 import com.samuelsumbane.oremoscatolico.globalComponents.PrayRow
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.AppTitleWidget
+import com.samuelsumbane.oremoscatolico.globalComponents.HomeItems
 import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.lazyColumn
 import com.samuelsumbane.oremoscatolico.repository.isAndroid
@@ -63,55 +64,10 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "NewApi")
 @Composable
 fun Home(navigator: Navigator) {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-//    val drawerState = rememberDrawerState(initialValue = DrawerValue.Open)
-    val scope = rememberCoroutineScope()
-    val scrollState = rememberScrollState()
     var textInputValue by remember { mutableStateOf("") }
-    var showModal by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
-    var themeColor = ColorObject.mainColor
-
-    var mode by remember { mutableStateOf("") }
 
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
-
-    val allPrays = praysData
-
-    val filteredPrays = remember(allPrays, textInputValue){
-        if (textInputValue.isNotEmpty()) {
-            allPrays.filter { it.title.contains(textInputValue, ignoreCase = true)}
-        } else emptyList()
-    }
-
-    val filteredSongs = remember(songsData, textInputValue){
-        if (textInputValue.isNotBlank()) {
-            val numOrNot = isNumber(textInputValue)
-            if (numOrNot) {
-                songsData.filter { it.number == textInputValue }
-            } else {
-                songsData.filter {
-                    it.title.contains(textInputValue, ignoreCase = true)
-                }
-            }
-        } else emptyList()
-    }
-
-    var lovedSongsIds by remember { mutableStateOf(setOf<Int>()) }
-    val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
-
-    LaunchedEffect(Unit) {
-        val defaultConfigs = configViewModel.loadConfigurations()
-        lovedSongsIds = defaultConfigs.favoriteSongs
-        mode = defaultConfigs.themeMode
-
-    }
-
-    LaunchedEffect(textInputValue) {
-        showModal = textInputValue != ""
-    }
 
     val screenWidth = configuration.screenWidthDp
     val screenHeight = configuration.screenHeightDp
@@ -126,7 +82,6 @@ fun Home(navigator: Navigator) {
     var iconColorState by remember { mutableStateOf("Keep")}
     val navigator = LocalNavigator.currentOrThrow
 
-
     Scaffold(
         bottomBar = {
             if (isPortrait) BottomAppBarPrincipal(navigator,PageName.HOME.value, iconColorState)
@@ -135,7 +90,6 @@ fun Home(navigator: Navigator) {
         Box(Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(id = R.drawable.oremosmobilepic),
-//                        painter = painterResource(id = R.drawable.homepic),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -170,37 +124,11 @@ fun Home(navigator: Navigator) {
                 AppTitleWidget(navigator)
             }
 
-            if (showModal) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(0.90f)
-                        .heightIn(min = 90.dp, max = 500.dp)
-                        .background(Color.Black.copy(alpha = 0.8f), RoundedCornerShape(15.dp))
-                        .align(Alignment.CenterEnd),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    lazyColumn {
-                        items (filteredPrays) { pray ->
-                            PrayRow(
-                                navigator, pray = pray,
-                                showStarButton = false,
-                            )
-                        }
-
-                        items (filteredSongs) { song ->
-                            SongRow(
-                                navigator, song = song,
-                                blackBackground = true,
-                                showStarButton = false
-                            )
-                        }
-                    }
-                }
-            }
+            HomeItems(
+                navigator,
+                textInputValue,
+                modifier = Modifier.align(Alignment.CenterEnd),
+            )
         }
     }
-
 }
-
-

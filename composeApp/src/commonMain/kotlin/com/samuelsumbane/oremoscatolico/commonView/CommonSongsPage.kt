@@ -7,6 +7,7 @@ import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -36,6 +39,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -51,11 +55,13 @@ import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.globalComponents.ScrollToFirstItemBtn
 import com.samuelsumbane.oremoscatolico.globalComponents.SongRow
 import com.samuelsumbane.oremoscatolico.globalComponents.platformWidth
+import com.samuelsumbane.oremoscatolico.globalComponents.showSnackbar
 import com.samuelsumbane.oremoscatolico.globalComponents.textFontSize
 import com.samuelsumbane.oremoscatolico.repository.isAndroid
 import com.samuelsumbane.oremoscatolico.repository.isDesktop
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.isNumber
+import com.samuelsumbane.oremoscatolico.searchWidget
 import com.samuelsumbane.oremoscatolico.shortcutButtonWidget
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigEntry
 import com.samuelsumbane.oremoscatolico.viewmodels.ConfigScreenViewModel
@@ -89,14 +95,11 @@ fun CommonSongsPage(value: String, readbleValue: String) {
     val allSongs = songsData
     var activeInput by remember { mutableIntStateOf(0) }
     var searchInputActive by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
-
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutine = rememberCoroutineScope()
     //    val context = LocalContext.current
     var lovedSongsIds by remember { mutableStateOf(setOf<Int>()) }
 
-    //    LaunchedEffect(Unit) {
-    //        lovedSongsIds = getIdSet(context, SetIdPreference.SONGS_ID.preferenceName)
-    //    }
 
 
     val data = when (value) {
@@ -129,7 +132,11 @@ fun CommonSongsPage(value: String, readbleValue: String) {
                     }
                 },
                 actions = {
-                    Row(modifier = Modifier.padding(50.dp, 0.dp, 0.dp, 0.dp)) {
+                    Row(modifier =
+                        Modifier
+                            .padding(50.dp, 10.dp, 0.dp, 0.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 
                         AnimatedContent(
                             targetState = activeInput,
@@ -146,20 +153,13 @@ fun CommonSongsPage(value: String, readbleValue: String) {
                             },
                         ) { activeInput ->
                             when (activeInput) {
-//                                0 -> DesktopSearchContainer("Pesquisar cântico") {
-//                                    searchValue = it
-//                                }
-//
-//                                1 -> DesktopSearchContainer("Pesquisa avançada") {
-//                                    advancedSearchString = it
-//                                }
+                                0 -> searchWidget("Pesquisar cântico") { searchValue = it }
+                                1 -> searchWidget("Pesquisa avançada") { advancedSearchString = it }
                             }
                         }
 
                         Row(
-                            modifier = Modifier
-                                .padding(0.dp, 7.dp, 0.dp, 0.dp)
-                                .width(40.dp)
+                            modifier = Modifier.width(40.dp)
                         ) {
                             IconButton(
                                 modifier = Modifier,
@@ -167,12 +167,11 @@ fun CommonSongsPage(value: String, readbleValue: String) {
                                     activeInput = if (activeInput == 0) 1 else 0
                                     searchInputActive = !searchInputActive
                                     if (searchInputActive) {
-                                        //                                        toastAlert(
-                                        //                                            context,
-                                        //                                            text = "Pesquisa avançada activada\n" +
-                                        //                                                    "Encontra o cântico pelo seu conteúdo"
-                                        //
-                                        //                                        )
+                                        showSnackbar(
+                                            coroutine,
+                                            snackbarHostState,
+                                            message = "Pesquisa avançada activada\nEncontra o cântico pelo seu conteúdo"
+                                        )
                                     }
                                 }
                             ) {
@@ -190,8 +189,10 @@ fun CommonSongsPage(value: String, readbleValue: String) {
         },
         bottomBar = {
             BottomNav(navigator, PageName.SONGSGROUP.value)
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
         }
-
         ) { paddingVales ->
 
         val coroutineScope = rememberCoroutineScope()
@@ -240,8 +241,8 @@ fun CommonSongsPage(value: String, readbleValue: String) {
 
                 Box(
                     Modifier
-//                        .background(Color.Red)
-                    .fillMaxSize().padding(paddingVales)
+                    .fillMaxSize()
+                    .padding(paddingVales)
                 ) {
                     if (isDesktop()) AppSideBar(navigator, PageName.SONGSGROUP.value)
 

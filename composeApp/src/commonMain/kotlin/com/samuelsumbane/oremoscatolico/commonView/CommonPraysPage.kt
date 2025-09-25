@@ -137,7 +137,7 @@ fun CommonPraysPage(navigator: Navigator) {
                             horizontalAlignment = Alignment.CenterHorizontally
 
                         ) {
-                            items (filteredPrays) { pray ->
+                            items (filteredPrays, key = { item -> item.id}) { pray ->
                                 // Each pray row --------->>
                                 PrayRow(
                                     navigator,
@@ -165,11 +165,12 @@ fun CommonPraysPage(navigator: Navigator) {
 
                     if (isDesktop()) {
                         AditionalVerticalScroll(
-                            modifier = Modifier,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 10.dp),
                             lazyListState = listState,
                             scrollState = null
                         )
-                        Spacer(Modifier.width(5.dp))
                     }
 
                     shortcutButtonWidget(navigator)

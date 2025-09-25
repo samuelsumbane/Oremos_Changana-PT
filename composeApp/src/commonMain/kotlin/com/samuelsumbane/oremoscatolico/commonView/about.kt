@@ -85,7 +85,7 @@ fun SubTitleText(text: String, modifier: Modifier = Modifier) {
 fun About(
     navigator: Navigator,
     onGithubClickedLink: () -> Unit
-){
+) {
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
