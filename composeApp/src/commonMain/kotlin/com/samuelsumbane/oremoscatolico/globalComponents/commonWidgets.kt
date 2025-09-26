@@ -68,6 +68,7 @@ import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.commonView.EachPageScreen
 import com.samuelsumbane.oremoscatolico.data.Pray
 import com.samuelsumbane.oremoscatolico.db.data.Song
+import com.samuelsumbane.oremoscatolico.isMobilePortrait
 import com.samuelsumbane.oremoscatolico.repository.DataCollection
 import com.samuelsumbane.oremoscatolico.repository.PageName
 import com.samuelsumbane.oremoscatolico.repository.isAndroid
@@ -107,36 +108,46 @@ fun HomeTexts(text: String, fontSize: Int) {
 @Composable
 fun SidebarNav(
     activePage: String,
-    modifier: Modifier = Modifier,
     iconColorState: String = "Keep",
     onEachBtnClicked: (String) -> Unit,
 ) {
+    val colorScheme = MaterialTheme.colorScheme
+    val bottomBgColor = colorScheme.background
+
     NavigationRail(
-        modifier = if (activePage == PageName.HOME.value) modifier else Modifier.padding(0.dp).width(80.dp),
+        modifier = Modifier.fillMaxSize()
+            .background(if (activePage == PageName.HOME.value) Color.Transparent else bottomBgColor),
         containerColor = Color.Transparent,
     ) {
-        val colorScheme = MaterialTheme.colorScheme
-        val bottomBgColor = colorScheme.background
-
-        Card(
-            modifier = Modifier
-                .fillMaxSize().width(90.dp)
-                .padding(6.dp, 0.dp, 6.dp, 0.dp)
-                .background(bottomBgColor,
-                    shape = RoundedCornerShape(15.dp)),
-            elevation = CardDefaults.elevatedCardElevation(3.dp)
+        Column(
+            Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center
         ) {
-            Column (
-                modifier = Modifier.fillMaxSize().background(if (isDesktop()) colorScheme.secondary else Color.Transparent),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
+            Card(
+                modifier = Modifier
+                    .padding(6.dp, 0.dp, 6.dp, 0.dp)
+                    .sidebarHeight()
+                    .width(80.dp)
+                    .background(
+                        bottomBgColor,
+                        shape = RoundedCornerShape(15.dp)
+                    ),
+                elevation = CardDefaults.elevatedCardElevation(3.dp)
             ) {
-                MenuContent(
-                    activePage, iconColorState,
-                    onMenuBtnClicked = { page ->
-                        onEachBtnClicked(page)
-                    }
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                        .background(if (isDesktop()) colorScheme.secondary else Color.Transparent),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    MenuContent(
+                        activePage, iconColorState,
+                        onMenuBtnClicked = { page ->
+                            onEachBtnClicked(page)
+                        }
+                    )
+                }
             }
         }
     }
@@ -379,9 +390,13 @@ fun MenuContent(
     iconColorState: String = "Keep",
     onMenuBtnClicked: (String) -> Unit
 ) {
-    val colorScheme = MaterialTheme.colorScheme
-    var mainColor by remember { mutableStateOf(ColorObject.mainColor) }
+    val homePainter = painterResource(Res.drawable.home)
+    val prayPainter = painterResource(Res.drawable.prayicon)
+    val musicPainter = painterResource(Res.drawable.ic_music)
+    val settingsPainter = painterResource(Res.drawable.settings)
+    val morePainter = painterResource(Res.drawable.more_horiz)
 
+    var mainColor by remember { mutableStateOf(ColorObject.mainColor) }
     LaunchedEffect(iconColorState) {
         if (iconColorState == "Reload") mainColor = ColorObject.mainColor // Updates icons color -------->>
     }
@@ -403,18 +418,18 @@ fun MenuContent(
     }
 
     val btnIcons = buildMap {
-        set(PageName.HOME.value, painterResource(Res.drawable.home))
-        set(PageName.PRAYS.value, painterResource(Res.drawable.prayicon))
-        set(PageName.SONGSGROUP.value, painterResource(Res.drawable.ic_music))
-        if (isDesktop()) { set(PageName.SETTINGS.value, painterResource(Res.drawable.settings)) }
-        set(PageName.MOREPAGES.value, painterResource(Res.drawable.more_horiz))
+        set(PageName.HOME.value, homePainter)
+        set(PageName.PRAYS.value, prayPainter)
+        set(PageName.SONGSGROUP.value, musicPainter)
+        if (isDesktop()) { set(PageName.SETTINGS.value, settingsPainter) }
+        set(PageName.MOREPAGES.value, morePainter)
     }
 
     pages.forEach {
         Box(
             modifier = Modifier
-                .clickable { onMenuBtnClicked(it) }
                 .padding(8.dp)
+                .clickable { onMenuBtnClicked(it) }
                 .drawWithContent {
                     drawContent()
                     if (activePage == it) {
@@ -430,7 +445,8 @@ fun MenuContent(
                 }
         ) {
             Column(
-                modifier = Modifier.width(50.dp),
+                modifier = Modifier
+                    .width(60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 btnIcons[it]?.let { painter ->
                     Icon(
@@ -458,7 +474,7 @@ fun MenuContent(
 fun textFontSize() = FontSize.fromString(configFontSize).size
 
 @Composable
-fun pagerContent(
+fun PagerContent(
     modifier: Modifier,
     title: String,
     subTitle: String,
@@ -475,7 +491,10 @@ fun pagerContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // For content
-            Column(Modifier.fillMaxWidth(if (isDesktop()) 0.5f else 1f)) {
+            Column(
+                Modifier.fillMaxWidth(if (isDesktop() || !isMobilePortrait()) 0.5f else 1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Spacer(modifier = Modifier.height(30.dp))
                 Text(
                     text = title,
@@ -503,7 +522,8 @@ fun pagerContent(
         }
         if (isDesktop()) AditionalVerticalScroll(
             modifier = Modifier,
-            lazyListState = null, scrollState = scrollState)
+            lazyListState = null, scrollState = scrollState
+        )
 
     }
 }

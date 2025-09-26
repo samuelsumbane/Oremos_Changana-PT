@@ -78,109 +78,118 @@ fun CommonPraysPage(navigator: Navigator) {
         lovedIdPrays = defaultConfig.favoritePrays
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(Res.string.prays), color = MaterialTheme.colorScheme.tertiary)},
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                navigationIcon = {
-                    IconButton(onClick = { navigator.pop() } ) {
-                        Icon(painterResource(Res.drawable.arrow_back), contentDescription = "Go back")
+    Row {
+        AppSideBar(navigator, PageName.PRAYS.value)
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(Res.string.prays),
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                    navigationIcon = {
+                        IconButton(onClick = { navigator.pop() }) {
+                            Icon(
+                                painterResource(Res.drawable.arrow_back),
+                                contentDescription = "Go back"
+                            )
+                        }
+                    },
+                    actions = {
+                        searchWidget { searchValue = it }
                     }
-                },
-                actions = {
-                    searchWidget { searchValue = it }
+                )
+            },
+            bottomBar = { BottomNav(navigator, PageName.PRAYS.value) }
+        ) { paddingVales ->
+            val coroutineScope = rememberCoroutineScope()
+            val listState = rememberLazyListState()
+            val showUpButton by remember {
+                derivedStateOf {
+                    listState.firstVisibleItemIndex > 0
                 }
-            )
-        },
-        bottomBar = { BottomNav(navigator, PageName.PRAYS.value) }
-    ) { paddingVales ->
-        val coroutineScope = rememberCoroutineScope()
-        val listState = rememberLazyListState()
-        val showUpButton by remember {
-            derivedStateOf {
-                listState.firstVisibleItemIndex > 0
             }
-        }
 
-        when {
-            allPrays.isEmpty() -> LoadingScreen()
-            else -> {
-                val filteredPrays = remember(allPrays, searchValue){
-                    if (searchValue.isNotEmpty()) {
-                        allPrays.filter { it.title.contains(searchValue, ignoreCase = true)}
-                    } else {
-                        allPrays
-                    }
-                }
-
-                Box(Modifier.fillMaxSize().padding(paddingVales)) {
-                    if (isDesktop()) AppSideBar(navigator, PageName.PRAYS.value)
-
-                    Row(
-                        modifier = Modifier
-                            .padding(end = 12.dp)
-                            .fillMaxSize(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier
-                                .padding(top = 30.dp, end = 8.dp, bottom = 8.dp, start = 8.dp)
-//                                            .fillMaxSize(0.97f)
-                                .platformWidth(),
-//                                            .align(Alignment.CenterHorizontally)
-//                                            .fillMaxWidth(0.5f),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-
-                        ) {
-                            items (filteredPrays, key = { item -> item.id}) { pray ->
-                                // Each pray row --------->>
-                                PrayRow(
-                                    navigator,
-                                    modifier = Modifier.platformWidth(),
-                                    pray = pray,
-                                    loved = pray.id in lovedIdPrays,
-                                    onToggleLoved = { id ->
-                                        coroutineScope.launch {
-                                            if (id in lovedIdPrays) {
-                                                lovedIdPrays -= id
-                                            } else {
-                                                lovedIdPrays += id
-                                            }
-
-                                            configViewModal.saveConfiguration(
-                                                ConfigEntry.FavoritePrays, lovedIdPrays
-                                            )
-
-                                        }
-                                    }
-                                )
-                            }
+            when {
+                allPrays.isEmpty() -> LoadingScreen()
+                else -> {
+                    val filteredPrays = remember(allPrays, searchValue) {
+                        if (searchValue.isNotEmpty()) {
+                            allPrays.filter { it.title.contains(searchValue, ignoreCase = true) }
+                        } else {
+                            allPrays
                         }
                     }
 
-                    if (isDesktop()) {
-                        AditionalVerticalScroll(
+                    Box(Modifier.fillMaxSize().padding(paddingVales)) {
+                        Row(
                             modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .padding(end = 10.dp),
-                            lazyListState = listState,
-                            scrollState = null
-                        )
-                    }
-
-                    shortcutButtonWidget(navigator)
-
-                    if (showUpButton) {
-                        ScrollToFirstItemBtn(
-                            modifier = Modifier.align(alignment = Alignment.BottomEnd)
+                                .padding(end = 12.dp)
+                                .fillMaxSize(),
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            coroutineScope.launch {
-                                listState.scrollToItem(0)
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier
+                                    .padding(top = 30.dp, end = 8.dp, bottom = 8.dp, start = 8.dp)
+//                                            .fillMaxSize(0.97f)
+                                    .platformWidth(),
+//                                            .align(Alignment.CenterHorizontally)
+//                                            .fillMaxWidth(0.5f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+
+                            ) {
+                                items(filteredPrays, key = { item -> item.id }) { pray ->
+                                    // Each pray row --------->>
+                                    PrayRow(
+                                        navigator,
+                                        modifier = Modifier.platformWidth(),
+                                        pray = pray,
+                                        loved = pray.id in lovedIdPrays,
+                                        onToggleLoved = { id ->
+                                            coroutineScope.launch {
+                                                if (id in lovedIdPrays) {
+                                                    lovedIdPrays -= id
+                                                } else {
+                                                    lovedIdPrays += id
+                                                }
+
+                                                configViewModal.saveConfiguration(
+                                                    ConfigEntry.FavoritePrays, lovedIdPrays
+                                                )
+
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
+
+                        if (isDesktop()) {
+                            AditionalVerticalScroll(
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                                    .padding(end = 10.dp),
+                                lazyListState = listState,
+                                scrollState = null
+                            )
+                        }
+
+                        shortcutButtonWidget(navigator)
+
+                        if (showUpButton) {
+                            ScrollToFirstItemBtn(
+                                modifier = Modifier.align(alignment = Alignment.BottomEnd)
+                            ) {
+                                coroutineScope.launch {
+                                    listState.scrollToItem(0)
+                                }
                             }
                         }
                     }

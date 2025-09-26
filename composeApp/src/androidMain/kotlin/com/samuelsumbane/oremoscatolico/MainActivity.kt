@@ -43,6 +43,7 @@ import com.samuelsumbane.oremoscatolico.components.AndroidSearchContainer
 import com.samuelsumbane.oremoscatolico.components.BottomAppBarPrincipal
 import com.samuelsumbane.oremoscatolico.components.ShortcutsButton
 import com.samuelsumbane.oremoscatolico.data.praysData
+import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
 import com.samuelsumbane.oremoscatolico.globalComponents.LoadingScreen
 import com.samuelsumbane.oremoscatolico.repository.Configs.appLocale
 import com.samuelsumbane.oremoscatolico.repository.Configs.thememode
@@ -298,4 +299,10 @@ actual fun shareContent(text: String) {
 @Composable
 actual fun shortcutButtonWidget(navigator: Navigator) {
     ShortcutsButton(navigator)
+}
+
+@Composable
+actual fun isMobilePortrait(): Boolean {
+    val configuration = LocalConfiguration.current
+    return configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 }

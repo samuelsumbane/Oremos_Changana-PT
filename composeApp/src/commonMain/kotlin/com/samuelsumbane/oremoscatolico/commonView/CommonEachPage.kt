@@ -3,7 +3,9 @@ package com.samuelsumbane.oremoscatolico.commonView
 //import com.samuelsumbane.oremoscatolico.globalComponents.DataCollection
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -53,7 +55,7 @@ import com.samuelsumbane.oremoscatolico.createSettings
 import com.samuelsumbane.oremoscatolico.data.praysData
 import com.samuelsumbane.oremoscatolico.db.data.songsData
 import com.samuelsumbane.oremoscatolico.globalComponents.StarButton
-import com.samuelsumbane.oremoscatolico.globalComponents.pagerContent
+import com.samuelsumbane.oremoscatolico.globalComponents.PagerContent
 import com.samuelsumbane.oremoscatolico.globalComponents.showSnackbar
 import com.samuelsumbane.oremoscatolico.repository.isAndroid
 import com.samuelsumbane.oremoscatolico.repository.isDesktop
@@ -133,10 +135,8 @@ data class EachPageScreen(
 
         val clipboardManager = LocalClipboardManager.current
 
-
         var lovedIdPrays by remember { mutableStateOf(setOf<Int>()) }
         var lovedIdSongs by remember { mutableStateOf(setOf<Int>()) }
-//    var isItemLoved by remember { mutableStateOf(false) }
 
         LaunchedEffect(Unit) {
             val defaultConfig = configViewModal.loadConfigurations()
@@ -172,7 +172,7 @@ data class EachPageScreen(
             HorizontalPager(state = pagerState, pageSpacing = 15.dp) { page ->
                 if (data == songsData) {
                     songsData.first { it.id == page + 1 }.run {
-                        pagerContent(
+                        PagerContent(
                             modifier = modifier,
                             title = "$number - ${title.uppercase()}",
                             subTitle = subTitle,
@@ -184,11 +184,10 @@ data class EachPageScreen(
                         pageSubTitle = subTitle
                         pageBody = body
                         if (pageContentId != id) pageContentId = id
-//                    pageContentId = id
                     }
                 } else {
                     praysData.first { it.id == page + 1 }.run {
-                        pagerContent(
+                        PagerContent(
                             modifier = modifier,
                             title = title.uppercase(),
                             subTitle = subTitle,
@@ -212,7 +211,7 @@ data class EachPageScreen(
 
         if (isFullScreen) {
             Column(
-                modifier = Modifier.fillMaxSize().background(Color.Red)
+                modifier = Modifier.fillMaxSize()
             ) {
                 IconButton(
                     onClick = {
@@ -222,7 +221,6 @@ data class EachPageScreen(
                     modifier = Modifier
                         .padding(top = 30.dp, end = 5.dp)
                         .align(Alignment.End)
-                        .background(Color.Green)
                 ) {
                     Icon(
                         painterResource(Res.drawable.fullscreen_exit),
@@ -343,9 +341,6 @@ data class EachPageScreen(
                                 }
                             }
                         })
-                },
-                bottomBar = {
-                    BottomNav(navigator, PageName.SONGSGROUP.value)
                 },
                 snackbarHost = {
                     SnackbarHost(hostState = snackbarHostState)

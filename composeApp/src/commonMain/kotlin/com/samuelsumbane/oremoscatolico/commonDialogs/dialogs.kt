@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.samuel.oremoschanganapt.repository.ColorObject
 import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -107,6 +108,6 @@ fun alertDialogWidget(
     content: @Composable (textColor: Color ) -> Unit
 ){
     AlertDialog(onDismissRequest = onDismissRequest) {
-        content(Color.Red )
+        content(ColorObject.mainColor )
     }
 }

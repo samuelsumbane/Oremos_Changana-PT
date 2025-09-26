@@ -1161,7 +1161,7 @@ val songsData = listOf(
 
     Song(id = 573, "033", "Latim", "Ave Maria", "", "Ave Maria, gratia plena,\n Dominus tecum.\n Benedicta tu in mulieribus,\n et benedictus fructus ventris tui, Iesus.\n\n Sancta Maria, Mater Dei,\n ora pro nobis peccatoribus,\n nunc et in hora mortis nostrae.\n Amen."),
 
-    Song(id = 574, "034", "Latim", "Salve Regin", "", "Salve, Regina, mater misericordiae,\n vita, dulcedo, et spes nostra, salve.\n Ad te clamamus, exsules, filii Hevae.\n Ad te suspiramus, gementes et flentes\n in hac lacrimarum valle.\n\n Eia ergo, Advocata nostra,\n illos tuos misericordes oculos ad nos converte.\n Et Iesum, benedictum fructum ventris tui,\n nobis post hoc exsilium ostende.\n O clemens, O pia, O dulcis Virgo Maria."),
+    Song(id = 574, "034", "Latim", "Salve Regina", "", "Salve, Regina, mater misericordiae,\n vita, dulcedo, et spes nostra, salve.\n Ad te clamamus, exsules, filii Hevae.\n Ad te suspiramus, gementes et flentes\n in hac lacrimarum valle.\n\n Eia ergo, Advocata nostra,\n illos tuos misericordes oculos ad nos converte.\n Et Iesum, benedictum fructum ventris tui,\n nobis post hoc exsilium ostende.\n O clemens, O pia, O dulcis Virgo Maria."),
 
     Song(id = 575, "035", "Latim", "Pater Noster", "", "Pater noster, qui es in caelis:\n sanctificetur nomen tuum;\n adveniat regnum tuum;\n fiat voluntas tua, sicut in caelo, et in terra.\n\n Panem nostrum quotidianum da nobis hodie;\n et dimitte nobis debita nostra,\n sicut et nos dimittimus debitoribus nostris;\n et ne nos inducas in tentationem;\n sed libera nos a malo.\n Amen."),
 

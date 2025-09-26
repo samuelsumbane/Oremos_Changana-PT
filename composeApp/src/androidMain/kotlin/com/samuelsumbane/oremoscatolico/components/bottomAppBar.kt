@@ -57,36 +57,6 @@ import com.samuelsumbane.oremoscatolico.globalComponents.appRouter
 import com.samuelsumbane.oremoscatolico.ui.theme.DarkSecondary
 import com.samuelsumbane.oremoscatolico.ui.theme.LightSecondary
 
-//@Composable
-//fun SideBar(
-//    navigator: Navigator,
-//    activePage: String,
-//    modifier: Modifier = Modifier,
-//    iconColorState: String = "Keep"
-//) {
-//    NavigationRail(
-//        modifier = if (activePage == "home") modifier else Modifier.padding(0.dp).width(80.dp),
-//        containerColor = Color.Transparent,
-//    ) {
-//        val bottomBgColor = MaterialTheme.colorScheme.background
-//
-//        Card(
-//            modifier = Modifier
-//                .fillMaxSize().width(85.dp)
-//                .padding(10.dp, 0.dp, 10.dp, 7.dp)
-//                .background(bottomBgColor,
-//                    shape = RoundedCornerShape(15.dp)),
-//            elevation = CardDefaults.elevatedCardElevation(3.dp)
-//        ) {
-//            Column (
-//                modifier = Modifier.fillMaxSize(),
-//                verticalArrangement = Arrangement.SpaceEvenly
-//            ) {
-//                MenuContent(navigator, activePage, iconColorState)
-//            }
-//        }
-//    }
-//}
 
 @Composable
 fun BottomAppBarPrincipal(
@@ -103,17 +73,17 @@ fun BottomAppBarPrincipal(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .height(80.dp)
                 .background(Color.Transparent)
                 .padding(7.dp, 0.dp, 7.dp, 7.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background,
+                containerColor = Color.Transparent,
             )
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 MenuContent(activePage, iconColorState, onMenuBtnClicked = { page ->
                     appRouter(navigator, page)

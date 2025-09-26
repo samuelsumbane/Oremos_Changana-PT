@@ -4,6 +4,7 @@ package com.samuelsumbane.oremoscatolico.commonView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -155,198 +156,222 @@ fun CommonSettingsPage() {
     val scrollState = rememberScrollState()
     val pageTitle = stringResource(Res.string.configurations)
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = pageTitle) },
-                navigationIcon = {
-                    IconButton(onClick = { navigator.pop() } ) {
-                        Icon(painterResource(Res.drawable.arrow_back), contentDescription = "Go back")
-                    }
-                },
-            )
-        }
-    ) { paddingValues ->
-        Row(Modifier
-            .padding(paddingValues)
-            .padding(end = 5.dp)
+    Row {
+        AppSideBar(navigator, PageName.SETTINGS.value)
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = pageTitle) },
+                    navigationIcon = {
+                        IconButton(onClick = { navigator.pop() }) {
+                            Icon(
+                                painterResource(Res.drawable.arrow_back),
+                                contentDescription = "Go back"
+                            )
+                        }
+                    },
+                )
+            }
+        ) { paddingValues ->
+            Box(
+                Modifier
+                    .padding(paddingValues)
+                    .padding(end = 5.dp)
 //            .background(Color.Blue)
-            .fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            if (isDesktop()) AppSideBar(navigator, PageName.SETTINGS.value)
+                    .fillMaxSize(),
+//                horizontalArrangement = Arrangement.Center
+            ) {
 
-            if (mode.isNotBlank()) {
-                Row(
-                    modifier = Modifier
-                        .platformWidth()
-                        .fillMaxHeight(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Column(
+                if (mode.isNotBlank()) {
+                    Row(
                         modifier = Modifier
-                            .padding(end = 12.dp)
-                            .verticalScroll(scrollState)
-                            .weight(1f),
-//                                    contentAlignment = Alignment.CenterHorizontally
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .platformWidth()
+                            .align(Alignment.Center)
+                            .fillMaxHeight(),
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Spacer(Modifier.height(50.dp))
-
                         Column(
-                            modifier = Modifier.width(400.dp)
+                            modifier = Modifier
+                                .padding(end = 12.dp)
+                                .verticalScroll(scrollState)
+                                .weight(1f),
+//                                    contentAlignment = Alignment.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            Spacer(Modifier.height(50.dp))
 
-                            ConfigColumn(
-                                title = stringResource(Res.string.appearance),
+                            Column(
+                                modifier = Modifier.width(400.dp)
                             ) {
-                                KeyValueTextRow(key = stringMode, value = themeName) {
-                                    showModeDialog = true
-                                }
 
-                                Row (
-                                    modifier = Modifier
-                                        .padding(10.dp)
-                                        .fillMaxWidth()
-                                        .height(30.dp)
-                                        .clickable { navigator.push(AppearanceScreen) },
-                                    Arrangement.SpaceBetween
+                                ConfigColumn(
+                                    title = stringResource(Res.string.appearance),
                                 ) {
-                                    Text(text = stringResource(Res.string.app_color), fontSize = textFontSize())
+                                    KeyValueTextRow(key = stringMode, value = themeName) {
+                                        showModeDialog = true
+                                    }
+
                                     Row(
-                                        Modifier
-                                            .size(24.dp)
-                                            .background(
-                                                color = ColorObject.mainColor,
-                                                shape = CircleShape
-                                            )
-                                    ) {}
+                                        modifier = Modifier
+                                            .padding(10.dp)
+                                            .fillMaxWidth()
+                                            .height(30.dp)
+                                            .clickable { navigator.push(AppearanceScreen) },
+                                        Arrangement.SpaceBetween
+                                    ) {
+                                        Text(
+                                            text = stringResource(Res.string.app_color),
+                                            fontSize = textFontSize()
+                                        )
+                                        Row(
+                                            Modifier
+                                                .size(24.dp)
+                                                .background(
+                                                    color = ColorObject.mainColor,
+                                                    shape = CircleShape
+                                                )
+                                        ) {}
+                                    }
                                 }
-                            }
 
-                            HorizontalDivider(Modifier.height(2.dp))
+                                HorizontalDivider(Modifier.height(2.dp))
 
-                            if (showModeDialog) {
-                                RadioButtonDialog(
-                                    showDialog = showModeDialog,
-                                    title = stringMode,
-                                    options = modeOptions.values.toList(),
-                                    selectedOption = selectedModeOption,
-                                    onOptionSelected = { option ->
-                                        selectedModeOption = option
-                                        showModeDialog = false
-                                        val newMode = modeOptions.entries.first { it.value == option }.key
-                                        configViewModel.saveConfiguration(ConfigEntry.ThemeMode, newMode)
-                                        themeName = option
-                                        themeMode = newMode
+                                if (showModeDialog) {
+                                    RadioButtonDialog(
+                                        showDialog = showModeDialog,
+                                        title = stringMode,
+                                        options = modeOptions.values.toList(),
+                                        selectedOption = selectedModeOption,
+                                        onOptionSelected = { option ->
+                                            selectedModeOption = option
+                                            showModeDialog = false
+                                            val newMode =
+                                                modeOptions.entries.first { it.value == option }.key
+                                            configViewModel.saveConfiguration(
+                                                ConfigEntry.ThemeMode,
+                                                newMode
+                                            )
+                                            themeName = option
+                                            themeMode = newMode
 
 //                                restartActivity(context)
-                                    },
-                                    onDismiss = { showModeDialog = false }
-                                )
-                            }
-
-                            ConfigColumn(title = "Preferências") {
-
-                                if (configFontSize.isNotBlank()) {
-                                    KeyValueTextRow(
-                                        key = stringResource(Res.string.font_size),
-                                        value = fontSizeOptions[configFontSize] ?: "Normal_") {
-//                                    value = "Normal" ?: "") {
-                                        showFontSizesDialog = true
-                                    }
-                                } else {
-                                    MinCircular()
-                                }
-
-
-                                KeyValueTextRow(key = stringResource(Res.string.language), value = appLanguage) {
-                                    expanded = true
-                                }
-
-                                DropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false },
-                                    properties = PopupProperties(focusable = true)
-                                ) {
-
-                                    for((locale, language) in localesAndLanguages) {
-                                        DropdownMenuItem(
-                                            text = { Text(text = language) },
-                                            onClick = {
-                                                configViewModel.saveConfiguration(ConfigEntry.Locale, locale)
-                                                Locale.setDefault(Locale(locale))
-//                                                updateLocale(context, Locale(locale))
-                                                expanded = false
-//                                    Log.d("applocale", "$locale")
-//                                    restartActivity(context)
-                                            }
-                                        )
-                                    }
-                                }
-//                            }
-
-                                if (showFontSizesDialog) {
-                                    RadioButtonDialog(
-                                        showDialog = showFontSizesDialog,
-                                        title = stringResource(Res.string.font_size),
-                                        options = fontSizeOptions.values.toList(),
-                                        selectedOption = selectedFontSizeOption,
-                                        onOptionSelected = { option ->
-                                            selectedFontSizeOption = option
-
-                                            val newFontSizeValue = fontSizeOptions.entries.first { it.value == option }.key
-
-                                            configViewModel.saveConfiguration(ConfigEntry.ConfigFontSize, newFontSizeValue)
-                                            configFontSize = newFontSizeValue
-
-                                            showFontSizesDialog = false
                                         },
-                                        onDismiss = { showFontSizesDialog = false }
+                                        onDismiss = { showModeDialog = false }
                                     )
                                 }
-                            }
 
-                            HorizontalDivider(Modifier.height(2.dp))
+                                ConfigColumn(title = "Preferências") {
 
-                            ConfigColumn(title = "Versão do Oremos") {
+                                    if (configFontSize.isNotBlank()) {
+                                        KeyValueTextRow(
+                                            key = stringResource(Res.string.font_size),
+                                            value = fontSizeOptions[configFontSize] ?: "Normal_"
+                                        ) {
+//                                    value = "Normal" ?: "") {
+                                            showFontSizesDialog = true
+                                        }
+                                    } else {
+                                        MinCircular()
+                                    }
 
-                                KeyValueTextRow(key = "Versão", value = actualOremosVersion) {
-                                    oremosMenuExppanded = true
+
+                                    KeyValueTextRow(
+                                        key = stringResource(Res.string.language),
+                                        value = appLanguage
+                                    ) {
+                                        expanded = true
+                                    }
+
+                                    DropdownMenu(
+                                        expanded = expanded,
+                                        onDismissRequest = { expanded = false },
+                                        properties = PopupProperties(focusable = true)
+                                    ) {
+
+                                        for ((locale, language) in localesAndLanguages) {
+                                            DropdownMenuItem(
+                                                text = { Text(text = language) },
+                                                onClick = {
+                                                    configViewModel.saveConfiguration(
+                                                        ConfigEntry.Locale,
+                                                        locale
+                                                    )
+                                                    Locale.setDefault(Locale(locale))
+//                                                updateLocale(context, Locale(locale))
+                                                    expanded = false
+//                                    Log.d("applocale", "$locale")
+//                                    restartActivity(context)
+                                                }
+                                            )
+                                        }
+                                    }
+//                            }
+
+                                    if (showFontSizesDialog) {
+                                        RadioButtonDialog(
+                                            showDialog = showFontSizesDialog,
+                                            title = stringResource(Res.string.font_size),
+                                            options = fontSizeOptions.values.toList(),
+                                            selectedOption = selectedFontSizeOption,
+                                            onOptionSelected = { option ->
+                                                selectedFontSizeOption = option
+
+                                                val newFontSizeValue =
+                                                    fontSizeOptions.entries.first { it.value == option }.key
+
+                                                configViewModel.saveConfiguration(
+                                                    ConfigEntry.ConfigFontSize,
+                                                    newFontSizeValue
+                                                )
+                                                configFontSize = newFontSizeValue
+
+                                                showFontSizesDialog = false
+                                            },
+                                            onDismiss = { showFontSizesDialog = false }
+                                        )
+                                    }
                                 }
 
-                                DropdownMenu(
-                                    expanded = oremosMenuExppanded,
-                                    onDismissRequest = { oremosMenuExppanded = false },
-                                    properties = PopupProperties(focusable = true)
-                                ) {
-                                    for((langShortName, langFullName) in OremosLangsMap) {
-                                        DropdownMenuItem(
-                                            text = { Text(text = langFullName) },
-                                            onClick = {
-                                                configViewModel.saveConfiguration(ConfigEntry.CurrentOremos, langShortName)
-                                                oremosMenuExppanded = false
-                                            }
-                                        )
+                                HorizontalDivider(Modifier.height(2.dp))
+
+                                ConfigColumn(title = "Versão do Oremos") {
+
+                                    KeyValueTextRow(key = "Versão", value = actualOremosVersion) {
+                                        oremosMenuExppanded = true
+                                    }
+
+                                    DropdownMenu(
+                                        expanded = oremosMenuExppanded,
+                                        onDismissRequest = { oremosMenuExppanded = false },
+                                        properties = PopupProperties(focusable = true)
+                                    ) {
+                                        for ((langShortName, langFullName) in OremosLangsMap) {
+                                            DropdownMenuItem(
+                                                text = { Text(text = langFullName) },
+                                                onClick = {
+                                                    configViewModel.saveConfiguration(
+                                                        ConfigEntry.CurrentOremos,
+                                                        langShortName
+                                                    )
+                                                    oremosMenuExppanded = false
+                                                }
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
                     if (isDesktop()) AditionalVerticalScroll(
-                        modifier = Modifier,
+                        modifier = Modifier.align(Alignment.CenterEnd),
                         lazyListState = null,
                         scrollState = scrollState
                     )
-            } else {
-//                coroutineScope.launch {
-//                    val defaultConfigValues = configViewModel.loadConfigurations()
-//                    mode = defaultConfigValues.themeMode
-//                }
-                LoadingScreen()
+                } else {
+                    LoadingScreen()
+                }
             }
-
         }
     }
 }

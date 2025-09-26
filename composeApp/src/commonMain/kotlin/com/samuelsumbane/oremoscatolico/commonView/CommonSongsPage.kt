@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
@@ -80,16 +81,15 @@ class SongsScreen(
 ) : Screen {
     @Composable
     override fun Content() {
-        CommonSongsPage(value, readbleValue)
+        val navigator = LocalNavigator.currentOrThrow
+        CommonSongsPage(navigator, value, readbleValue)
     }
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommonSongsPage(value: String, readbleValue: String) {
-
-    val navigator = LocalNavigator.currentOrThrow
+fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
     var searchValue by remember { mutableStateOf("") }
     var advancedSearchString by remember { mutableStateOf("") }
     val allSongs = songsData
@@ -113,194 +113,204 @@ fun CommonSongsPage(value: String, readbleValue: String) {
         advancedSearchString = ""
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = readbleValue
-                            .replaceFirstChar { e -> e.uppercase() }
-                            .replace(" | ", "\n"),
-                        fontSize = if ("|" in readbleValue) (textFontSize().value - 1).sp else textFontSize(),
-                        color = MaterialTheme.colorScheme.tertiary,
-                    )
-                },
+    Row {
+        AppSideBar(navigator, PageName.SONGSGROUP.value)
 
-                navigationIcon = {
-                    IconButton(onClick = { navigator.pop() } ){
-                        Icon(painterResource(Res.drawable.arrow_back), contentDescription = null)
-                    }
-                },
-                actions = {
-                    Row(modifier =
-                        Modifier
-                            .padding(50.dp, 10.dp, 0.dp, 0.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = readbleValue
+                                .replaceFirstChar { e -> e.uppercase() }
+                                .replace(" | ", "\n"),
+                            fontSize = if ("|" in readbleValue) (textFontSize().value - 1).sp else textFontSize(),
+                            color = MaterialTheme.colorScheme.tertiary,
+                        )
+                    },
 
-                        AnimatedContent(
-                            targetState = activeInput,
-                            transitionSpec = {
-                                slideIntoContainer(
-                                    animationSpec = tween(400, easing = EaseIn),
-                                    towards = Left
-                                ).togetherWith(
-                                    slideOutOfContainer(
-                                        animationSpec = tween(450, easing = EaseOut),
-                                        towards = Right
-                                    )
-                                )
-                            },
-                        ) { activeInput ->
-                            when (activeInput) {
-                                0 -> searchWidget("Pesquisar cântico") { searchValue = it }
-                                1 -> searchWidget("Pesquisa avançada") { advancedSearchString = it }
-                            }
+                    navigationIcon = {
+                        IconButton(onClick = { navigator.pop() }) {
+                            Icon(
+                                painterResource(Res.drawable.arrow_back),
+                                contentDescription = null
+                            )
                         }
-
+                    },
+                    actions = {
                         Row(
-                            modifier = Modifier.width(40.dp)
+                            modifier =
+                                Modifier
+                                    .padding(50.dp, 10.dp, 0.dp, 0.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(
-                                modifier = Modifier,
-                                onClick = {
-                                    activeInput = if (activeInput == 0) 1 else 0
-                                    searchInputActive = !searchInputActive
-                                    if (searchInputActive) {
-                                        showSnackbar(
-                                            coroutine,
-                                            snackbarHostState,
-                                            message = "Pesquisa avançada activada\nEncontra o cântico pelo seu conteúdo"
+
+                            AnimatedContent(
+                                targetState = activeInput,
+                                transitionSpec = {
+                                    slideIntoContainer(
+                                        animationSpec = tween(400, easing = EaseIn),
+                                        towards = Left
+                                    ).togetherWith(
+                                        slideOutOfContainer(
+                                            animationSpec = tween(450, easing = EaseOut),
+                                            towards = Right
                                         )
+                                    )
+                                },
+                            ) { activeInput ->
+                                when (activeInput) {
+                                    0 -> searchWidget("Pesquisar cântico") { searchValue = it }
+                                    1 -> searchWidget("Pesquisa avançada") {
+                                        advancedSearchString = it
                                     }
                                 }
+                            }
+
+                            Row(
+                                modifier = Modifier.width(40.dp)
                             ) {
-                                Icon(
-                                    painter = painterResource(Res.drawable.advanced_search),
-                                    contentDescription = "Trocar o campo de pesquisa",
-                                    tint = if (searchInputActive) ColorObject.mainColor else MaterialTheme.colorScheme.tertiary,
-                                    modifier = Modifier.size(33.dp).padding(top = 6.dp),
-                                )
-                            }
-                        }
-                    }
-                }
-            )
-        },
-        bottomBar = {
-            BottomNav(navigator, PageName.SONGSGROUP.value)
-        },
-        snackbarHost = {
-            SnackbarHost(snackbarHostState)
-        }
-        ) { paddingVales ->
-
-        val coroutineScope = rememberCoroutineScope()
-        val listState = rememberLazyListState()
-        val showUpButton by remember {
-            derivedStateOf {
-                listState.firstVisibleItemIndex > 0
-            }
-        }
-
-        val configViewModal = remember { ConfigScreenViewModel(createSettings()) }
-
-        LaunchedEffect(Unit) {
-            val defaultConfig = configViewModal.loadConfigurations()
-            lovedSongsIds = defaultConfig.favoriteSongs
-        }
-
-        when {
-            allSongs.isEmpty() -> LoadingScreen()
-            else -> {
-                val filteredSongs = remember(data, searchValue, advancedSearchString) {
-                    if (searchValue.isNotBlank()) {
-                        val numOrNot = isNumber(searchValue)
-                        if (numOrNot) {
-                            data.filter { it.number == searchValue }
-                        } else {
-                            data.filter {
-                                it.title.contains(searchValue, ignoreCase = true)
-                            }
-                        }
-                    } else if (advancedSearchString.isNotBlank()) {
-                        val numOrNot = isNumber(advancedSearchString)
-                        if (numOrNot) {
-                            data.filter { it.number == advancedSearchString }
-                        } else {
-                            data.filter {
-                                it.title.contains(advancedSearchString, ignoreCase = true) ||
-                                        it.body.contains(
-                                            advancedSearchString,
-                                            ignoreCase = true
-                                        )
-                            }
-                        }
-                    } else data
-                }
-
-                Box(
-                    Modifier
-                    .fillMaxSize()
-                    .padding(paddingVales)
-                ) {
-                    if (isDesktop()) AppSideBar(navigator, PageName.SONGSGROUP.value)
-
-                    Row(modifier = Modifier
-//                            .background(Color.Cyan)
-//                        .weight(1f)
-                        .fillMaxSize(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier
-                                .padding(top = 30.dp, end = 8.dp, bottom = 8.dp, start = 8.dp)
-                                .fillMaxSize(0.97f),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            items(filteredSongs) {
-                                SongRow(
-                                    navigator,
-                                    modifier = Modifier.platformWidth(),
-                                    song = it,
-                                    loved = it.id in lovedSongsIds,
-                                    onToggleLoved = { id ->
-                                        coroutineScope.launch {
-
-                                            if (id in lovedSongsIds) {
-                                                lovedSongsIds -= id
-                                            } else {
-                                                lovedSongsIds += id
-                                            }
-
-                                            configViewModal.saveConfiguration(
-                                                ConfigEntry.FavoriteSongs, lovedSongsIds
+                                IconButton(
+                                    modifier = Modifier,
+                                    onClick = {
+                                        activeInput = if (activeInput == 0) 1 else 0
+                                        searchInputActive = !searchInputActive
+                                        if (searchInputActive) {
+                                            showSnackbar(
+                                                coroutine,
+                                                snackbarHostState,
+                                                message = "Pesquisa avançada activada\nEncontra o cântico pelo seu conteúdo"
                                             )
                                         }
                                     }
+                                ) {
+                                    Icon(
+                                        painter = painterResource(Res.drawable.advanced_search),
+                                        contentDescription = "Trocar o campo de pesquisa",
+                                        tint = if (searchInputActive) ColorObject.mainColor else MaterialTheme.colorScheme.tertiary,
+                                        modifier = Modifier.size(33.dp).padding(top = 6.dp),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+            },
+            bottomBar = {
+                BottomNav(navigator, PageName.SONGSGROUP.value)
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState)
+            }
+        ) { paddingVales ->
+
+            val coroutineScope = rememberCoroutineScope()
+            val listState = rememberLazyListState()
+            val showUpButton by remember {
+                derivedStateOf {
+                    listState.firstVisibleItemIndex > 0
+                }
+            }
+
+            val configViewModal = remember { ConfigScreenViewModel(createSettings()) }
+
+            LaunchedEffect(Unit) {
+                val defaultConfig = configViewModal.loadConfigurations()
+                lovedSongsIds = defaultConfig.favoriteSongs
+            }
+
+            when {
+                allSongs.isEmpty() -> LoadingScreen()
+                else -> {
+                    val filteredSongs = remember(data, searchValue, advancedSearchString) {
+                        if (searchValue.isNotBlank()) {
+                            val numOrNot = isNumber(searchValue)
+                            if (numOrNot) {
+                                data.filter { it.number == searchValue }
+                            } else {
+                                data.filter {
+                                    it.title.contains(searchValue, ignoreCase = true)
+                                }
+                            }
+                        } else if (advancedSearchString.isNotBlank()) {
+                            val numOrNot = isNumber(advancedSearchString)
+                            if (numOrNot) {
+                                data.filter { it.number == advancedSearchString }
+                            } else {
+                                data.filter {
+                                    it.title.contains(advancedSearchString, ignoreCase = true) ||
+                                            it.body.contains(
+                                                advancedSearchString,
+                                                ignoreCase = true
+                                            )
+                                }
+                            }
+                        } else data
+                    }
+
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(paddingVales)
+                    ) {
+
+                        Row(
+                            modifier = Modifier
+//                            .background(Color.Cyan)
+//                        .weight(1f)
+                                .fillMaxSize(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier
+                                    .padding(top = 30.dp, end = 8.dp, bottom = 8.dp, start = 8.dp)
+                                    .fillMaxSize(0.97f),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                items(filteredSongs, key = { item -> item.id }) {
+                                    SongRow(
+                                        navigator,
+                                        modifier = Modifier.platformWidth(),
+                                        song = it,
+                                        loved = it.id in lovedSongsIds,
+                                        onToggleLoved = { id ->
+                                            coroutineScope.launch {
+
+                                                if (id in lovedSongsIds) {
+                                                    lovedSongsIds -= id
+                                                } else {
+                                                    lovedSongsIds += id
+                                                }
+
+                                                configViewModal.saveConfiguration(
+                                                    ConfigEntry.FavoriteSongs, lovedSongsIds
+                                                )
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+
+                            if (isDesktop()) {
+                                AditionalVerticalScroll(
+                                    modifier = Modifier,
+                                    lazyListState = listState,
+                                    scrollState = null
                                 )
                             }
                         }
 
-                        if (isDesktop()) {
-                            AditionalVerticalScroll(
-                                modifier = Modifier,
-                                lazyListState = listState,
-                                scrollState = null
-                            )
-                        }
-                    }
+                        shortcutButtonWidget(navigator)
 
-                    shortcutButtonWidget(navigator)
-
-                    if (showUpButton) {
-                        ScrollToFirstItemBtn(
-                            modifier = Modifier.align(alignment = Alignment.BottomEnd)
-                        ) {
-                            coroutineScope.launch {
-                                listState.scrollToItem(0)
+                        if (showUpButton) {
+                            ScrollToFirstItemBtn(
+                                modifier = Modifier.align(alignment = Alignment.BottomEnd)
+                            ) {
+                                coroutineScope.launch {
+                                    listState.scrollToItem(0)
+                                }
                             }
                         }
                     }

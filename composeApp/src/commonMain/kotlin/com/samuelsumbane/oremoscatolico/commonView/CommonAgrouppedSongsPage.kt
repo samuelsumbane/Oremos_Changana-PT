@@ -33,6 +33,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuelsumbane.oremoscatolico.AditionalVerticalScroll
 import com.samuelsumbane.oremoscatolico.BottomNav
+import com.samuelsumbane.oremoscatolico.isMobilePortrait
 import com.samuelsumbane.oremoscatolico.db.data.groupValues
 import com.samuelsumbane.oremoscatolico.db.data.songsData
 import com.samuelsumbane.oremoscatolico.globalComponents.AppSideBar
@@ -61,91 +62,110 @@ object AgroupedSongsScreen : Screen {
 fun CommonAgroupedPage(navigator: Navigator) {
     val allSongs = songsData
     val navigator = LocalNavigator.currentOrThrow
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(Res.string.grouped_songs), color = MaterialTheme.colorScheme.tertiary) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                ),
-                navigationIcon = {
-                    IconButton(onClick = { navigator.pop()}) {
-                        Icon(painterResource(Res.drawable.arrow_back), contentDescription = null)
-                    }
-                },
-            )
-        },
-        bottomBar = {
-            BottomNav(navigator, PageName.SONGSGROUP.value)
-        }
-    ) { paddingVales ->
 
-        val mainColor = ColorObject.mainColor
-        val secondColor = ColorObject.secondColor
-        val listState = rememberLazyListState()
+    Row {
+        AppSideBar(navigator, PageName.SONGSGROUP.value)
 
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(Res.string.grouped_songs),
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
+                    navigationIcon = {
+                        IconButton(onClick = { navigator.pop() }) {
+                            Icon(
+                                painterResource(Res.drawable.arrow_back),
+                                contentDescription = null
+                            )
+                        }
+                    },
+                )
+            },
+            bottomBar = {
+                BottomNav(navigator, PageName.SONGSGROUP.value)
+            }
+        ) { paddingVales ->
+            val mainColor = ColorObject.mainColor
+            val listState = rememberLazyListState()
 
-        if(allSongs.isNotEmpty()){
-            Row(Modifier.padding(paddingVales).fillMaxSize()) {
-                if (isDesktop()) AppSideBar(navigator, PageName.SONGSGROUP.value)
-
-                Row(modifier = Modifier.weight(1f)) {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxSize(0.97f)
-                            .padding(start = 10.dp, top = 10.dp, end = 12.dp, bottom = 10.dp)
-                        ,
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        item(1) {
-                            groupValues.forEach { group ->
-                                Row(
-                                    modifier = Modifier
-                                        .padding(10.dp)
-//                                        .fillMaxWidth(0.6f)
-                                        .platformWidth()
-                                        .height(55.dp)
-                                        .border(1.dp, mainColor, shape = RoundedCornerShape(14.dp))
-                                        .clickable {
-                                             navigator.push(SongsScreen("${group.key}", "${group.value}"))
-                                        },
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
+            if (allSongs.isNotEmpty()) {
+                Row(Modifier.padding(paddingVales).fillMaxSize()) {
+                    Row(modifier = Modifier.weight(1f)) {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier
+                                .fillMaxSize(0.97f)
+                                .padding(start = 10.dp, top = 10.dp, end = 12.dp, bottom = 10.dp),
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            item(1) {
+                                groupValues.forEach { group ->
                                     Row(
-                                        modifier = Modifier.fillMaxSize(0.9f),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
+                                        modifier = Modifier
+                                            .padding(10.dp)
+//                                        .fillMaxWidth(0.6f)
+                                            .platformWidth()
+                                            .height(55.dp)
+                                            .border(
+                                                1.dp,
+                                                mainColor,
+                                                shape = RoundedCornerShape(14.dp)
+                                            )
+                                            .clickable {
+                                                navigator.push(
+                                                    SongsScreen(
+                                                        "${group.key}",
+                                                        "${group.value}"
+                                                    )
+                                                )
+                                            },
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.Center
                                     ) {
-                                        Text(
-                                            text = group.value
-                                                .uppercase()
-                                                .replace(" | ", "\n"),
-                                            textAlign = TextAlign.Center,
-                                            color = MaterialTheme.colorScheme.tertiary,
-                                            fontWeight = FontWeight.SemiBold,
-                                            fontSize = 13.sp
-                                        )
+                                        Row(
+                                            modifier = Modifier.fillMaxSize(0.9f),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text(
+                                                text = group.value
+                                                    .uppercase()
+                                                    .replace(" | ", "\n"),
+                                                textAlign = TextAlign.Center,
+                                                color = MaterialTheme.colorScheme.tertiary,
+                                                fontWeight = FontWeight.SemiBold,
+                                                fontSize = 13.sp
+                                            )
 
-                                        Icon(painterResource(Res.drawable.arrow_forward), contentDescription = "to go collection")
+                                            Icon(
+                                                painterResource(Res.drawable.arrow_forward),
+                                                contentDescription = "to go collection"
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
+
+                        if (isDesktop()) AditionalVerticalScroll(
+                            modifier = Modifier,
+                            lazyListState = listState,
+                            scrollState = null
+                        )
                     }
 
-                    if (isDesktop()) AditionalVerticalScroll(
-                        modifier = Modifier,
-                        lazyListState = listState,
-                        scrollState = null
-                    )
                 }
-
+            } else {
+                LoadingScreen()
             }
-        } else {
-            LoadingScreen()
         }
     }
 }

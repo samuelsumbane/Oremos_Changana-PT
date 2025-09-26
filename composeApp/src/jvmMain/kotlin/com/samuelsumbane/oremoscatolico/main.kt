@@ -229,3 +229,9 @@ actual fun shortcutButtonWidget(navigator: Navigator) {
      */
 }
 
+
+/**
+ * On desktop, the app will always in portrait
+ */
+@Composable
+actual fun isMobilePortrait() = true

@@ -99,7 +99,7 @@ fun Home(navigator: Navigator) {
                 .background(Brush.verticalGradient(colors = listOf(Color.Black.copy(alpha = 0.5f), Color.Transparent)))
             )
 
-            if (!isPortrait) AppSideBar(navigator, "home")
+            AppSideBar(navigator, "home")
 
             Column(
                 modifier = Modifier

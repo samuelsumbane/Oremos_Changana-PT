@@ -131,3 +131,6 @@ expect fun shareContent(text: String)
 
 @Composable
 expect fun shortcutButtonWidget(navigator: Navigator)
+
+@Composable
+expect fun isMobilePortrait(): Boolean
