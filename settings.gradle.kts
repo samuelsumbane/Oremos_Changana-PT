@@ -1,4 +1,4 @@
-rootProject.name = "OremosCatolico"
+rootProject.name = "OremosChangana"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

@@ -4,7 +4,7 @@
 Android and Desktop application for prayer, liturgy, and Catholic devotion in Mozambique.
 
 ### Project Website
-[Oremos Católico Mz](https://samuelsumbane.github.io/oremos-catolico-website/)
+[Oremos Católico Mz](https://samuel.github.io/oremos-catolico-website/)
 
 ## Features
 - Catholic prayers in Portuguese and local languages
@@ -18,7 +18,7 @@ Android and Desktop application for prayer, liturgy, and Catholic devotion in Mo
 ## Installation & Usage
 Clone the repository:
 ```bash
-  git clone https://github.com/samuelsumbane/OremosCatolicoMozambique.git
+  git clone https://github.com/samuel/oremoschanganaptMozambique.git
 ```
 ---
 This is a Kotlin Multiplatform project targeting Android, Desktop (JVM).

@@ -76,11 +76,11 @@ android {
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
-    namespace = "com.samuelsumbane.oremoscatolico"
+    namespace = "com.samuel.oremoschanganapt"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.samuelsumbane.oremoscatolico"
+        applicationId = "com.samuel.oremoschanganapt"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 8
@@ -131,7 +131,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.samuelsumbane.oremoscatolico.MainKt"
+        mainClass = "com.samuel.oremoschanganapt.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
