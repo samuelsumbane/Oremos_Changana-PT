@@ -1,13 +1,10 @@
 
-# Oremos Católico Mozambique
+# Oremos Changana-PT
 
 Android and Desktop application for prayer, liturgy, and Catholic devotion in Mozambique.
 
-### Project Website
-[Oremos Católico Mz](https://samuel.github.io/oremos-catolico-website/)
-
 ## Features
-- Catholic prayers in Portuguese and local languages
+- Catholic prayers in Changana and Portuguese
 - Simple and intuitive interface
 - Free and accessible to everyone
 
@@ -15,10 +12,5 @@ Android and Desktop application for prayer, liturgy, and Catholic devotion in Mo
 - **Kotlin Multiplatform (KMP)**
 
 
-## Installation & Usage
-Clone the repository:
-```bash
-  git clone https://github.com/samuel/oremoschanganaptMozambique.git
-```
 ---
 This is a Kotlin Multiplatform project targeting Android, Desktop (JVM).
