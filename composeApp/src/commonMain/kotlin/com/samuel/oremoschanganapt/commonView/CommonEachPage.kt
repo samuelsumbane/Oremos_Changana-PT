@@ -50,6 +50,7 @@ import com.samuel.oremoschanganapt.states.UIState.isFullScreen
 //import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
 import com.samuel.oremoschanganapt.BottomNav
 import com.samuel.oremoschanganapt.ConfigureReminderScreen
+import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.createSettings
 import com.samuel.oremoschanganapt.data.Pray
 
@@ -98,6 +99,7 @@ import kotlin.collections.plus
 data class EachPageScreen(
     val dataCollection: DataCollection,
     val itemId: Int,
+    val goToHomeOnBack: Boolean = false
 ) : Screen {
     @Composable
     override fun Content() {
@@ -253,8 +255,13 @@ data class EachPageScreen(
                         }, colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = MaterialTheme.colorScheme.background
                         ), navigationIcon = {
-                            IconButton(onClick = { navigator.pop() }) {
-
+                            IconButton(
+                                onClick = {
+                                    if (goToHomeOnBack) navigator.push(HomeScreen)
+                                    else
+                                        navigator.pop()
+                                }
+                            ) {
                                 Icon(
                                     painter = painterResource(resource = Res.drawable.outline_arrow_back),
                                     //                                contentDescription = stringResource(R.string.go_back)

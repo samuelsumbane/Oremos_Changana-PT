@@ -128,12 +128,11 @@ class  MainActivity : ComponentActivity() {
                                 }
                             }
 
-
-                            //
                             HandleIntent(intent) { table, id ->
                                 starDestination = EachPageScreen(
                                     dataCollection = if (table == "Pray") DataCollection.PRAYS else DataCollection.SONGS,
-                                    itemId = id
+                                    itemId = id,
+                                    goToHomeOnBack = true
                                 )
                             }
 
