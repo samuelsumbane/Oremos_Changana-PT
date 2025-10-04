@@ -43,7 +43,7 @@ import java.util.prefs.Preferences
 fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Oremos Católico",
+        title = "Oremos Changana-PT",
         state = rememberWindowState(
             width = 1050.dp,   // largura inicial
             height = 680.dp  // altura inicial
