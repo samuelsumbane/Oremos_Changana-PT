@@ -480,6 +480,7 @@ fun textFontSize() = FontSize.fromString(configFontSize).size
 fun IncrementalTextParser(rawBody: String) {
     var parsedParts by remember { mutableStateOf(listOf<AnnotatedString>()) }
     val strophe = remember(rawBody) { rawBody.split("\n\n") }
+    var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(strophe) {
         parsedParts = emptyList()
@@ -490,16 +491,26 @@ fun IncrementalTextParser(rawBody: String) {
             parsedParts = parsedParts + part
             yield()
         }
+        isLoading = false
     }
 
-    Column {
-        parsedParts.forEach { part ->
-            Text(
-                text = part,
-                fontSize = textFontSize(),
-                textAlign = TextAlign.Justify,
-                modifier = Modifier.padding(15.dp)
-            )
+    if (isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column {
+            parsedParts.forEach { part ->
+                Text(
+                    text = part,
+                    fontSize = textFontSize(),
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(15.dp)
+                )
+            }
         }
     }
 }
@@ -513,7 +524,8 @@ fun PagerContent(
     title: String,
     subTitle: String,
     body: String,
-    showShortcutButton: Boolean = true
+    showShortcutButton: Boolean = true,
+    onlyParseWhenVisible: Boolean = true
 ) {
     val scrollState = rememberScrollState()
 
@@ -547,7 +559,18 @@ fun PagerContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
-                IncrementalTextParser(body)
+//                IncrementalTextParser(body)
+                if (onlyParseWhenVisible) {
+                    IncrementalTextParser(body)
+                } else {
+
+                    Text(
+                        text = body,
+                        fontSize = textFontSize(),
+                        textAlign = TextAlign.Justify,
+                        modifier = modifier.padding(15.dp)
+                    )
+                }
             }
         }
 

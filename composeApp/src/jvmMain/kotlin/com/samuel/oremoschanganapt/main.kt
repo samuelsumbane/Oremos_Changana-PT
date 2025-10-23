@@ -54,7 +54,6 @@ fun main() = application {
         val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
         // To keep the density as Android (jetpack compose)
 
-
         LaunchedEffect(Unit) {
             val configurations = configViewModel.loadConfigurations()
 

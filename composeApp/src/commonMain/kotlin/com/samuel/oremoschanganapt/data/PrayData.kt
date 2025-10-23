@@ -59,9 +59,9 @@ val praysData = listOf(
 
     Pray(21, "As Obras de misericórdia","","Corporais\n \n1° Dar de comera quem tem fome.\n \n2° Dar de beber a quem tem sede.\n \n3° Vestir os nus.\n \n4° Dar pousada aos peregrinos.\n \n5° Assistir aos enfermos. \n \n6° Visitar os presos. \n \n7° Enterrar os mortos.\n \n \nEspirituais\n \n1° Dar bom conselho. \n \n2° Ensinar os ignorantes. \n \n3° Corrigir os que erram. \n \n4° Consolar os tristes. \n \n5° Perdoar as injúrias.\n \n6° Sofrer com paciência as fraquezas do nosso próximo.\n \n7° Rogar a Deus por vivos e defuntos."),
 
-    Pray(22, "Os Sacramentos","","1° Baptismo.\n\n2° Confirmação.\n\n3° Eucaristia\n\n4° Penitência.\n\n5° Unção dos enfermos.\n\n6° Orde\n\n7° Matrimónio."),
+    Pray(22, "Os Sacramentos","","1° Baptismo.\n\n2° Confirmação.\n\n3° Eucaristia\n\n4° Penitência.\n\n5° Unção dos enfermos.\n\n6° Ordem\n\n7° Matrimónio."),
 
-    Pray(23, "Os dons do Espirito Santo","","1° Sapiência.\n \n2° Entendimento.\n \n3° Conselho.\n \n4° Fortalez\n \n5° Ciência.\n \n6° Piedade.\n \n7° Temor de Deus."),
+    Pray(23, "Os dons do Espirito Santo","","1° Sapiência.\n \n2° Entendimento.\n \n3° Conselho.\n \n4° Fortaleza.\n \n5° Ciência.\n \n6° Piedade.\n \n7° Temor de Deus."),
 
     Pray(24, "Acto De Fé","","Meu Deus, creio firmemente em tudo o que Vós revelastes e a Santa Igreja Católica nos ensina, porque não podeis enganar-Vos nem enganar-nos."),
 

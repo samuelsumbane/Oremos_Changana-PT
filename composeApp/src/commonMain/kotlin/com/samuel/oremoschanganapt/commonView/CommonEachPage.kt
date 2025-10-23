@@ -134,7 +134,7 @@ data class EachPageScreen(
             initialPage = itemId - 1,
             pageCount =
                 if (dataCollection == DataCollection.SONGS) {
-                    { data.size + 1}
+                    { data.size + 1 }
                 } else {
                     { data.size }
                 }
@@ -179,39 +179,39 @@ data class EachPageScreen(
         ) {
             HorizontalPager(state = pagerState, pageSpacing = 15.dp) { page ->
                 if (data == songsData) {
-                    songsData.first { it.id == page + 1 }.run {
-                        PagerContent(
-                            modifier = modifier,
-                            navigator,
-                            title = "$number - ${title.uppercase()}",
-                            subTitle = subTitle,
-                            body = body,
-                            showShortcutButton = showShortcutButton
-                        )
-                        pageNumber = number
-                        pageTitle = "$number - ${title.uppercase()}"
-                        pageSubTitle = subTitle
-                        pageBody = body
-                        if (pageContentId != id) pageContentId = id
-                    }
+                    val item = songsData[page + 1]
+                    PagerContent(
+                        modifier = modifier,
+                        navigator = navigator,
+                        title = "${item.number} - ${item.title.uppercase()}",
+                        subTitle = item.subTitle,
+                        body = item.body,
+                        showShortcutButton = showShortcutButton,
+                        onlyParseWhenVisible = page == pagerState.currentPage
+                    )
+                    pageNumber = item.number
+                    pageTitle = "${item.number} - ${item.title.uppercase()}"
+                    pageSubTitle = item.subTitle
+                    pageBody = item.body
+                    if (pageContentId != item.id) pageContentId = item.id
                 } else {
-                    praysData.first { it.id == page + 1 }.run {
-                        PagerContent(
-                            modifier = modifier,
-                            navigator,
-                            title = title.uppercase(),
-                            subTitle = subTitle,
-                            body = body,
-                            showShortcutButton = showShortcutButton
-                        )
-                        pageTitle = title.uppercase()
-                        pageSubTitle = subTitle
-                        pageBody = body
-                        if (pageContentId != id) pageContentId = id
-                    }
-                    isLoading = false
+                    val item = praysData[page + 1]
+                    PagerContent(
+                        modifier = modifier,
+                        navigator = navigator,
+                        title = item.title.uppercase(),
+                        subTitle = item.subTitle,
+                        body = item.body,
+                        showShortcutButton = showShortcutButton,
+                        onlyParseWhenVisible = page == pagerState.currentPage
+                    )
+                    pageTitle = item.title.uppercase()
+                    pageSubTitle = item.subTitle
+                    pageBody = item.body
+                    if (pageContentId != item.id) pageContentId = item.id
                 }
             }
+
         }
 
         val pageContent = if (data == songsData) {
