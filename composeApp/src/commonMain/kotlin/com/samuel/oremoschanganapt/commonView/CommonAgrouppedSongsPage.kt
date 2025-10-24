@@ -33,14 +33,13 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.AditionalVerticalScroll
 import com.samuel.oremoschanganapt.BottomNav
-import com.samuel.oremoschanganapt.isMobilePortrait
-import com.samuel.oremoschanganapt.db.data.groupValues
-import com.samuel.oremoschanganapt.db.data.songsData
+import com.samuel.oremoschanganapt.data.groupValues
 import com.samuel.oremoschanganapt.globalComponents.AppSideBar
 import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
 import com.samuel.oremoschanganapt.globalComponents.platformWidth
 import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.repository.isDesktop
+import com.samuel.oremoschanganapt.songsList
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_back
 import oremoschangana.composeapp.generated.resources.arrow_forward
@@ -60,7 +59,7 @@ object AgroupedSongsScreen : Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonAgroupedPage(navigator: Navigator) {
-    val allSongs = songsData
+    val allSongs = songsList
     val navigator = LocalNavigator.currentOrThrow
 
     Row {

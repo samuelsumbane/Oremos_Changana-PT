@@ -37,19 +37,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.ConfigureReminderScreen
-import com.samuel.oremoschanganapt.R
 import com.samuel.oremoschanganapt.Reminder
 import com.samuel.oremoschanganapt.ReminderRepository
 import com.samuel.oremoschanganapt.commonView.EachPageScreen
 import com.samuel.oremoschanganapt.components.OkAlertDialog
-import com.samuel.oremoschanganapt.data.praysData
-import com.samuel.oremoschanganapt.db.data.songsData
+import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.globalComponents.ReminderButton
 import com.samuel.oremoschanganapt.globalComponents.TextIconRow
 import com.samuel.oremoschanganapt.globalComponents.platformWidth
@@ -58,6 +55,7 @@ import com.samuel.oremoschanganapt.repository.DataCollection
 import com.samuel.oremoschanganapt.repository.convertLongToDateString
 import com.samuel.oremoschanganapt.repository.convertLongToTimeString
 import com.samuel.oremoschanganapt.repository.splitTimestamp
+import com.samuel.oremoschanganapt.songsList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
@@ -145,9 +143,9 @@ fun RemindersPage(navigator: Navigator) {
                     val (reminderdate, remindertime) = splitTimestamp(reminder.reminderDateTime)
 
                     val reminderTitleValue by remember { mutableStateOf(if (reminder.reminderTable == "Pray") {
-                        "Oração: ${ praysData.firstOrNull { it.id == reminder.reminderData }?.title ?: "" }"
+                        "Oração: ${ androidpraysList.firstOrNull { it.id == reminder.reminderData }?.title ?: "" }"
                     } else {
-                        songsData.firstOrNull { it.id == reminder.reminderData }?.run {
+                        songsList.firstOrNull { it.id == reminder.reminderData }?.run {
                             "Cântco: $number - $title"
                         } ?: ""
                     }) }

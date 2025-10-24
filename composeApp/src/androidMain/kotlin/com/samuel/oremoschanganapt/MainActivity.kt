@@ -38,11 +38,15 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.commonView.EachPageScreen
+import com.samuel.oremoschanganapt.components.AndroidPagerContent
 import com.samuel.oremoschanganapt.components.AndroidSearchContainer
 import com.samuel.oremoschanganapt.components.BottomAppBarPrincipal
 import com.samuel.oremoschanganapt.components.ShortcutsButton
-import com.samuel.oremoschanganapt.data.praysData
+import com.samuel.oremoschanganapt.data.androidpraysList
+import com.samuel.oremoschanganapt.data.androidsongsList
 import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
+import com.samuel.oremoschanganapt.globalComponents.Pray
+import com.samuel.oremoschanganapt.globalComponents.Song
 import com.samuel.oremoschanganapt.repository.Configs.appLocale
 import com.samuel.oremoschanganapt.repository.Configs.thememode
 import com.samuel.oremoschanganapt.repository.DataCollection
@@ -112,7 +116,7 @@ class  MainActivity : ComponentActivity() {
                 ColorObject.secondColor =
                     if (secondThemeColor == Color.Transparent || secondThemeColor == Color.Transparent) themeColor else secondThemeColor
 
-                if (praysData.isNotEmpty()) {
+                if (androidpraysList.isNotEmpty()) {
                     oremoschanganaptTheme(darkTheme = appMode) {
                         // A surface container using the 'background' color from the theme
                         Surface(
@@ -322,3 +326,24 @@ actual fun isMobilePortrait(): Boolean {
     return configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
 }
 
+
+@Composable
+actual fun PagerContent(
+    modifier: Modifier,
+    navigator: Navigator,
+    title: String,
+    subTitle: String,
+    body: String,
+    showShortcutButton: Boolean,
+) {
+    AndroidPagerContent(
+        modifier = modifier,
+        navigator = navigator,
+        title = title,
+        subTitle = subTitle,
+        body = body,
+    )
+}
+
+actual val songsList: List<Song> = androidsongsList
+actual val praysList: List<Pray> = androidpraysList

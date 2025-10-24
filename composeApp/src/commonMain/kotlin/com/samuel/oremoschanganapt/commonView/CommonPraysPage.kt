@@ -3,10 +3,8 @@ package com.samuel.oremoschanganapt.commonView
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -37,12 +35,12 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.AditionalVerticalScroll
 import com.samuel.oremoschanganapt.BottomNav
 import com.samuel.oremoschanganapt.createSettings
-import com.samuel.oremoschanganapt.data.praysData
 import com.samuel.oremoschanganapt.globalComponents.AppSideBar
 import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
 import com.samuel.oremoschanganapt.globalComponents.PrayRow
 import com.samuel.oremoschanganapt.globalComponents.ScrollToFirstItemBtn
 import com.samuel.oremoschanganapt.globalComponents.platformWidth
+import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.repository.isDesktop
 import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.searchWidget
@@ -69,7 +67,7 @@ object PraysScreen : Screen {
 @Composable
 fun CommonPraysPage(navigator: Navigator) {
     var searchValue by remember { mutableStateOf("") }
-    val allPrays by remember { mutableStateOf(praysData) }
+    val allPrays by remember { mutableStateOf(praysList) }
     var lovedIdPrays by remember { mutableStateOf(setOf<Int>()) }
     val configViewModal = remember { ConfigScreenViewModel(createSettings()) }
 

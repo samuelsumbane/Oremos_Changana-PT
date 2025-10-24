@@ -9,8 +9,28 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.fromHtml
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.samuel.oremoschanganapt.globalComponents.textFontSize
+import kotlinx.coroutines.yield
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -178,3 +198,40 @@ fun combineTimestamps(dateMillis: Long, timeMillis: Long): Long {
 
 fun compareWithCurrentTime(targetMillis: Long): Boolean = System.currentTimeMillis() < targetMillis
 
+@Composable
+fun AndroidIncrementalTextParser(rawBody: String) {
+    var parsedParts by remember { mutableStateOf(listOf<String>()) }
+    val strophe = remember(rawBody) { rawBody.split("\n\n") }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(strophe) {
+        parsedParts = emptyList()
+        strophe.forEach { part ->
+            parsedParts = parsedParts + part
+            yield()
+        }
+        isLoading = false
+    }
+
+    if (isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column {
+            parsedParts.forEach { part ->
+                Text(
+                    text = AnnotatedString.fromHtml(
+                        htmlString = part
+                    ),
+                    fontSize = textFontSize(),
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(15.dp)
+                )
+            }
+        }
+    }
+}

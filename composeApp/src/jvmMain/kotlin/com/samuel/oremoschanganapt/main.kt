@@ -25,7 +25,12 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
 import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.Settings
+import com.samuel.oremoschanganapt.data.jvmpraysList
+import com.samuel.oremoschanganapt.db.data.jvmsongsList
 import com.samuel.oremoschanganapt.desktopWidgets.DesktopSearchContainer
+import com.samuel.oremoschanganapt.desktopWidgets.JVMPagerContent
+import com.samuel.oremoschanganapt.globalComponents.Pray
+import com.samuel.oremoschanganapt.globalComponents.Song
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.repository.Configs.appLocale
 import com.samuel.oremoschanganapt.states.UIState.configFontSize
@@ -216,3 +221,24 @@ actual fun shortcutButtonWidget(navigator: Navigator) {
  */
 @Composable
 actual fun isMobilePortrait() = true
+
+@Composable
+actual fun PagerContent(
+    modifier: Modifier,
+    navigator: Navigator,
+    title: String,
+    subTitle: String,
+    body: String,
+    showShortcutButton: Boolean,
+) {
+    JVMPagerContent(
+        modifier = modifier,
+        navigator = navigator,
+        title = title,
+        subTitle = subTitle,
+        body = body,
+    )
+}
+
+actual val songsList: List<Song> = jvmsongsList
+actual val praysList: List<Pray> = jvmpraysList

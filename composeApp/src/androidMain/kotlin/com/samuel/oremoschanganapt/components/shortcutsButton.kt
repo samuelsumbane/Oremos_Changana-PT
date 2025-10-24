@@ -43,9 +43,9 @@ import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.commonView.AgroupedSongsScreen
 import com.samuel.oremoschanganapt.commonView.LovedDataScreen
 import com.samuel.oremoschanganapt.commonView.PraysScreen
-import com.samuel.oremoschanganapt.data.praysData
-import com.samuel.oremoschanganapt.db.data.songsData
+import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.repository.isNumber
+import com.samuel.oremoschanganapt.songsList
 import kotlinx.coroutines.coroutineScope
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.adjust_24
@@ -65,8 +65,8 @@ fun ShortcutsButton(navigator: Navigator) {
     val screenPercent = 10 * screenHeight / 100
     var searchValue by remember { mutableStateOf("") }
 
-    val allPrays = praysData
-    val allSongs = songsData
+    val allPrays = androidpraysList
+    val allSongs = songsList
 
     val filteredPrays = remember(allPrays, searchValue){
         if (searchValue.isNotEmpty()) {

@@ -2,17 +2,15 @@ package com.samuel.oremoschanganapt.commonView
 
 //import com.samuel.oremoschanganapt.globalComponents.DataCollection
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+//import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
+
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,36 +38,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.samuel.oremoschanganapt.states.UIState.isFullScreen
-//import com.samuel.oremoschanganapt.view.states.UIState.isFullScreen
-import com.samuel.oremoschanganapt.BottomNav
 import com.samuel.oremoschanganapt.ConfigureReminderScreen
 import com.samuel.oremoschanganapt.HomeScreen
+import com.samuel.oremoschanganapt.PagerContent
 import com.samuel.oremoschanganapt.createSettings
-import com.samuel.oremoschanganapt.data.Pray
-
-import com.samuel.oremoschanganapt.data.praysData
-import com.samuel.oremoschanganapt.db.data.Song
-import com.samuel.oremoschanganapt.db.data.songsData
-import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
 import com.samuel.oremoschanganapt.globalComponents.StarButton
-import com.samuel.oremoschanganapt.globalComponents.PagerContent
 import com.samuel.oremoschanganapt.globalComponents.showSnackbar
+import com.samuel.oremoschanganapt.praysList
+import com.samuel.oremoschanganapt.repository.DataCollection
 import com.samuel.oremoschanganapt.repository.isAndroid
 import com.samuel.oremoschanganapt.repository.isDesktop
-import com.samuel.oremoschanganapt.repository.DataCollection
-import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.shareContent
-import com.samuel.oremoschanganapt.states.AppState.isLoading
+import com.samuel.oremoschanganapt.songsList
+import com.samuel.oremoschanganapt.states.UIState.isFullScreen
 import com.samuel.oremoschanganapt.viewmodels.ConfigEntry
 import com.samuel.oremoschanganapt.viewmodels.ConfigScreenViewModel
-
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.content_copy
@@ -88,10 +76,6 @@ import oremoschangana.composeapp.generated.resources.share
 import oremoschangana.composeapp.generated.resources.song
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.minus
-import kotlin.collections.plus
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,7 +111,7 @@ data class EachPageScreen(
             }
         }
 
-        val data = if (dataCollection == DataCollection.SONGS) songsData else praysData
+        val data = if (dataCollection == DataCollection.SONGS) songsList else praysList
 
 //    val scrollState = rememberScrollState()
         val pagerState = rememberPagerState(
@@ -177,9 +161,10 @@ data class EachPageScreen(
             modifier: Modifier,
             showShortcutButton: Boolean = true
         ) {
+
             HorizontalPager(state = pagerState, pageSpacing = 15.dp) { page ->
-                if (data == songsData) {
-                    val item = songsData[page + 1]
+                if (data == songsList) {
+                    val item = songsList[page + 1]
                     PagerContent(
                         modifier = modifier,
                         navigator = navigator,
@@ -187,7 +172,6 @@ data class EachPageScreen(
                         subTitle = item.subTitle,
                         body = item.body,
                         showShortcutButton = showShortcutButton,
-                        onlyParseWhenVisible = page == pagerState.currentPage
                     )
                     pageNumber = item.number
                     pageTitle = "${item.number} - ${item.title.uppercase()}"
@@ -195,7 +179,7 @@ data class EachPageScreen(
                     pageBody = item.body
                     if (pageContentId != item.id) pageContentId = item.id
                 } else {
-                    val item = praysData[page + 1]
+                    val item = praysList[page]
                     PagerContent(
                         modifier = modifier,
                         navigator = navigator,
@@ -203,7 +187,6 @@ data class EachPageScreen(
                         subTitle = item.subTitle,
                         body = item.body,
                         showShortcutButton = showShortcutButton,
-                        onlyParseWhenVisible = page == pagerState.currentPage
                     )
                     pageTitle = item.title.uppercase()
                     pageSubTitle = item.subTitle
@@ -214,7 +197,7 @@ data class EachPageScreen(
 
         }
 
-        val pageContent = if (data == songsData) {
+        val pageContent = if (data == songsList) {
             "$pageNumber - $pageTitle \n\n $pageSubTitle \n\n $pageBody"
         } else {
             "$pageTitle \n\n $pageSubTitle \n\n $pageBody"
@@ -328,7 +311,7 @@ data class EachPageScreen(
                                                         navigator.push(
                                                             ConfigureReminderScreen(
                                                                 itemId = pageContentId,
-                                                                table = if (data == songsData) "Song" else "Pray",
+                                                                table = if (data == songsList) "Song" else "Pray",
                                                                 reminderIdParam = 0L
                                                             )
                                                         )

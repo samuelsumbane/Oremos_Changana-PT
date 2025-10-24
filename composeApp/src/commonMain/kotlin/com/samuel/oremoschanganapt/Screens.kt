@@ -15,6 +15,8 @@ import com.samuel.oremoschanganapt.view.morepagesPackage.Apendice
 import com.samuel.oremoschanganapt.commonView.commonMorePages.FestasMoveis
 import com.samuel.oremoschanganapt.commonView.commonMorePages.Santoral
 import com.samuel.oremoschanganapt.commonView.settingsPages.AppearancePage
+import com.samuel.oremoschanganapt.globalComponents.Pray
+import com.samuel.oremoschanganapt.globalComponents.Song
 
 object SantoralScreen : Screen {
     @Composable
@@ -128,3 +130,16 @@ expect fun shortcutButtonWidget(navigator: Navigator)
 
 @Composable
 expect fun isMobilePortrait(): Boolean
+
+@Composable
+expect fun PagerContent(
+    modifier: Modifier,
+    navigator: Navigator,
+    title: String,
+    subTitle: String,
+    body: String,
+    showShortcutButton: Boolean = true,
+)
+
+expect val songsList: List<Song>
+expect val praysList: List<Pray>

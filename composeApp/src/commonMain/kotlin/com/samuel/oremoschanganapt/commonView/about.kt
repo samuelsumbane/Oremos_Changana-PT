@@ -234,7 +234,7 @@ fun About(
                 NormalText("Edição do Oremos físico: 5", modifier = Modifier.padding(bottom = 20.dp, top = 45.dp))
 
                 Spacer(modifier = Modifier.height(20.dp))
-                NormalText("Versão do aplicativo: 5.1", modifier = Modifier.padding(bottom = 20.dp))
+                NormalText("Versão do aplicativo: 5.1.0", modifier = Modifier.padding(bottom = 20.dp))
 
             }
 

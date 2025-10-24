@@ -35,37 +35,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.platform.LocalConfiguration
-//import androidx.compose.ui.platform.LocalContext
-//import androidx.compose.ui.res.stringResource
-//import androidx.compose.ui.text.font.FontWeight
-//import androidx.compose.ui.text.style.TextAlign
-//import androidx.compose.ui.unit.dp
-//import androidx.navigation.NavController
 import cafe.adriel.voyager.navigator.Navigator
-//import com.samuel.oremoschanganapt.repository.ColorObject
-//import com.samuel.oremoschanganapt.R
-//import com.samuel.oremoschanganapt.SetIdPreference
-//import com.samuel.oremoschanganapt.components.BottomAppBarPrincipal
-//import com.samuel.oremoschanganapt.components.LoadingScreen
-//import com.samuel.oremoschanganapt.components.PrayRow
-//import com.samuel.oremoschanganapt.components.SideBar
-//import com.samuel.oremoschanganapt.components.SongRow
-//import com.samuel.oremoschanganapt.components.lazyColumn
-//import com.samuel.oremoschanganapt.globalComponents.searchContainer
-import com.samuel.oremoschanganapt.data.Pray
-import com.samuel.oremoschanganapt.db.data.Song
-//import com.samuel.oremoschanganapt.db.data.praysData
-//import com.samuel.oremoschanganapt.db.data.songsData
-//import com.samuel.oremoschanganapt.DataCollection
-//import com.samuel.oremoschanganapt.getIdSet
-////import com.samuel.oremoschanganapt.repository.ColorObject
-//import com.samuel.oremoschanganapt.saveIdSet
-//import com.samuel.oremoschanganapt.view.states.AppState.isLoading
-//import kotlinx.coroutines.launch
+import com.samuel.oremoschanganapt.globalComponents.Pray
+import com.samuel.oremoschanganapt.globalComponents.Song
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,14 +61,14 @@ fun LovedDataPage(navigator: Navigator) {
 //        lovedIdSongs = getIdSet(context, SetIdPreference.SONGS_ID.preferenceName)
 //
 //        lovedIdSongs.forEach { id ->
-//            songsData
+//            songsList
 //                .firstOrNull { it.id == id }
 //                ?.let { song -> lSongs.add(song) }
 //        }
 //
 //        lovedIdPrays = getIdSet(context, SetIdPreference.PRAYS_ID.preferenceName)
 //        lovedIdPrays.forEach { id ->
-//            praysData
+//            praysList
 //                .firstOrNull { it.id == id }
 //                ?.let {  pray -> lPrays.add(pray) }
 //        }

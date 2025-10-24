@@ -7,12 +7,10 @@ import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -39,7 +37,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
@@ -50,7 +47,6 @@ import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.AditionalVerticalScroll
 import com.samuel.oremoschanganapt.BottomNav
 import com.samuel.oremoschanganapt.createSettings
-import com.samuel.oremoschanganapt.db.data.songsData
 import com.samuel.oremoschanganapt.globalComponents.AppSideBar
 import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
 import com.samuel.oremoschanganapt.globalComponents.ScrollToFirstItemBtn
@@ -58,12 +54,12 @@ import com.samuel.oremoschanganapt.globalComponents.SongRow
 import com.samuel.oremoschanganapt.globalComponents.platformWidth
 import com.samuel.oremoschanganapt.globalComponents.showSnackbar
 import com.samuel.oremoschanganapt.globalComponents.textFontSize
-import com.samuel.oremoschanganapt.repository.isAndroid
 import com.samuel.oremoschanganapt.repository.isDesktop
 import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.repository.isNumber
 import com.samuel.oremoschanganapt.searchWidget
 import com.samuel.oremoschanganapt.shortcutButtonWidget
+import com.samuel.oremoschanganapt.songsList
 import com.samuel.oremoschanganapt.viewmodels.ConfigEntry
 import com.samuel.oremoschanganapt.viewmodels.ConfigScreenViewModel
 import kotlinx.coroutines.launch
@@ -92,7 +88,6 @@ class SongsScreen(
 fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
     var searchValue by remember { mutableStateOf("") }
     var advancedSearchString by remember { mutableStateOf("") }
-    val allSongs = songsData
     var activeInput by remember { mutableIntStateOf(0) }
     var searchInputActive by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -103,9 +98,9 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
 
 
     val data = when (value) {
-        "todos" -> allSongs
-        "new" -> allSongs.filter { it.number.startsWith("0") }
-        else -> allSongs.filter { it.group == value }
+        "todos" -> songsList
+        "new" -> songsList.filter { it.number.startsWith("0") }
+        else -> songsList.filter { it.group == value }
     }
 
     LaunchedEffect(activeInput) {
@@ -220,7 +215,7 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
             }
 
             when {
-                allSongs.isEmpty() -> LoadingScreen()
+                songsList.isEmpty() -> LoadingScreen()
                 else -> {
                     val filteredSongs = remember(data, searchValue, advancedSearchString) {
                         if (searchValue.isNotBlank()) {

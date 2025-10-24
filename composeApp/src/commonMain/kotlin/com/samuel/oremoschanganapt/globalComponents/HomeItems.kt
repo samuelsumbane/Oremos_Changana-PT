@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
-import com.samuel.oremoschanganapt.data.praysData
-import com.samuel.oremoschanganapt.db.data.songsData
+import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.repository.isDesktop
 import com.samuel.oremoschanganapt.repository.isNumber
+import com.samuel.oremoschanganapt.songsList
 
 @Composable
 fun HomeItems(
@@ -25,19 +25,19 @@ fun HomeItems(
     textInputValue: String,
     modifier: Modifier = Modifier,
 ) {
-    val filteredPrays = remember(praysData, textInputValue){
+    val filteredPrays = remember(praysList, textInputValue){
         if (textInputValue.isNotEmpty()) {
-            praysData.filter { it.title.contains(textInputValue, ignoreCase = true)}
+            praysList.filter { it.title.contains(textInputValue, ignoreCase = true)}
         } else emptyList()
     }
 
-    val filteredSongs = remember(songsData, textInputValue){
+    val filteredSongs = remember(songsList, textInputValue){
         if (textInputValue.isNotBlank()) {
             val numOrNot = isNumber(textInputValue)
             if (numOrNot) {
-                songsData.filter { it.number == textInputValue }
+                songsList.filter { it.number == textInputValue }
             } else {
-                songsData.filter {
+                songsList.filter {
                     it.title.contains(textInputValue, ignoreCase = true)
                 }
             }

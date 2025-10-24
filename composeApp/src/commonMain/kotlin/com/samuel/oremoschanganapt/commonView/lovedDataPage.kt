@@ -48,19 +48,19 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.BottomNav
 import com.samuel.oremoschanganapt.createSettings
-import com.samuel.oremoschanganapt.data.Pray
-import com.samuel.oremoschanganapt.data.praysData
-import com.samuel.oremoschanganapt.db.data.Song
-import com.samuel.oremoschanganapt.db.data.songsData
 import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
+import com.samuel.oremoschanganapt.globalComponents.Pray
 import com.samuel.oremoschanganapt.globalComponents.PrayRow
+import com.samuel.oremoschanganapt.globalComponents.Song
 import com.samuel.oremoschanganapt.globalComponents.SongRow
 import com.samuel.oremoschanganapt.globalComponents.lazyColumn
+import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.repository.DataCollection
 import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.repository.isDesktop
 import com.samuel.oremoschanganapt.repository.isNumber
 import com.samuel.oremoschanganapt.searchWidget
+import com.samuel.oremoschanganapt.songsList
 import com.samuel.oremoschanganapt.states.AppState.isLoading
 import com.samuel.oremoschanganapt.viewmodels.ConfigEntry
 import com.samuel.oremoschanganapt.viewmodels.ConfigScreenViewModel
@@ -103,14 +103,14 @@ fun LovedDataPage(navigator: Navigator) {
         lovedIdPrays = defaultConfigurations.favoritePrays
 
         lovedIdSongs.forEach { id ->
-            songsData
+            songsList
                 .firstOrNull { it.id == id }
                 ?.let { song -> lovedSongs.add(song) }
         }
         println("lovedIdSongs : $lovedIdSongs && lovedSongs: $lovedSongs")
 
         lovedIdPrays.forEach { id ->
-            praysData
+            praysList
                 .firstOrNull { it.id == id }
                 ?.let { pray -> lovedPrays.add(pray) }
         }

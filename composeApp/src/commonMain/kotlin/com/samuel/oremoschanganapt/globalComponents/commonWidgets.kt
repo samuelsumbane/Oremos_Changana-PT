@@ -21,10 +21,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -56,31 +54,20 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
-import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.repository.FontSizeName
-import com.samuel.oremoschanganapt.states.UIState.configFontSize
-import com.samuel.oremoschanganapt.AditionalVerticalScroll
 import com.samuel.oremoschanganapt.commonView.EachPageScreen
-import com.samuel.oremoschanganapt.data.Pray
-import com.samuel.oremoschanganapt.db.data.Song
-import com.samuel.oremoschanganapt.isMobilePortrait
+import com.samuel.oremoschanganapt.repository.ColorObject
 import com.samuel.oremoschanganapt.repository.DataCollection
 import com.samuel.oremoschanganapt.repository.FontSize
 import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.repository.isAndroid
 import com.samuel.oremoschanganapt.repository.isDesktop
-import com.samuel.oremoschanganapt.repository.parseStyledText
-import com.samuel.oremoschanganapt.shortcutButtonWidget
+import com.samuel.oremoschanganapt.states.UIState.configFontSize
 import com.samuel.oremoschanganapt.ui.theme.Orange
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.coroutines.yield
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_upward
 import oremoschangana.composeapp.generated.resources.home
@@ -476,115 +463,47 @@ fun MenuContent(
 fun textFontSize() = FontSize.fromString(configFontSize).size
 
 
-@Composable
-fun IncrementalTextParser(rawBody: String) {
-    var parsedParts by remember { mutableStateOf(listOf<AnnotatedString>()) }
-    val strophe = remember(rawBody) { rawBody.split("\n\n") }
-    var isLoading by remember { mutableStateOf(true) }
-
-    LaunchedEffect(strophe) {
-        parsedParts = emptyList()
-        strophe.forEach { bloco ->
-            val part = withContext(Dispatchers.Default) {
-                parseStyledText(bloco)
-            }
-            parsedParts = parsedParts + part
-            yield()
-        }
-        isLoading = false
-    }
-
-    if (isLoading) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
-        Column {
-            parsedParts.forEach { part ->
-                Text(
-                    text = part,
-                    fontSize = textFontSize(),
-                    textAlign = TextAlign.Justify,
-                    modifier = Modifier.padding(15.dp)
-                )
-            }
-        }
-    }
-}
 
 
+// @Composable
+//fun IncrementalTextParser(rawBody: String) {
+//    var parsedParts by remember { mutableStateOf(listOf<AnnotatedString>()) }
+//    val strophe = remember(rawBody) { rawBody.split("\n\n") }
+//    var isLoading by remember { mutableStateOf(true) }
+//
+//    LaunchedEffect(strophe) {
+//        parsedParts = emptyList()
+//        strophe.forEach { bloco ->
+//            val part = withContext(Dispatchers.Default) {
+//                parseStyledText(bloco)
+//            }
+//            parsedParts = parsedParts + part
+//            yield()
+//        }
+//        isLoading = false
+//    }
+//
+//    if (isLoading) {
+//        Box(
+//            modifier = Modifier.fillMaxSize(),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            CircularProgressIndicator()
+//        }
+//    } else {
+//        Column {
+//            parsedParts.forEach { part ->
+//                Text(
+//                    text = part,
+//                    fontSize = textFontSize(),
+//                    textAlign = TextAlign.Justify,
+//                    modifier = Modifier.padding(15.dp)
+//                )
+//            }
+//        }
+//    }
+//}
 
-@Composable
-fun PagerContent(
-    modifier: Modifier,
-    navigator: Navigator,
-    title: String,
-    subTitle: String,
-    body: String,
-    showShortcutButton: Boolean = true,
-    onlyParseWhenVisible: Boolean = true
-) {
-    val scrollState = rememberScrollState()
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState)
-                .align(Alignment.TopCenter),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // For content
-            Column(
-                Modifier.fillMaxWidth(if (isDesktop() || !isMobilePortrait()) 0.5f else 1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(modifier = Modifier.height(30.dp))
-                Text(
-                    text = title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = (textFontSize().value + 2).sp,
-                    textAlign = TextAlign.Center,
-                    softWrap = true,
-                    modifier = Modifier.padding(20.dp)
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = subTitle,
-                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-
-//                IncrementalTextParser(body)
-                if (onlyParseWhenVisible) {
-                    IncrementalTextParser(body)
-                } else {
-
-                    Text(
-                        text = body,
-                        fontSize = textFontSize(),
-                        textAlign = TextAlign.Justify,
-                        modifier = modifier.padding(15.dp)
-                    )
-                }
-            }
-        }
-
-        if (isDesktop()) AditionalVerticalScroll(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            lazyListState = null, scrollState = scrollState
-        )
-
-        if (showShortcutButton) {
-            shortcutButtonWidget(navigator)
-        }
-
-    }
-}
 
 
 @Composable

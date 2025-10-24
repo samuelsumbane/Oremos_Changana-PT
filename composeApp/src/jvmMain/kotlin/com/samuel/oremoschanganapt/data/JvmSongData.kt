@@ -1,18 +1,18 @@
 package com.samuel.oremoschanganapt.db.data
 
+import com.samuel.oremoschanganapt.globalComponents.Song
 
-data class Song(
-    val id: Int,
-    val number: String,
-    val group: String,
-    val title: String,
-    val subTitle: String,
-    val body: String
-)
 
-val songsData = listOf(
+val jvmsongsList = listOf(
 
-    Song(id = 1,"1","Entrada","A hi fambeni, hi ya gandzela (236)",""," \\i Coro: A hi fambeni, a hi fambeni,\n hi ya gandzela Hosi.\\i \n\n  1 - Hosi wa fuma, u yambale wukulukumba.\n  2 - Matilo ma tsakile, misava yi tlangela Hosi.\n  3 - Ku kwetsima ka Wena Hosi, hi la ku nga heliki.\n  4 - Hosi hi munene, a fuma hi ku rhula.\n  5 - Tanani, yi yimbelela, hi huwelela hi ku tsaka.\n  6 - Tanani hi khinsamela Hosi Muvumbi wa hina.\n  7 - Nwina valulami dzunisani Vito la Yena."),
+    Song(
+        id = 1,
+        "1",
+        "Entrada",
+        "A hi fambeni, hi ya gandzela (236)",
+        "",
+        " \\i Coro: A hi fambeni, a hi fambeni,\n hi ya gandzela Hosi.\\i \n\n  1 - Hosi wa fuma, u yambale wukulukumba.\n  2 - Matilo ma tsakile, misava yi tlangela Hosi.\n  3 - Ku kwetsima ka Wena Hosi, hi la ku nga heliki.\n  4 - Hosi hi munene, a fuma hi ku rhula.\n  5 - Tanani, yi yimbelela, hi huwelela hi ku tsaka.\n  6 - Tanani hi khinsamela Hosi Muvumbi wa hina.\n  7 - Nwina valulami dzunisani Vito la Yena."
+    ),
 
     Song(id = 2,"2","Entrada","A hi fambeni hinkwerhu (1)","","\\i Coro: A hi fambeni hinkwerhu le ka Hosi Bava (3 v.)\n Ku tsakeni lo'ku nga heliki.\\i \n\n  1 - Hi tshama na Yesu, na Yena Bava (3 v.)\n Ku tsakeni lo'ku nga heliki.\n\n  2 - A ku na livengo le ka Yena Bava (3 v.)\n Ku ni ku tsaka lo'ku nga heliki.\n\n  3 - A ku na wukwele le ka Yena Bava (3 v.)\n Ku ni ku tsaka lo'ku nga heliki."),
 
@@ -1190,33 +1190,4 @@ val songsData = listOf(
     Song(id = 587, "047", "new", "Hi tsanganide hi tsanganide", "", "\\i Sol.: Hi tsanganide hi tsanganide\n Todos: Hi tsanganide hi tsanganide \\i \n\n 1. Va Zavala hi tsanganide\n\n 2. Va Mavila hi tsanganide\n\n 3. Va Inharrime hi tsanganide\n\n 4. Va Mucumbine hi tsanganide\n\n 5. Va Jangamo hi tsanganide\n\n 6. Va Guiúa hi tsanganide\n\n 7. Va Sé Catedral hi tsanganide \n\n8. Va Nhapossa hi tsanganide\n\n 9. Va Maxixe hi tsanganide\n\n 10. Va Homoine hi tsanganide\n\n 11. Va Mongue hi tsanganide\n\n 12. Va Panda hi tsanganide\n\n 13. Va Morrumbene hi tsanganide\n\n 14. Va Mocodoene hi tsanganide\n\n 15. Va Inhassoro hi tsanganide\n\n 16. Va Funhaloro hi tsanganide\n\n 17. Va Mabote hi tsanganide\n\n 18. Va Massinga hit tsanganide\n\n 19. Va Muvamba hi tsanganide\n\n 20. Vilankulo hi tsanganide\n\n 21. Govuro hi tsanganide"),
 
     Song(id = 588, "048", "new", "Nungungulo I mahile xilhamaliso", "", "\\b 4a voz: Nungungulo I mahile xilhamaliso (2x)\n Todos: Nungungulo I mahile xilhamaliso\n Nzita um bonga ha yine?\n Nzita um nyika mbilo yanga\n Nzita um bonga ha yine?\n Nzita um nyika lirandzo langa.\\b \n\n 1 - Muhefemulo wa mina wa dumisa Hosi\n Ni moya wanga wa tsaka hi mintiro yakwe\n Hakuva i nzi mahile nanza gakwe\n A nzi Ihawula, A nzi hanyisa (2x)\n\n 2 - I mahile xilhamaliso hi ntamo wakwe\n Tixakeni tontle aveni wuxinji gakwe\n Aka vonitle lava vamu khizamelako\n I thlatekile a txanja gakwe (2x)\n\n 3 - I  hangalasile lav' kukumuxalko\n I wisile tihosi le wukosini gabye\n I tlakusile lava kutitsongohata\n I xurisile a zisiwana (2x)\n\n 4 - I Ihayisile Israeli - a nanza gakwe\n Na a alakanya a wuxinji gakwe\n A ka Abrahama ni npswalo wakwe\n Le'xitsumbiso xa va dadani (2x)\n\n 5 - Ha dumisa Hosi - Nungungulo Dadani\n Ha dumisa Hosi Jesu - nwana wakwe\n Há dumisa Hosi - Moya waku basa\n Hi malembre ni malembe.")
-)
-
-
-var groupValues = mapOf(
-    "new" to "novos cânticos",
-    "todos" to "todos cânticos",
-    "Entrada" to "entrada | a ku sungula a ntirho",
-    "ActoPenitencial" to "acto penitencial",
-    "Gloria" to "glória",
-    "Aclamacao" to "aclamação ao envagelho | a ku twalisa envagelho",
-    "Ofertorio" to "ofertório | ta minyikelo",
-    "Elevacao" to "elevação",
-    "PaiNosso" to "pai-nosso | ta bava wa hina",
-    "SaudacaoPaz" to "saudacao da paz | ta ku losava hi ku rula",
-    "CordeiroDeus" to "cordeiro de Deus | xinhempfana",
-    "Comunhao" to "comunhão | xilalelo",
-    "Gracas" to "acção de graças | ta ku tlangela",
-    "Natal" to "natal | ta ku pswaliwa ka",
-    "Quaresma" to "quaresma | ta nkari wa mahlomulo",
-    "Pascoa" to "páscoa | ta nkarhi wa paskwa",
-    "Ascensao" to "ascensão e pentecconstes | ta ku xika ka moya wa ku kwetsima",
-    "NossaSenhora" to "nossa senhora | ta Maria wa ku phat",
-    "Baptismo" to "baptismo - profissão de fé | ta ntsakamiso",
-    "Catecumenado" to "catecumenado, vocação, apostolado",
-    "Matrimonio" to "matrimónio",
-    "Adoracao" to "adoração, bênção, acção de grança",
-    "Funerais" to "funerais | ta makhombo",
-    "UsoVario" to "uso vário | tinsimu tinwani",
-    "Latim" to "Latim"
 )
