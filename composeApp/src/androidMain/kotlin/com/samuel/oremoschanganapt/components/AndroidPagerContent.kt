@@ -20,10 +20,7 @@ import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.text.HtmlCompat
 import cafe.adriel.voyager.navigator.Navigator
-import com.samuel.oremoschanganapt.AditionalVerticalScroll
-import com.samuel.oremoschanganapt.AndroidIncrementalTextParser
 import com.samuel.oremoschanganapt.globalComponents.textFontSize
 import com.samuel.oremoschanganapt.isMobilePortrait
 import com.samuel.oremoschanganapt.repository.isDesktop
@@ -71,10 +68,7 @@ fun AndroidPagerContent(
 
 //                AndroidIncrementalTextParser(body)
                 Text(
-//                    text = body,
-                    text = AnnotatedString.fromHtml(
-                        htmlString = body
-                    ),
+                    text = AnnotatedString.fromHtml(htmlString = body),
                     fontSize = textFontSize(),
                     textAlign = TextAlign.Justify,
                     modifier = Modifier.padding(15.dp)
