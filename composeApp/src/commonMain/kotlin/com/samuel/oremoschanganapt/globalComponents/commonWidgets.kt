@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -66,8 +67,12 @@ import com.samuel.oremoschanganapt.repository.FontSize
 import com.samuel.oremoschanganapt.repository.PageName
 import com.samuel.oremoschanganapt.repository.isAndroid
 import com.samuel.oremoschanganapt.repository.isDesktop
+import com.samuel.oremoschanganapt.repository.parseStyledText
 import com.samuel.oremoschanganapt.states.UIState.configFontSize
 import com.samuel.oremoschanganapt.ui.theme.Orange
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_upward
 import oremoschangana.composeapp.generated.resources.home
@@ -465,44 +470,44 @@ fun textFontSize() = FontSize.fromString(configFontSize).size
 
 
 
-// @Composable
-//fun IncrementalTextParser(rawBody: String) {
-//    var parsedParts by remember { mutableStateOf(listOf<AnnotatedString>()) }
-//    val strophe = remember(rawBody) { rawBody.split("\n\n") }
-//    var isLoading by remember { mutableStateOf(true) }
-//
-//    LaunchedEffect(strophe) {
-//        parsedParts = emptyList()
-//        strophe.forEach { bloco ->
-//            val part = withContext(Dispatchers.Default) {
-//                parseStyledText(bloco)
-//            }
-//            parsedParts = parsedParts + part
-//            yield()
-//        }
-//        isLoading = false
-//    }
-//
-//    if (isLoading) {
-//        Box(
-//            modifier = Modifier.fillMaxSize(),
-//            contentAlignment = Alignment.Center
-//        ) {
-//            CircularProgressIndicator()
-//        }
-//    } else {
-//        Column {
-//            parsedParts.forEach { part ->
-//                Text(
-//                    text = part,
-//                    fontSize = textFontSize(),
-//                    textAlign = TextAlign.Justify,
-//                    modifier = Modifier.padding(15.dp)
-//                )
-//            }
-//        }
-//    }
-//}
+ @Composable
+fun JVMIncrementalTextParser(rawBody: String) {
+    var parsedParts by remember { mutableStateOf(listOf<AnnotatedString>()) }
+    val strophe = remember(rawBody) { rawBody.split("\n\n") }
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(strophe) {
+        parsedParts = emptyList()
+        strophe.forEach { bloco ->
+            val part = withContext(Dispatchers.Default) {
+                parseStyledText(bloco)
+            }
+            parsedParts = parsedParts + part
+            yield()
+        }
+        isLoading = false
+    }
+
+    if (isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+    } else {
+        Column {
+            parsedParts.forEach { part ->
+                Text(
+                    text = part,
+                    fontSize = textFontSize(),
+                    textAlign = TextAlign.Justify,
+                    modifier = Modifier.padding(15.dp)
+                )
+            }
+        }
+    }
+}
 
 
 
@@ -762,9 +767,9 @@ fun KeyValueTextRow(
 }
 
 
-fun Modifier.platformWidth(): Modifier {
+fun Modifier.platformWidth(fraction: Float = 0.97f): Modifier {
     return if (isAndroid()) {
-        this.fillMaxWidth(0.97f)
+        this.fillMaxWidth(fraction)
     } else {
         this.width(500.dp)
     }

@@ -1,5 +1,6 @@
 package com.samuel.oremoschanganapt.commonView
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -96,11 +97,14 @@ fun CommonAgroupedPage(navigator: Navigator) {
 
             if (allSongs.isNotEmpty()) {
                 Row(Modifier.padding(paddingVales).fillMaxSize()) {
-                    Row(modifier = Modifier.weight(1f)) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
                         LazyColumn(
                             state = listState,
                             modifier = Modifier
-                                .fillMaxSize(0.97f)
+                                .fillMaxSize(1f)
                                 .padding(start = 10.dp, top = 10.dp, end = 12.dp, bottom = 10.dp),
                             verticalArrangement = Arrangement.spacedBy(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally

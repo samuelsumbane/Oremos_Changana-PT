@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.AditionalVerticalScroll
+import com.samuel.oremoschanganapt.globalComponents.JVMIncrementalTextParser
 import com.samuel.oremoschanganapt.globalComponents.textFontSize
 import com.samuel.oremoschanganapt.isMobilePortrait
 import com.samuel.oremoschanganapt.repository.isDesktop
@@ -64,12 +65,7 @@ fun JVMPagerContent(
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text(
-                    text = body,
-                    fontSize = textFontSize(),
-                    textAlign = TextAlign.Justify,
-                    modifier = modifier.padding(15.dp)
-                )
+                JVMIncrementalTextParser(body)
             }
         }
 
@@ -79,7 +75,5 @@ fun JVMPagerContent(
         )
 
         shortcutButtonWidget(navigator)
-
-
     }
 }

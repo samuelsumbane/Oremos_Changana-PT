@@ -267,7 +267,7 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                                 items(filteredSongs, key = { item -> item.id }) {
                                     SongRow(
                                         navigator,
-                                        modifier = Modifier.platformWidth(),
+                                        modifier = Modifier.platformWidth(1f),
                                         song = it,
                                         loved = it.id in lovedSongsIds,
                                         onToggleLoved = { id ->

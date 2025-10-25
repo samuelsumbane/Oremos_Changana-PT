@@ -194,14 +194,21 @@ data class EachPageScreen(
                     if (pageContentId != item.id) pageContentId = item.id
                 }
             }
-
         }
 
-        val pageContent = if (data == songsList) {
-            "$pageNumber - $pageTitle \n\n $pageSubTitle \n\n $pageBody"
-        } else {
-            "$pageTitle \n\n $pageSubTitle \n\n $pageBody"
+        fun String.cleanTextFormatting(): String {
+            return this
+                .replace("<br>", "\n")
+                .replace("<i>", "")
+                .replace("</i>", "")
+                .replace("<b>", "")
+                .replace("</b>", "")
+                .replace("<small>", "")
+                .replace("</small>", "")
         }
+
+        val pageContent = "$pageTitle \n\n $pageSubTitle \n\n ${pageBody.cleanTextFormatting()}"
+
 
         if (isFullScreen) {
             Column(

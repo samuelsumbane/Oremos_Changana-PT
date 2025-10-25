@@ -1,5 +1,6 @@
 package com.samuel.oremoschanganapt.commonView
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -127,7 +128,7 @@ fun CommonPraysPage(navigator: Navigator) {
                     Box(Modifier.fillMaxSize().padding(paddingVales)) {
                         Row(
                             modifier = Modifier
-                                .padding(end = 12.dp)
+                                .padding(end = if (isDesktop()) 12.dp else 0.dp)
                                 .fillMaxSize(),
                             horizontalArrangement = Arrangement.Center
                         ) {
@@ -135,7 +136,6 @@ fun CommonPraysPage(navigator: Navigator) {
                                 state = listState,
                                 modifier = Modifier
                                     .padding(top = 30.dp, end = 8.dp, bottom = 8.dp, start = 8.dp)
-//                                            .fillMaxSize(0.97f)
                                     .platformWidth(),
 //                                            .align(Alignment.CenterHorizontally)
 //                                            .fillMaxWidth(0.5f),
@@ -147,7 +147,7 @@ fun CommonPraysPage(navigator: Navigator) {
                                     // Each pray row --------->>
                                     PrayRow(
                                         navigator,
-                                        modifier = Modifier.platformWidth(),
+                                        modifier = Modifier.platformWidth(1f),
                                         pray = pray,
                                         loved = pray.id in lovedIdPrays,
                                         onToggleLoved = { id ->
