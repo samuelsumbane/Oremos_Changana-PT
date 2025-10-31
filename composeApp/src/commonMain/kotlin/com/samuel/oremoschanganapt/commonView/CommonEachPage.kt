@@ -130,8 +130,6 @@ data class EachPageScreen(
                 lovedIdSongs = defaultConfig.favoriteSongs
             else
                 lovedIdPrays = defaultConfig.favoritePrays
-
-            println("tamanho: ${songsList.size}")
         }
 
         /**

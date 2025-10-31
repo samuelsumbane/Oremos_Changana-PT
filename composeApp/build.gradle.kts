@@ -83,8 +83,8 @@ android {
         applicationId = "com.samuel.oremoschanganapt"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 9
-        versionName = "5.1.0"
+        versionCode = 10
+        versionName = "5.1.1"
     }
     packaging {
         resources {
@@ -136,7 +136,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Oremos Changana PT"
-            packageVersion = "5.1.0"
+            packageVersion = "5.1.1"
 
             windows {
                 iconFile.set(project.file("src/jvmMain/resources/windowsIcon.ico"))

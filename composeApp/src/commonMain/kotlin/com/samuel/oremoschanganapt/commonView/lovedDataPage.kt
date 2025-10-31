@@ -9,6 +9,7 @@ import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -264,7 +266,7 @@ fun LovedDataPage(navigator: Navigator) {
                                         text = tab,
                                         style = typography.bodyMedium,
                                         fontWeight = if (selectedTabIndex == index) FontWeight.SemiBold else FontWeight.Normal,
-                                        color = MaterialTheme.colorScheme.tertiary
+                                        color = if (selectedTabIndex == index) Color.White else MaterialTheme.colorScheme.tertiary
                                     )
                                 },
                                 selected = selectedTabIndex == index,
@@ -274,7 +276,7 @@ fun LovedDataPage(navigator: Navigator) {
                                 modifier = Modifier
                                     .background(
                                         color = if (selectedTabIndex == index) ColorObject.mainColor else Color.Transparent,
-                                        shape = RoundedCornerShape(8.dp)
+                                        shape = RoundedCornerShape(8.dp),
                                     ),
                                 selectedContentColor = ColorObject.mainColor,
                             )

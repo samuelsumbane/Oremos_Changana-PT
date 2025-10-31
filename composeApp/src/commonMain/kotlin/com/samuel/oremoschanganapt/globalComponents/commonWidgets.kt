@@ -69,12 +69,13 @@ import com.samuel.oremoschanganapt.repository.isAndroid
 import com.samuel.oremoschanganapt.repository.isDesktop
 import com.samuel.oremoschanganapt.repository.parseStyledText
 import com.samuel.oremoschanganapt.states.UIState.configFontSize
-import com.samuel.oremoschanganapt.ui.theme.Orange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_upward
+import oremoschangana.composeapp.generated.resources.heart
+import oremoschangana.composeapp.generated.resources.heart_fill
 import oremoschangana.composeapp.generated.resources.home
 import oremoschangana.composeapp.generated.resources.ic_music
 import oremoschangana.composeapp.generated.resources.keyboard_arrow_down
@@ -86,7 +87,6 @@ import oremoschangana.composeapp.generated.resources.prayicon
 import oremoschangana.composeapp.generated.resources.prays
 import oremoschangana.composeapp.generated.resources.settings
 import oremoschangana.composeapp.generated.resources.songs
-import oremoschangana.composeapp.generated.resources.star_fill
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -336,7 +336,7 @@ fun StarButton(
     // Icon size animation ------->>
     val scale = remember { androidx.compose.animation.core.Animatable(1f) }
     val iconColor by animateColorAsState(
-        targetValue = if (lovedState) Orange else MaterialTheme.colorScheme.tertiary,
+        targetValue = Color.Red.copy(red = 0.80f),
         animationSpec = tween(durationMillis = 300)
     )
 
@@ -364,7 +364,7 @@ fun StarButton(
         ),
     ) {
         Icon(
-            painter = painterResource(if (lovedState) Res.drawable.star_fill else Res.drawable.star_fill),
+            painter = painterResource(if (lovedState) Res.drawable.heart_fill else Res.drawable.heart),
             contentDescription = if (lovedState) "É favorito" else "Não é favorito",
             tint = iconColor,
             modifier = Modifier
@@ -372,6 +372,8 @@ fun StarButton(
                     scaleX = scale.value,
                     scaleY = scale.value
                 )
+                .size(25.dp)
+                .padding(start = 1.dp)
         )
     }
 }

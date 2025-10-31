@@ -49,6 +49,7 @@ import oremoschangana.composeapp.generated.resources.about
 import oremoschangana.composeapp.generated.resources.appendix
 import oremoschangana.composeapp.generated.resources.cruz
 import oremoschangana.composeapp.generated.resources.date_range
+import oremoschangana.composeapp.generated.resources.heart
 import oremoschangana.composeapp.generated.resources.more_pages
 import oremoschangana.composeapp.generated.resources.notifications
 import oremoschangana.composeapp.generated.resources.party
@@ -183,7 +184,7 @@ fun MorePages(navigator: Navigator, ) {
 
                         MorePagesButtonRow {
                             MorePagesBtn(
-                                icon = Res.drawable.star,
+                                icon = Res.drawable.heart,
                                 description = "Pagina de orações e cânticos favoritos",
                                 text = "Favoritos",
                                 Modifier.height(100.dp).weight(1f),
