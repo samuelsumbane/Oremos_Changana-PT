@@ -170,7 +170,6 @@ fun SongRow(
 
     Row(
         modifier = modifier
-//            .fillMaxWidth()
             .height(55.dp)
             .clickable {
                 navigator.push(EachPageScreen(DataCollection.SONGS, song.id))
@@ -359,11 +358,10 @@ fun StarButton(
     }
 
     IconButton(
-        modifier = Modifier.size(35.dp),
         onClick = { onClick() },
         colors = IconButtonDefaults.iconButtonColors(
             containerColor = MaterialTheme.colorScheme.background
-        )
+        ),
     ) {
         Icon(
             painter = painterResource(if (lovedState) Res.drawable.star_fill else Res.drawable.star_fill),

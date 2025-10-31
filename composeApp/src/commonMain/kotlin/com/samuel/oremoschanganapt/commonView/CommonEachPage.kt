@@ -116,12 +116,7 @@ data class EachPageScreen(
 //    val scrollState = rememberScrollState()
         val pagerState = rememberPagerState(
             initialPage = itemId - 1,
-            pageCount =
-                if (dataCollection == DataCollection.SONGS) {
-                    { data.size + 1 }
-                } else {
-                    { data.size }
-                }
+            pageCount = { data.size }
         )
 
         val clipboardManager = LocalClipboardManager.current
@@ -135,6 +130,8 @@ data class EachPageScreen(
                 lovedIdSongs = defaultConfig.favoriteSongs
             else
                 lovedIdPrays = defaultConfig.favoritePrays
+
+            println("tamanho: ${songsList.size}")
         }
 
         /**
@@ -161,10 +158,9 @@ data class EachPageScreen(
             modifier: Modifier,
             showShortcutButton: Boolean = true
         ) {
-
             HorizontalPager(state = pagerState, pageSpacing = 15.dp) { page ->
                 if (data == songsList) {
-                    val item = songsList[page + 1]
+                    val item = songsList[page]
                     PagerContent(
                         modifier = modifier,
                         navigator = navigator,
@@ -173,7 +169,6 @@ data class EachPageScreen(
                         body = item.body,
                         showShortcutButton = showShortcutButton,
                     )
-                    pageNumber = item.number
                     pageTitle = "${item.number} - ${item.title.uppercase()}"
                     pageSubTitle = item.subTitle
                     pageBody = item.body
@@ -357,3 +352,50 @@ data class EachPageScreen(
         }
     }
 }
+
+
+
+//
+//Exception java.lang.ArrayIndexOutOfBoundsException:
+//at java.util.Arrays$ArrayList.get (Arrays.java:4599)
+//at com.samuel.oremoschanganapt.commonView.EachPageScreen$Content$pager$1.invoke (CommonEachPage.kt:167)
+//at com.samuel.oremoschanganapt.commonView.EachPageScreen$Content$pager$1.invoke (CommonEachPage.kt:165)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:142)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:51)
+//at androidx.compose.foundation.pager.PagerLazyLayoutItemProvider$Item$1.invoke (LazyLayoutPager.kt:214)
+//at androidx.compose.foundation.pager.PagerLazyLayoutItemProvider$Item$1.invoke (LazyLayoutPager.kt:212)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:121)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:51)
+//at androidx.compose.runtime.CompositionLocalKt.CompositionLocalProvider (CompositionLocal.kt:384)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutPinnableItemKt.LazyLayoutPinnableItem (LazyLayoutPinnableItem.kt:56)
+//at androidx.compose.foundation.pager.PagerLazyLayoutItemProvider.Item (LazyLayoutPager.kt:212)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutItemContentFactoryKt$SkippableItem$1.invoke (LazyLayoutItemContentFactory.kt:130)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutItemContentFactoryKt$SkippableItem$1.invoke (LazyLayoutItemContentFactory.kt:129)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:121)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:51)
+//at androidx.compose.runtime.CompositionLocalKt.CompositionLocalProvider (CompositionLocal.kt:384)
+//at androidx.compose.runtime.saveable.SaveableStateHolderImpl.SaveableStateProvider (SaveableStateHolder.kt:79)
+//at androidx.compose.foundation.lazy.layout.LazySaveableStateHolder.SaveableStateProvider (LazySaveableStateHolder.kt:76)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutItemContentFactoryKt.SkippableItem-JVlU9Rs (LazyLayoutItemContentFactory.kt:129)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutItemContentFactoryKt.access$SkippableItem-JVlU9Rs (LazyLayoutItemContentFactory.kt:1)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutItemContentFactory$CachedItemContent$createContentLambda$1.invoke (LazyLayoutItemContentFactory.kt:97)
+//at androidx.compose.foundation.lazy.layout.LazyLayoutItemContentFactory$CachedItemContent$createContentLambda$1.invoke (LazyLayoutItemContentFactory.kt:87)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:121)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:51)
+//at androidx.compose.ui.layout.LayoutNodeSubcompositionsState$subcompose$3$1$1.invoke (SubcomposeLayout.kt:1042)
+//at androidx.compose.ui.layout.LayoutNodeSubcompositionsState$subcompose$3$1$1.invoke (SubcomposeLayout.kt:523)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:121)
+//at androidx.compose.runtime.internal.ComposableLambdaImpl.invoke (ComposableLambda.kt:51)
+//at androidx.compose.runtime.internal.Utils_jvmKt.invokeComposable (Utils.jvm.kt:27)
+//at androidx.compose.runtime.ComposerImpl.doCompose-aFTiNEg (Composer.kt:3694)
+//at androidx.compose.runtime.ComposerImpl.composeContent--ZbOJvo$runtime_release (Composer.kt:3616)
+//at androidx.compose.runtime.CompositionImpl.composeContent (Composition.kt:792)
+//at androidx.compose.runtime.Recomposer.composeInitial$runtime_release (Recomposer.kt:1132)
+//at androidx.compose.runtime.ComposerImpl$CompositionContextImpl.composeInitial$runtime_release (Composer.kt:4034)
+//at androidx.compose.runtime.ComposerImpl$CompositionContextImpl.composeInitial$runtime_release (Composer.kt:4034)
+//at androidx.compose.runtime.CompositionImpl.composeInitial (Composition.kt:677)
+//at androidx.compose.runtime.CompositionImpl.setContent (Composition.kt:616)
+//at androidx.compose.ui.layout.LayoutNodeSubcompositionsState.subcomposeInto (SubcomposeLayout.kt:544)
+//at androidx.compose.ui.layout.LayoutNodeSubcompositionsState.subcompose (SubcomposeLayout.kt:514)
+//at androidx.compose.ui.layout.LayoutNodeSubcompositionsState.subcompose (SubcomposeLayout.kt:504)
+//
