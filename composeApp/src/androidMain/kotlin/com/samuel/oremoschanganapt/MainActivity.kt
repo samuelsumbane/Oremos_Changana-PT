@@ -230,8 +230,8 @@ object AndroidSettingsHelper {
     fun getContext(): Context =
         currentActivity ?: applicationContext
         ?: throw IllegalStateException("Context not initialized")
-
 }
+
 actual fun createSettings(): Settings {
     return AndroidSettingsHelper.getSettings()
 }
