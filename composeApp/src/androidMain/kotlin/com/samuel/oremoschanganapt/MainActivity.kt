@@ -36,26 +36,26 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.commonView.EachPageScreen
+import com.samuel.oremoschanganapt.ui_core.ColorObject
+import com.samuel.oremoschanganapt.ui_core.EachPageScreen
 import com.samuel.oremoschanganapt.components.AndroidPagerContent
 import com.samuel.oremoschanganapt.components.AndroidSearchContainer
 import com.samuel.oremoschanganapt.components.BottomAppBarPrincipal
 import com.samuel.oremoschanganapt.components.ShortcutsButton
 import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.data.androidsongsList
-import com.samuel.oremoschanganapt.globalComponents.LoadingScreen
-import com.samuel.oremoschanganapt.globalComponents.Pray
-import com.samuel.oremoschanganapt.globalComponents.Song
-import com.samuel.oremoschanganapt.repository.Configs.appLocale
-import com.samuel.oremoschanganapt.repository.Configs.thememode
-import com.samuel.oremoschanganapt.repository.DataCollection
-import com.samuel.oremoschanganapt.states.UIState.configFontSize
-import com.samuel.oremoschanganapt.states.UIState.themeMode
+import com.samuel.oremoschanganapt.ui_core.globalComponents.LoadingScreen
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
+import com.samuel.oremoschanganapt.ui_core.Configs.appLocale
+import com.samuel.oremoschanganapt.ui_core.Configs.thememode
+import com.samuel.oremoschanganapt.domain.DataCollection
+import com.samuel.oremoschanganapt.ui_core.states.UIState.configFontSize
+import com.samuel.oremoschanganapt.ui_core.states.UIState.themeMode
 import com.samuel.oremoschanganapt.view.Home
 import com.samuel.oremoschanganapt.view.RemindersPages.ConfigureReminder
 import com.samuel.oremoschanganapt.view.RemindersPages.RemindersPage
-import com.samuel.oremoschanganapt.viewmodels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
 import java.util.Locale
 
 class  MainActivity : ComponentActivity() {
@@ -69,6 +69,8 @@ class  MainActivity : ComponentActivity() {
         super.onPause()
         AndroidSettingsHelper.setCurrentActivity(null)
     }
+
+
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,6 +149,7 @@ class  MainActivity : ComponentActivity() {
             } else LoadingScreen()
         }
     }
+
 
     @Composable
     private fun HandleIntent(

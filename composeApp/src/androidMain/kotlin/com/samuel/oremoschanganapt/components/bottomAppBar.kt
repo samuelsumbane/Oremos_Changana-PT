@@ -16,8 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 //import androidx.navigation.NavController
 import cafe.adriel.voyager.navigator.Navigator
-import com.samuel.oremoschanganapt.globalComponents.MenuContent
-import com.samuel.oremoschanganapt.globalComponents.appRouter
+import com.samuel.oremoschanganapt.ui_core.globalComponents.MenuContent
+import com.samuel.oremoschanganapt.ui_core.globalComponents.appRouter
 //import com.samuel.oremoschanganapt.repository.ColorObject
 
 

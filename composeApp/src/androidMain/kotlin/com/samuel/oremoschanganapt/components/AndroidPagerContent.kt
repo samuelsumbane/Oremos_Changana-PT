@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
-import com.samuel.oremoschanganapt.globalComponents.textFontSize
+import com.samuel.oremoschanganapt.ui_core.globalComponents.textFontSize
 import com.samuel.oremoschanganapt.isMobilePortrait
-import com.samuel.oremoschanganapt.repository.isDesktop
+import com.samuel.oremoschanganapt.domain.isDesktop
 import com.samuel.oremoschanganapt.shortcutButtonWidget
 
 @Composable

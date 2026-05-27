@@ -40,11 +40,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.HomeScreen
-import com.samuel.oremoschanganapt.commonView.AgroupedSongsScreen
-import com.samuel.oremoschanganapt.commonView.LovedDataScreen
-import com.samuel.oremoschanganapt.commonView.PraysScreen
+import com.samuel.oremoschanganapt.ui_core.AgroupedSongsScreen
+import com.samuel.oremoschanganapt.ui_core.LovedDataScreen
+import com.samuel.oremoschanganapt.ui_core.PraysScreen
 import com.samuel.oremoschanganapt.data.androidpraysList
-import com.samuel.oremoschanganapt.repository.isNumber
+import com.samuel.oremoschanganapt.domain.isNumber
 import com.samuel.oremoschanganapt.songsList
 import kotlinx.coroutines.coroutineScope
 import oremoschangana.composeapp.generated.resources.Res

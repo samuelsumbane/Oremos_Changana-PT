@@ -1,6 +1,6 @@
 package com.samuel.oremoschanganapt.db.data
 
-import com.samuel.oremoschanganapt.globalComponents.Song
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
 
 
 val jvmsongsList = listOf(

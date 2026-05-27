@@ -27,11 +27,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.samuel.oremoschanganapt.globalComponents.AppSideBar
-import com.samuel.oremoschanganapt.globalComponents.AppTitleWidget
-import com.samuel.oremoschanganapt.globalComponents.HomeItems
-import com.samuel.oremoschanganapt.globalComponents.InputSearch
-import com.samuel.oremoschanganapt.repository.PageName
+import com.samuel.oremoschanganapt.ui_core.globalComponents.AppSideBar
+import com.samuel.oremoschanganapt.ui_core.globalComponents.AppTitleWidget
+import com.samuel.oremoschanganapt.ui_core.globalComponents.HomeItems
+import com.samuel.oremoschanganapt.ui_core.globalComponents.InputSearch
+import com.samuel.oremoschanganapt.ui_core.PageName
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.oremosdesktoppic
 import oremoschangana.composeapp.generated.resources.search_song_or_pray

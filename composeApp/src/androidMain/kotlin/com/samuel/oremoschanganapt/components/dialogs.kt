@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import com.samuel.oremoschanganapt.repository.ColorObject
+import com.samuel.oremoschanganapt.ui_core.ColorObject
 //import com.samuel.oremoschanganapt.repository.ColorObject
 
 import java.util.Calendar

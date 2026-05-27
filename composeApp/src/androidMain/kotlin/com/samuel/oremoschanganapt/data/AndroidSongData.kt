@@ -1,6 +1,6 @@
 package com.samuel.oremoschanganapt.data
 
-import com.samuel.oremoschanganapt.globalComponents.Song
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
 
 val androidsongsList = listOf(
 

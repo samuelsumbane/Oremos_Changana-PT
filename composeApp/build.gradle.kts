@@ -31,7 +31,11 @@ kotlin {
             implementation("androidx.datastore:datastore-preferences:1.1.1")
             implementation("com.russhwolf:multiplatform-settings-datastore:1.1.1")
 
+            implementation("io.insert-koin:koin-compose-viewmodel:4.0.4")
+//            implementation("io.insert-koin:koin-androidx-compose:")
+
         }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -43,16 +47,21 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
             implementation("cafe.adriel.voyager:voyager-navigator:1.1.0-beta02")
-
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 
-            // Preferences -------->>
+            // Preferences
             implementation("com.russhwolf:multiplatform-settings:1.1.1")
-
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+
+
+            // commonMain
+            implementation("io.insert-koin:koin-core:4.0.4")
+            implementation("io.insert-koin:koin-compose:4.0.4")
+            //
+            implementation("io.insert-koin:koin-compose-viewmodel:4.0.4")
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }

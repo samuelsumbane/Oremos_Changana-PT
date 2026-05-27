@@ -29,14 +29,14 @@ import com.samuel.oremoschanganapt.data.jvmpraysList
 import com.samuel.oremoschanganapt.db.data.jvmsongsList
 import com.samuel.oremoschanganapt.desktopWidgets.DesktopSearchContainer
 import com.samuel.oremoschanganapt.desktopWidgets.JVMPagerContent
-import com.samuel.oremoschanganapt.globalComponents.Pray
-import com.samuel.oremoschanganapt.globalComponents.Song
-import com.samuel.oremoschanganapt.repository.ColorObject
-import com.samuel.oremoschanganapt.repository.Configs.appLocale
-import com.samuel.oremoschanganapt.states.UIState.configFontSize
-import com.samuel.oremoschanganapt.states.UIState.themeMode
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
+import com.samuel.oremoschanganapt.ui_core.ColorObject
+import com.samuel.oremoschanganapt.ui_core.Configs.appLocale
+import com.samuel.oremoschanganapt.ui_core.states.UIState.configFontSize
+import com.samuel.oremoschanganapt.ui_core.states.UIState.themeMode
 import com.samuel.oremoschanganapt.view.DesktopHomePage
-import com.samuel.oremoschanganapt.viewmodels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.icon
 import org.jetbrains.compose.resources.painterResource
@@ -207,13 +207,11 @@ actual fun shareContent(text: String) {
     // Actually nothing happens in Desktop
 }
 
-
+/**
+ * On the desktop, this function will do anything
+ */
 @Composable
-actual fun shortcutButtonWidget(navigator: Navigator) {
-    /**
-     * On the desktop, this function will not do anything
-     */
-}
+actual fun shortcutButtonWidget(navigator: Navigator) { }
 
 
 /**

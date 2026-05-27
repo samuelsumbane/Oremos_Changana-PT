@@ -25,11 +25,11 @@ import com.samuel.oremoschanganapt.components.BottomAppBarPrincipal
 import com.samuel.oremoschanganapt.R
 //import com.samuel.oremoschanganapt.db.CommonViewModel
 //import com.samuel.oremoschanganapt.view.sideBar.RowBackup
-import com.samuel.oremoschanganapt.globalComponents.InputSearch
-import com.samuel.oremoschanganapt.globalComponents.AppSideBar
-import com.samuel.oremoschanganapt.globalComponents.AppTitleWidget
-import com.samuel.oremoschanganapt.globalComponents.HomeItems
-import com.samuel.oremoschanganapt.repository.PageName
+import com.samuel.oremoschanganapt.ui_core.globalComponents.InputSearch
+import com.samuel.oremoschanganapt.ui_core.globalComponents.AppSideBar
+import com.samuel.oremoschanganapt.ui_core.globalComponents.AppTitleWidget
+import com.samuel.oremoschanganapt.ui_core.globalComponents.HomeItems
+import com.samuel.oremoschanganapt.ui_core.PageName
 
 
 @RequiresApi(Build.VERSION_CODES.O)

@@ -9,14 +9,14 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.russhwolf.settings.Settings
-import com.samuel.oremoschanganapt.commonView.About
+import com.samuel.oremoschanganapt.ui_core.About
 import com.samuel.oremoschanganapt.commonView.commonMorePages.Licionario
 import com.samuel.oremoschanganapt.view.morepagesPackage.Apendice
 import com.samuel.oremoschanganapt.commonView.commonMorePages.FestasMoveis
 import com.samuel.oremoschanganapt.commonView.commonMorePages.Santoral
-import com.samuel.oremoschanganapt.commonView.settingsPages.AppearancePage
-import com.samuel.oremoschanganapt.globalComponents.Pray
-import com.samuel.oremoschanganapt.globalComponents.Song
+import com.samuel.oremoschanganapt.ui_core.settingsPages.AppearancePage
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
 
 object SantoralScreen : Screen {
     @Composable

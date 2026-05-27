@@ -18,6 +18,8 @@ class MyApp: Application() {
             NotificationManager.IMPORTANCE_HIGH
         )
 
+        initKoin()
+
         notificationChannel.description = "A notificaiton service"
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager

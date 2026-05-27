@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.samuel.oremoschanganapt.globalComponents.InputSearch
+import com.samuel.oremoschanganapt.ui_core.globalComponents.InputSearch
 
 
 @Composable

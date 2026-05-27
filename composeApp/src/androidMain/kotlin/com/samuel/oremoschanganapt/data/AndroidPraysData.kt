@@ -1,6 +1,6 @@
 package com.samuel.oremoschanganapt.data
 
-import com.samuel.oremoschanganapt.globalComponents.Pray
+import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
 
 
 /**
