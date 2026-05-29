@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.ui_core
+package com.samuel.oremoschanganapt.presentation.Songs
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Left
@@ -31,7 +31,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,9 +58,10 @@ import com.samuel.oremoschanganapt.domain.isNumber
 import com.samuel.oremoschanganapt.searchWidget
 import com.samuel.oremoschanganapt.shortcutButtonWidget
 import com.samuel.oremoschanganapt.songsList
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigEntry
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
-import com.samuel.oremoschanganapt.presentation.viewModels.SongsViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigEntry
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.ui_core.ColorObject
+import com.samuel.oremoschanganapt.ui_core.PageName
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.advanced_search
@@ -91,10 +91,6 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
     val songsViewModel = koinViewModel<SongsViewModel>()
     val songsUiState by songsViewModel.songsUiState.collectAsState()
 
-//    var searchValue by remember { mutableStateOf("") }
-//    var advancedSearchString by remember { mutableStateOf("") }
-//    var activeInput by remember { mutableIntStateOf(0) }
-//    var searchInputActive by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
     //    val context = LocalContext.current
@@ -141,8 +137,7 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                     },
                     actions = {
                         Row(
-                            modifier =
-                                Modifier
+                            modifier = Modifier
                                     .padding(50.dp, 10.dp, 0.dp, 0.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -221,6 +216,7 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
             LaunchedEffect(Unit) {
                 val defaultConfig = configViewModal.loadConfigurations()
                 lovedSongsIds = defaultConfig.favoriteSongs
+
             }
 
             when {
@@ -281,7 +277,6 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                                         loved = it.id in lovedSongsIds,
                                         onToggleLoved = { id ->
                                             coroutineScope.launch {
-
                                                 if (id in lovedSongsIds) {
                                                     lovedSongsIds -= id
                                                 } else {

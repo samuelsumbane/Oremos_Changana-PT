@@ -1,15 +1,15 @@
-package com.samuel.oremoschanganapt.presentation.viewModels
+package com.samuel.oremoschanganapt.presentation.CommonPage
 
 import androidx.lifecycle.ViewModel
-import com.samuel.oremoschanganapt.presentation.uiStates.CommonPageUiState
+import com.samuel.oremoschanganapt.presentation.ConfigEntry
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.math.exp
 
 class CommonPageViewModel() : ViewModel() {
 
-    val _state = MutableStateFlow(CommonPageUiState())
+    private val _state = MutableStateFlow(CommonPageUiState())
     val commonPageUiState = _state.asStateFlow()
 
     fun updateState(block: (CommonPageUiState) -> CommonPageUiState) {
@@ -35,4 +35,21 @@ class CommonPageViewModel() : ViewModel() {
         lovedIdPrays?.let { nValue -> updateState { it.copy(lovedIdPrays = nValue) } }
         lovedIdSongs?.let { nValue -> updateState { it.copy(lovedIdSongs = nValue) } }
     }
+
+    fun modifyLovedIdSongs(songId: Int, configViewModel: ConfigScreenViewModel) {
+       updateState { it.copy(lovedIdSongs =
+           if (songId in commonPageUiState.value.lovedIdSongs) it.lovedIdSongs - songId else it.lovedIdSongs + songId
+       ) }
+
+       configViewModel.saveConfiguration(ConfigEntry.FavoriteSongs, commonPageUiState.value.lovedIdSongs)
+    }
+
+    fun modifyLovedIdPrays(prayId: Int, configViewModel: ConfigScreenViewModel) {
+        updateState { it.copy(lovedIdPrays =
+            if (prayId in commonPageUiState.value.lovedIdPrays) it.lovedIdPrays - prayId else it.lovedIdPrays + prayId
+        ) }
+        configViewModel.saveConfiguration(ConfigEntry.FavoritePrays, commonPageUiState.value.lovedIdPrays)
+    }
+
+
 }

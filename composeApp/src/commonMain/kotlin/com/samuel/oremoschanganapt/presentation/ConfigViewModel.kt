@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.presentation.viewModels
+package com.samuel.oremoschanganapt.presentation
 
 //import com.samuel.oremoschanganapt.AppSettings
 import androidx.compose.ui.graphics.Color
@@ -57,7 +57,7 @@ sealed class ConfigEntry<T>(
         key = "favorite_songs",
         default = emptySet(),
         saver = { settings, k, v ->
-            // armazena como CSV: "1,2,3"
+            // saves as CSV: "1,2,3"
             settings.putString(k, v.joinToString(","))
         },
         loader = { settings, k, d ->
@@ -74,7 +74,7 @@ sealed class ConfigEntry<T>(
         key = "favorite_prays",
         default = emptySet(),
         saver = { settings, k, v ->
-            // save like CSV: "1,2,3"
+            // save as CSV: "1,2,3"
             settings.putString(k, v.joinToString(","))
         },
         loader = { settings, k, d ->

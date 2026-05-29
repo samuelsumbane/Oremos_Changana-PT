@@ -46,8 +46,8 @@ import com.samuel.oremoschanganapt.ui.theme.Red
 import com.samuel.oremoschanganapt.ui.theme.OliveGreen
 import com.samuel.oremoschanganapt.ui.theme.Tomato
 import com.samuel.oremoschanganapt.ui.theme.Turquoise
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigEntry
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigEntry
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.app_color
 import oremoschangana.composeapp.generated.resources.arrow_back

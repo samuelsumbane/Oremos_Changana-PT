@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.presentation.uiStates
+package com.samuel.oremoschanganapt.presentation.Songs
 
 data class SongsUiState(
     val searchValue: String = "",

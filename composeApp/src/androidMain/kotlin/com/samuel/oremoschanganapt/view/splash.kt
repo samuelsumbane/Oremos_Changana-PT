@@ -31,10 +31,10 @@ import kotlinx.coroutines.launch
 fun SplashWindow(navigator: Navigator) {
     val coroutineScope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(Unit) {
         coroutineScope.launch {
             delay(1000)
-            navigator.push(HomeScreen)
+            navigator.push(HomeScreen())
         }
     }
 

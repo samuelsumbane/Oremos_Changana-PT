@@ -164,9 +164,11 @@ fun SongRow(
     onToggleLoved: (Int) -> Unit = {},
 ) {
     val mainColor = ColorObject.mainColor
+    val secondColor = ColorObject.secondColor
     var lovedIdSongs by remember { mutableStateOf( mutableSetOf<Int>()) }
 //    var lovedState by remember { mutableStateOf(song.id in lovedIdSongs) }
 //    val context = LocalContext.current
+    val colorScheme = MaterialTheme.colorScheme
     val coroutineScope = rememberCoroutineScope()
 
     Row(
@@ -179,47 +181,47 @@ fun SongRow(
     ) {
         Row(
             modifier = Modifier
-                .size(40.dp)
-                .height(60.dp)
-                .border(1.dp, lerp(mainColor, ColorObject.secondColor, 0.3f), RoundedCornerShape(50))
+                .weight(1f)
+                .ItemRowBackground(mainColor, secondColor)
                 .align(Alignment.CenterVertically),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            val songNumberColor = if (blackBackground) Color.White else MaterialTheme.colorScheme.tertiary
             Text(
                 text = song.number,
-                fontSize = (textFontSize().value - 5).sp,
-                color = songNumberColor,
-                fontWeight = FontWeight.SemiBold
+                fontSize = (textFontSize().value - 2).sp,
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .padding(start = 10.dp)
+            )
+
+            Spacer(Modifier.width(6.dp))
+
+            CommonRow(song.title, song.subTitle,
+                Modifier
+                    .background(Color.Transparent, RoundedCornerShape(16.dp))
+                    .weight(1f)
             )
         }
 
-        Spacer(Modifier.width(6.dp))
 
         Row (
             modifier = Modifier
-                .fillMaxHeight()
-                .weight(1f)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            mainColor,
-                            lerp(
-                                start = mainColor,
-                                stop = if (ColorObject.secondColor == Color.Transparent) ColorObject.mainColor else ColorObject.secondColor,
-                                fraction = 0.9f
-                            )
-                        ),
-                    ),
-                    shape = RoundedCornerShape(16.dp)
-                ),
+                .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            CommonRow(song.title, song.subTitle, Modifier.weight(1f))
-            Row(Modifier.padding(end = 10.dp)) {
+
+            Row(Modifier
+                .fillMaxHeight(),
+                horizontalArrangement = Arrangement.End
+            ) {
                 if (showStarButton) {
-                    StarButton(loved) {
+                    HeartButton(
+                        lovedState = loved,
+                        modifier = Modifier
+                            .size(30.dp)
+                    ) {
                         onToggleLoved(song.id)
                     }
                 }
@@ -290,19 +292,6 @@ fun PrayRow(
                 .padding(start = if (isDesktop()) 8.dp else 0.dp, 0.dp, 0.dp, 0.dp)
 //                .fillMaxSize()
                 .height(55.dp)
-                .background(
-                    brush = Brush.horizontalGradient(
-                        colors = listOf(
-                            mainColor,
-                            lerp(
-                                start = mainColor,
-                                stop = if (secondColor == Color.Transparent) mainColor else secondColor,
-                                fraction = 0.9f
-                            )
-                        ),
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                )
                 .clickable {
                     navigator.push(EachPageScreen(DataCollection.PRAYS, id))
                 },
@@ -312,6 +301,7 @@ fun PrayRow(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(0.95f)
+                    .ItemRowBackground(mainColor, secondColor)
                     .fillMaxHeight()
             ) {
                 CommonRow(title, subTitle, Modifier.weight(1f))
@@ -319,7 +309,9 @@ fun PrayRow(
 
             Row(Modifier.padding(end = 10.dp)) {
                 if (showStarButton) {
-                    StarButton(loved) {
+                    HeartButton(
+                        lovedState = loved,
+                        modifier = Modifier.size(30.dp)) {
                         onToggleLoved(pray.id)
                     }
                 }
@@ -330,8 +322,9 @@ fun PrayRow(
 
 
 @Composable
-fun StarButton(
+fun HeartButton(
     lovedState: Boolean,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     // Icon size animation ------->>
@@ -368,13 +361,13 @@ fun StarButton(
             painter = painterResource(if (lovedState) Res.drawable.heart_fill else Res.drawable.heart),
             contentDescription = if (lovedState) "É favorito" else "Não é favorito",
             tint = iconColor,
-            modifier = Modifier
+            modifier = modifier
                 .graphicsLayer(
                     scaleX = scale.value,
                     scaleY = scale.value
                 )
-                .size(25.dp)
                 .padding(start = 1.dp)
+                .size(25.dp)
         )
     }
 }
@@ -788,4 +781,21 @@ fun ConfigColumn(
         Spacer(modifier = Modifier.height(10.dp))
         content()
     }
+}
+
+@Composable
+fun Modifier.ItemRowBackground(mainColor: Color, secondColor: Color): Modifier {
+    return this.background(
+        brush = Brush.horizontalGradient(
+            colors = listOf(
+                mainColor,
+                lerp(
+                    start = mainColor,
+                    stop = if (secondColor == Color.Transparent) mainColor else secondColor,
+                    fraction = 0.9f
+                )
+            ),
+        ),
+        shape = RoundedCornerShape(12.dp)
+    )
 }

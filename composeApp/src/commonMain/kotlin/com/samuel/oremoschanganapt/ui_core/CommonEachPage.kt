@@ -28,11 +28,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -48,18 +45,17 @@ import com.samuel.oremoschanganapt.ConfigureReminderScreen
 import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.PagerContent
 import com.samuel.oremoschanganapt.createSettings
-import com.samuel.oremoschanganapt.ui_core.globalComponents.StarButton
+import com.samuel.oremoschanganapt.ui_core.globalComponents.HeartButton
 import com.samuel.oremoschanganapt.ui_core.globalComponents.showSnackbar
 import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.domain.DataCollection
 import com.samuel.oremoschanganapt.domain.isAndroid
 import com.samuel.oremoschanganapt.domain.isDesktop
-import com.samuel.oremoschanganapt.presentation.viewModels.CommonPageViewModel
+import com.samuel.oremoschanganapt.presentation.CommonPage.CommonPageViewModel
 import com.samuel.oremoschanganapt.shareContent
 import com.samuel.oremoschanganapt.songsList
 import com.samuel.oremoschanganapt.ui_core.states.UIState.isFullScreen
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigEntry
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.content_copy
@@ -140,8 +136,8 @@ fun EachPage(
                 commonPageViewModel.fillCommonPageForm(lovedIdSongs = defaultConfig.favoriteSongs)
             else
                 commonPageViewModel.fillCommonPageForm(lovedIdPrays = defaultConfig.favoritePrays)
-
         }
+
 
         /**
          * In pagerState, initialPage receives songId - 1 because, will be page + 1
@@ -197,26 +193,14 @@ fun EachPage(
                         body = item.body,
                         showShortcutButton = showShortcutButton,
                     )
-                    if (commonPageUiState.pageContentId != item.id) commonPageViewModel.fillCommonPageForm(pageContentId = item.id)
-
                     commonPageViewModel.fillCommonPageForm(
                         pageTitle = item.title.uppercase(),
                         pageSubTitle = item.subTitle,
                         pageBody = item.body
                     )
+                    if (commonPageUiState.pageContentId != item.id) commonPageViewModel.fillCommonPageForm(pageContentId = item.id)
                 }
             }
-        }
-
-        fun String.cleanTextFormatting(): String {
-            return this
-                .replace("<br>", "\n")
-                .replace("<i>", "")
-                .replace("</i>", "")
-                .replace("<b>", "")
-                .replace("</b>", "")
-                .replace("<small>", "")
-                .replace("</small>", "")
         }
 
         val pageContent = "${commonPageUiState.pageTitle} \n\n ${commonPageUiState.pageSubTitle} \n\n ${commonPageUiState.pageBody.cleanTextFormatting()}"
@@ -258,43 +242,30 @@ fun EachPage(
                         ), navigationIcon = {
                             IconButton(
                                 onClick = {
-                                    if (goToHomeOnBack) navigator.push(HomeScreen)
+                                    if (goToHomeOnBack) navigator.push(HomeScreen())
                                     else
                                         navigator.pop()
                                 }
                             ) {
                                 Icon(
                                     painter = painterResource(resource = Res.drawable.outline_arrow_back),
-                                    //                                contentDescription = stringResource(R.string.go_back)
                                     contentDescription = "go back"
                                 )
                             }
                         }, actions = {
-                            //                        val context = LocalContext.current
-                            // ---------->>
-                            StarButton(lovedState = isItemLoved) {
+                            HeartButton(lovedState = isItemLoved) {
                                 coroutineScope.launch {
-                                    if (dataCollection == DataCollection.SONGS) {
-                                        if (commonPageUiState.pageContentId in commonPageUiState.lovedIdSongs) {
-                                            commonPageViewModel.fillCommonPageForm(lovedIdSongs = commonPageUiState.lovedIdSongs - commonPageUiState.pageContentId)
-                                        } else {
-                                            commonPageViewModel.fillCommonPageForm(lovedIdSongs = commonPageUiState.lovedIdSongs + commonPageUiState.pageContentId)
-                                        }
-
-                                        configViewModal.saveConfiguration(
-                                            ConfigEntry.FavoriteSongs, commonPageUiState.lovedIdSongs
-                                        )
-                                    } else {
-                                        if (commonPageUiState.pageContentId in commonPageUiState.lovedIdPrays) {
-                                            commonPageViewModel.fillCommonPageForm(lovedIdPrays = commonPageUiState.lovedIdSongs - commonPageUiState.pageContentId)
-                                        } else {
-                                            commonPageViewModel.fillCommonPageForm(lovedIdPrays = commonPageUiState.lovedIdSongs + commonPageUiState.pageContentId)
-                                        }
-
-                                        configViewModal.saveConfiguration(
-                                            ConfigEntry.FavoritePrays, commonPageUiState.lovedIdPrays
-                                        )
-                                    }
+                                  if (dataCollection == DataCollection.SONGS) {
+                                      commonPageViewModel.modifyLovedIdSongs(
+                                          commonPageUiState.pageContentId,
+                                          configViewModal
+                                      )
+                                  } else {
+                                      commonPageViewModel.modifyLovedIdPrays(
+                                          commonPageUiState.pageContentId,
+                                          configViewModal
+                                      )
+                                  }
                                 }
                             }
 
@@ -367,4 +338,16 @@ fun EachPage(
             }
         }
 
+}
+
+
+fun String.cleanTextFormatting(): String {
+    return this
+        .replace("<br>", "\n")
+        .replace("<i>", "")
+        .replace("</i>", "")
+        .replace("<b>", "")
+        .replace("</b>", "")
+        .replace("<small>", "")
+        .replace("</small>", "")
 }

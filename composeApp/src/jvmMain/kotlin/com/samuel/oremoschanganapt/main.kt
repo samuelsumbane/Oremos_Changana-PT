@@ -36,7 +36,7 @@ import com.samuel.oremoschanganapt.ui_core.Configs.appLocale
 import com.samuel.oremoschanganapt.ui_core.states.UIState.configFontSize
 import com.samuel.oremoschanganapt.ui_core.states.UIState.themeMode
 import com.samuel.oremoschanganapt.view.DesktopHomePage
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.icon
 import org.jetbrains.compose.resources.painterResource

@@ -55,7 +55,8 @@ import com.samuel.oremoschanganapt.ui_core.states.UIState.themeMode
 import com.samuel.oremoschanganapt.view.Home
 import com.samuel.oremoschanganapt.view.RemindersPages.ConfigureReminder
 import com.samuel.oremoschanganapt.view.RemindersPages.RemindersPage
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.CommonPrays.PraysScreen
 import java.util.Locale
 
 class  MainActivity : ComponentActivity() {
@@ -86,7 +87,8 @@ class  MainActivity : ComponentActivity() {
             var initialLanguage by remember { mutableStateOf("") }
 
             val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
-            var starDestination by remember { mutableStateOf<Screen>(HomeScreen) }
+            var starDestination by remember { mutableStateOf<Screen>(PraysScreen) }
+//            var starDestination by remember { mutableStateOf<Screen>(HomeScreen()) }
 
 
             LaunchedEffect(Unit) {
@@ -169,7 +171,7 @@ class  MainActivity : ComponentActivity() {
 }
 
 
-actual object RemindersScreen : Screen {
+actual class RemindersScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -190,7 +192,7 @@ actual class ConfigureReminderScreen actual constructor(
 }
 
 
-actual object HomeScreen : Screen {
+actual class HomeScreen : Screen {
     @RequiresApi(Build.VERSION_CODES.O)
     @Composable
     override fun Content() {

@@ -43,7 +43,7 @@ import com.samuel.oremoschanganapt.ui_core.globalComponents.ExpandContentTabBtn
 import com.samuel.oremoschanganapt.ui_core.globalComponents.KeyValueTextRow
 import com.samuel.oremoschanganapt.ui_core.globalComponents.RadioButtonDialog
 import com.samuel.oremoschanganapt.ui_core.globalComponents.textFontSize
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

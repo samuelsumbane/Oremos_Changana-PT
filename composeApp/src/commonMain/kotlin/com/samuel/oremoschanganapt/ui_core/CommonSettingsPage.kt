@@ -56,9 +56,9 @@ import com.samuel.oremoschanganapt.ui_core.Configs.appLocale
 import com.samuel.oremoschanganapt.domain.isDesktop
 import com.samuel.oremoschanganapt.ui_core.states.UIState.configFontSize
 import com.samuel.oremoschanganapt.ui_core.states.UIState.themeMode
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigEntry
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
-import com.samuel.oremoschanganapt.presentation.viewModels.OremosLangsMap
+import com.samuel.oremoschanganapt.presentation.ConfigEntry
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.OremosLangsMap
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.app_color
 import oremoschangana.composeapp.generated.resources.appearance
@@ -215,7 +215,7 @@ fun CommonSettingsPage() {
                                             .padding(10.dp)
                                             .fillMaxWidth()
                                             .height(30.dp)
-                                            .clickable { navigator.push(AppearanceScreen) },
+                                            .clickable { navigator.push(AppearanceScreen()) },
                                         Arrangement.SpaceBetween
                                     ) {
                                         Text(

@@ -60,8 +60,8 @@ import com.samuel.oremoschanganapt.domain.isNumber
 import com.samuel.oremoschanganapt.searchWidget
 import com.samuel.oremoschanganapt.songsList
 import com.samuel.oremoschanganapt.ui_core.states.AppState.isLoading
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigEntry
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigEntry
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_back

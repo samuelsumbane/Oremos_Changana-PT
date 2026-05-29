@@ -108,7 +108,7 @@ fun MorePages(navigator: Navigator, ) {
                                 Modifier.weight(1f),
                                 shape = RoundedCornerShape(curvePercent, noCurve, noCurve, noCurve)
                             ) {
-                                navigator.push(ApendixScreen)
+                                navigator.push(ApendixScreen())
                             }
 
                             Spacer(Modifier.width(25.dp))
@@ -120,7 +120,7 @@ fun MorePages(navigator: Navigator, ) {
                                 Modifier.weight(1f),
                                 shape = RoundedCornerShape(noCurve, curvePercent, noCurve, noCurve)
                             ) {
-                                navigator.push(FestasMoveisScreen)
+                                navigator.push(FestasMoveisScreen())
                             }
                         }
 
@@ -132,7 +132,7 @@ fun MorePages(navigator: Navigator, ) {
                                 Modifier.weight(1f),
                                 shape = RoundedCornerShape(noCurve, noCurve, noCurve, curvePercent)
                             ) {
-                                navigator.push(LicionarioScreen)
+                                navigator.push(LicionarioScreen())
                             }
                             Spacer(Modifier.width(25.dp))
 
@@ -143,7 +143,7 @@ fun MorePages(navigator: Navigator, ) {
                                 modifier = Modifier.weight(1f),
                                 shape = RoundedCornerShape(noCurve, noCurve, curvePercent, noCurve)
                             ) {
-                                navigator.push(SantoralScreen)
+                                navigator.push(SantoralScreen())
                             }
                         }
 
@@ -158,7 +158,7 @@ fun MorePages(navigator: Navigator, ) {
                                     Modifier.height(100.dp).weight(1f),
                                     shape = RoundedCornerShape(curvePercent)
                                 ) {
-                                    navigator.push(RemindersScreen)
+                                    navigator.push(RemindersScreen())
                                 }
 
                                 Spacer(Modifier.width(25.dp))

@@ -37,6 +37,7 @@ import com.samuel.oremoschanganapt.ui_core.globalComponents.AppSideBar
 import com.samuel.oremoschanganapt.ui_core.globalComponents.LoadingScreen
 import com.samuel.oremoschanganapt.ui_core.globalComponents.platformWidth
 import com.samuel.oremoschanganapt.domain.isDesktop
+import com.samuel.oremoschanganapt.presentation.Songs.SongsScreen
 import com.samuel.oremoschanganapt.songsList
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_back

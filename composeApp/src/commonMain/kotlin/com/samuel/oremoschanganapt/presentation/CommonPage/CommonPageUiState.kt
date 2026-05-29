@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.presentation.uiStates
+package com.samuel.oremoschanganapt.presentation.CommonPage
 
 data class CommonPageUiState(
     val expanded: Boolean = false,

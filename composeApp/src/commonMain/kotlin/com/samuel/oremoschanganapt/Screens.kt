@@ -1,3 +1,5 @@
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+
 package com.samuel.oremoschanganapt
 
 import androidx.compose.foundation.ScrollState
@@ -10,15 +12,15 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.russhwolf.settings.Settings
 import com.samuel.oremoschanganapt.ui_core.About
-import com.samuel.oremoschanganapt.commonView.commonMorePages.Licionario
-import com.samuel.oremoschanganapt.view.morepagesPackage.Apendice
-import com.samuel.oremoschanganapt.commonView.commonMorePages.FestasMoveis
-import com.samuel.oremoschanganapt.commonView.commonMorePages.Santoral
-import com.samuel.oremoschanganapt.ui_core.settingsPages.AppearancePage
+import com.samuel.oremoschanganapt.ui_core.commonMorePages.FestasMoveis
+import com.samuel.oremoschanganapt.ui_core.commonMorePages.Licionario
+import com.samuel.oremoschanganapt.ui_core.commonMorePages.Santoral
 import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
 import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
+import com.samuel.oremoschanganapt.ui_core.settingsPages.AppearancePage
+import com.samuel.oremoschanganapt.view.morepagesPackage.Apendice
 
-object SantoralScreen : Screen {
+class SantoralScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -27,7 +29,7 @@ object SantoralScreen : Screen {
 }
 
 
-object ApendixScreen : Screen {
+class ApendixScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -35,7 +37,7 @@ object ApendixScreen : Screen {
     }
 }
 
-object LicionarioScreen : Screen {
+class LicionarioScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -46,7 +48,7 @@ object LicionarioScreen : Screen {
 //expect class CommonSideBarScreen(activePage: String) : Screen
 
 
-object FestasMoveisScreen : Screen {
+class FestasMoveisScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -61,9 +63,9 @@ expect class ConfigureReminderScreen(
     reminderIdParam: Long
 ) : Screen
 
-expect object RemindersScreen : Screen
+expect class RemindersScreen() : Screen
 
-expect object HomeScreen : Screen
+expect class HomeScreen() : Screen
 
 @Composable
 expect fun AditionalVerticalScroll(
@@ -96,6 +98,8 @@ expect fun BottomNav(
 
 
 object CommonAboutAppScreen : Screen {
+    private fun readResolve(): Any = CommonAboutAppScreen
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -106,7 +110,7 @@ object CommonAboutAppScreen : Screen {
     }
 }
 
-object AppearanceScreen : Screen {
+class AppearanceScreen : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -119,7 +123,6 @@ expect fun searchWidget(
     searchInputLabel: String = "Pesquisar oração",
     searchValue: (String) -> Unit
 )
-
 
 
 // This function will works only on Android (maybe in IOS in future)

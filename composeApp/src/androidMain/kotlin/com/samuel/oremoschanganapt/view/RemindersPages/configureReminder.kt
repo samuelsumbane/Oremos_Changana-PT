@@ -158,7 +158,6 @@ fun ConfigureReminder(
                     DatePickerModalInput(
                         onDateSelected = { timestamp ->
                             timestamp?.let { reminderdate = it}
-
                             showDatePicker = false
                         }
                     ) { showDatePicker = false }

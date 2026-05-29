@@ -42,7 +42,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.ui_core.AgroupedSongsScreen
 import com.samuel.oremoschanganapt.ui_core.LovedDataScreen
-import com.samuel.oremoschanganapt.ui_core.PraysScreen
+import com.samuel.oremoschanganapt.presentation.CommonPrays.PraysScreen
 import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.domain.isNumber
 import com.samuel.oremoschanganapt.songsList
@@ -184,7 +184,7 @@ fun ShortcutsButton(navigator: Navigator) {
                                 icon = painterResource(Res.drawable.home),
                                 description = "Home"
                             ) {
-                                navigator.push(HomeScreen)
+                                navigator.push(HomeScreen())
                             }
                         }
                     }

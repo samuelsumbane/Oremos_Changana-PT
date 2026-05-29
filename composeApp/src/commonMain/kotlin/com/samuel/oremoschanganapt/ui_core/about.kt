@@ -150,7 +150,7 @@ fun About(
                 ) {
                     for((key, contact) in mutableMapOf(
                         "emola" to "865230661", "mkhesh" to "833597867",
-                        "mbim" to "1046225220", "paypal" to "samuel143@gmail.com"
+                        "mbim" to "1046225220", "paypal" to "samuelsumbane143@gmail.com"
                     )) {
                         TextButton(
                             onClick = {
@@ -186,7 +186,7 @@ fun About(
                     modifier = Modifier.fillMaxWidth(0.9f)
                 ) {
                     mutableListOf(
-                        "+258 865230661", "+258 833597867", "samuel143@gmail.com"
+                        "+258 865230661", "+258 833597867", "samuelsumbane143@gmail.com"
                     ).forEach { contact ->
                         TextButton(
                             onClick = {
@@ -243,7 +243,6 @@ fun About(
                     Modifier.fillMaxHeight()
                         .width(12.dp)
                         .align(Alignment.CenterEnd)
-
                 ) {
                     AditionalVerticalScroll(
                         modifier = Modifier,

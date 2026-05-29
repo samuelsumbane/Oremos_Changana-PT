@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.ui_core
+package com.samuel.oremoschanganapt.presentation.CommonPrays
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,14 +45,15 @@ import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.domain.isDesktop
 import com.samuel.oremoschanganapt.searchWidget
 import com.samuel.oremoschanganapt.shortcutButtonWidget
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigEntry
-import com.samuel.oremoschanganapt.presentation.viewModels.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.ui_core.PageName
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_back
 import oremoschangana.composeapp.generated.resources.prays
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 
 object PraysScreen : Screen {
@@ -65,14 +67,17 @@ object PraysScreen : Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonPraysPage(navigator: Navigator) {
-    var searchValue by remember { mutableStateOf("") }
-    val allPrays by remember { mutableStateOf(praysList) }
-    var lovedIdPrays by remember { mutableStateOf(setOf<Int>()) }
+
+    val commonPraysViewModel = koinViewModel<CommonPraysViewModel>()
+    val commonPraysUiState by commonPraysViewModel.commonPraysUiState.collectAsState()
+
+//    var lovedIdPrays by remember { mutableStateOf(setOf<Int>()) }
     val configViewModal = remember { ConfigScreenViewModel(createSettings()) }
 
     LaunchedEffect(Unit) {
         val defaultConfig = configViewModal.loadConfigurations()
-        lovedIdPrays = defaultConfig.favoritePrays
+        commonPraysViewModel.onSetPraysList(praysList)
+        commonPraysViewModel.onSetLovedPrays(defaultConfig.favoritePrays)
     }
 
     Row {
@@ -98,7 +103,7 @@ fun CommonPraysPage(navigator: Navigator) {
                         }
                     },
                     actions = {
-                        searchWidget { searchValue = it }
+                        searchWidget { prayName -> commonPraysViewModel.onEvent(CommonPraysUiEvents.OnSearchPray(prayName)) }
                     }
                 )
             },
@@ -113,14 +118,12 @@ fun CommonPraysPage(navigator: Navigator) {
             }
 
             when {
-                allPrays.isEmpty() -> LoadingScreen()
+                commonPraysUiState.allPrays.isEmpty() -> LoadingScreen()
                 else -> {
-                    val filteredPrays = remember(allPrays, searchValue) {
-                        if (searchValue.isNotEmpty()) {
-                            allPrays.filter { it.title.contains(searchValue, ignoreCase = true) }
-                        } else {
-                            allPrays
-                        }
+                    val filteredPrays = remember(commonPraysUiState.allPrays, commonPraysUiState.searchValue) {
+                        if (commonPraysUiState.searchValue.isNotEmpty()) {
+                            commonPraysUiState.allPrays.filter { it.title.contains(commonPraysUiState.searchValue, ignoreCase = true) }
+                        } else commonPraysUiState.allPrays
                     }
 
                     Box(Modifier.fillMaxSize().padding(paddingVales)) {
@@ -147,18 +150,10 @@ fun CommonPraysPage(navigator: Navigator) {
                                         navigator,
                                         modifier = Modifier.platformWidth(1f),
                                         pray = pray,
-                                        loved = pray.id in lovedIdPrays,
+                                        loved = pray.id in commonPraysUiState.lovedIdPrays,
                                         onToggleLoved = { id ->
                                             coroutineScope.launch {
-                                                if (id in lovedIdPrays) {
-                                                    lovedIdPrays -= id
-                                                } else {
-                                                    lovedIdPrays += id
-                                                }
-
-                                                configViewModal.saveConfiguration(
-                                                    ConfigEntry.FavoritePrays, lovedIdPrays
-                                                )
+                                                commonPraysViewModel.onEvent(CommonPraysUiEvents.OnHeartClicked(id, configViewModal))
                                             }
                                         }
                                     )

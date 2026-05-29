@@ -47,6 +47,7 @@ fun Home(navigator: Navigator) {
     val inVertical by remember(screenWidth) {
         derivedStateOf { screenWidth - (screenWidth * 0.15) }
     }
+
     val inHorizontal by remember(screenHeight) {
         derivedStateOf { screenHeight }
     }
