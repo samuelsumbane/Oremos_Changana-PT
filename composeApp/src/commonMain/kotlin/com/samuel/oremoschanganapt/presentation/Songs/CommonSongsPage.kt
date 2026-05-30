@@ -157,9 +157,9 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                                 },
                             ) { activeInput ->
                                 when (activeInput) {
-                                    0 -> searchWidget("Pesquisar cântico") { songsViewModel.fillSongsForm(searchValue = it) }
-                                    1 -> searchWidget("Pesquisa avançada") {
-                                        songsViewModel.fillSongsForm(advancedSearchString = it)
+                                    0 -> searchWidget("Pesquisar cântico", onExpand = {}) { song -> songsViewModel.fillSongsForm(searchValue = song) }
+                                    1 -> searchWidget("Pesquisa avançada", onExpand = {}) { song ->
+                                        songsViewModel.fillSongsForm(advancedSearchString = song)
                                     }
                                 }
                             }

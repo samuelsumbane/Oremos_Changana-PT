@@ -1,8 +1,9 @@
 package com.samuel.oremoschanganapt
 
 import com.samuel.oremoschanganapt.presentation.CommonPage.CommonPageViewModel
-import com.samuel.oremoschanganapt.presentation.CommonPrays.CommonPraysViewModel
+import com.samuel.oremoschanganapt.presentation.commonPrays.CommonPraysViewModel
 import com.samuel.oremoschanganapt.presentation.Songs.SongsViewModel
+import com.samuel.oremoschanganapt.presentation.lovedData.LovedDataViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -24,4 +25,5 @@ val appModule = module {
     viewModel { CommonPageViewModel() }
     viewModel { SongsViewModel() }
     viewModel { CommonPraysViewModel() }
+    viewModel { LovedDataViewModel() }
 }

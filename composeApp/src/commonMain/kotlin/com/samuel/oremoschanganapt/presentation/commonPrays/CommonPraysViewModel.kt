@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.presentation.CommonPrays
+package com.samuel.oremoschanganapt.presentation.commonPrays
 
 import androidx.lifecycle.ViewModel
 import com.samuel.oremoschanganapt.presentation.ConfigEntry

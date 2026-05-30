@@ -44,7 +44,7 @@ import com.samuel.oremoschanganapt.ui_core.ColorObject
 import com.samuel.oremoschanganapt.ConfigureReminderScreen
 import com.samuel.oremoschanganapt.Reminder
 import com.samuel.oremoschanganapt.ReminderRepository
-import com.samuel.oremoschanganapt.ui_core.EachPageScreen
+import com.samuel.oremoschanganapt.presentation.CommonPage.EachPageScreen
 import com.samuel.oremoschanganapt.components.OkAlertDialog
 import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.ui_core.globalComponents.ReminderButton

@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.ui_core
+package com.samuel.oremoschanganapt.presentation.CommonPage
 
 //import com.samuel.oremoschanganapt.globalComponents.DataCollection
 
@@ -51,7 +51,6 @@ import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.domain.DataCollection
 import com.samuel.oremoschanganapt.domain.isAndroid
 import com.samuel.oremoschanganapt.domain.isDesktop
-import com.samuel.oremoschanganapt.presentation.CommonPage.CommonPageViewModel
 import com.samuel.oremoschanganapt.shareContent
 import com.samuel.oremoschanganapt.songsList
 import com.samuel.oremoschanganapt.ui_core.states.UIState.isFullScreen

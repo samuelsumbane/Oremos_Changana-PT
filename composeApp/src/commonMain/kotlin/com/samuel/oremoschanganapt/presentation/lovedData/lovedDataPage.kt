@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.ui_core
+package com.samuel.oremoschanganapt.presentation.lovedData
 
 //import com.samuel.oremoschanganapt.ui_core.ColorObject
 import androidx.compose.animation.AnimatedContent
@@ -29,9 +29,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -39,7 +39,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -47,21 +46,19 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.BottomNav
 import com.samuel.oremoschanganapt.createSettings
-import com.samuel.oremoschanganapt.ui_core.globalComponents.LoadingScreen
-import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
-import com.samuel.oremoschanganapt.ui_core.globalComponents.PrayRow
-import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
-import com.samuel.oremoschanganapt.ui_core.globalComponents.SongRow
-import com.samuel.oremoschanganapt.ui_core.globalComponents.lazyColumn
-import com.samuel.oremoschanganapt.praysList
 import com.samuel.oremoschanganapt.domain.DataCollection
 import com.samuel.oremoschanganapt.domain.isDesktop
 import com.samuel.oremoschanganapt.domain.isNumber
-import com.samuel.oremoschanganapt.searchWidget
-import com.samuel.oremoschanganapt.songsList
-import com.samuel.oremoschanganapt.ui_core.states.AppState.isLoading
-import com.samuel.oremoschanganapt.presentation.ConfigEntry
 import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.searchWidget
+import com.samuel.oremoschanganapt.ui_core.ColorObject
+import com.samuel.oremoschanganapt.ui_core.PageName
+import com.samuel.oremoschanganapt.ui_core.globalComponents.DataNotFound
+import com.samuel.oremoschanganapt.ui_core.globalComponents.LoadingScreen
+import com.samuel.oremoschanganapt.ui_core.globalComponents.PrayRow
+import com.samuel.oremoschanganapt.ui_core.globalComponents.SongRow
+import com.samuel.oremoschanganapt.ui_core.globalComponents.lazyColumn
+import com.samuel.oremoschanganapt.ui_core.states.AppState.isLoading
 import kotlinx.coroutines.launch
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.arrow_back
@@ -70,6 +67,7 @@ import oremoschangana.composeapp.generated.resources.prays
 import oremoschangana.composeapp.generated.resources.songs
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 
 object LovedDataScreen : Screen {
@@ -84,57 +82,37 @@ object LovedDataScreen : Screen {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LovedDataPage(navigator: Navigator) {
-    var searchValue by remember { mutableStateOf("") }
+    val lovedDataViewModel = koinViewModel<LovedDataViewModel>()
+    val lovedDataUiState by lovedDataViewModel.lovedDataUiState.collectAsState()
 
-    var lovedPrays by remember { mutableStateOf(mutableListOf<Pray>()) }
-    val lovedSongs by remember { mutableStateOf(mutableListOf<Song>()) }
-
-//    val context = LocalContext.current
-    var lovedIdPrays by remember { mutableStateOf(setOf<Int>()) }
-    var lovedIdSongs by remember { mutableStateOf(setOf<Int>()) }
     val coroutineScope = rememberCoroutineScope()
     val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
 
+
     LaunchedEffect(Unit) {
-        val defaultConfigurations = configViewModel.loadConfigurations()
-        lovedIdSongs = defaultConfigurations.favoriteSongs
-        lovedIdPrays = defaultConfigurations.favoritePrays
-
-        lovedIdSongs.forEach { id ->
-            songsList
-                .firstOrNull { it.id == id }
-                ?.let { song -> lovedSongs.add(song) }
-        }
-        println("lovedIdSongs : $lovedIdSongs && lovedSongs: $lovedSongs")
-
-        lovedIdPrays.forEach { id ->
-            praysList
-                .firstOrNull { it.id == id }
-                ?.let { pray -> lovedPrays.add(pray) }
-        }
-        isLoading = false
+        lovedDataViewModel.onLoad(configViewModel)
     }
 
     if (isLoading) {
         LoadingScreen()
     } else {
-        val filteredPrays = remember(lovedPrays, searchValue) {
-            if (searchValue.isNotEmpty()) {
-                lovedPrays.filter { it.title.contains(searchValue, ignoreCase = true) }
-            } else lovedPrays
+        val filteredPrays = remember(lovedDataUiState.lovedPrays, lovedDataUiState.searchValue) {
+            if (lovedDataUiState.searchValue.isNotEmpty()) {
+                lovedDataUiState.lovedPrays.filter { it.title.contains(lovedDataUiState.searchValue, ignoreCase = true) }
+            } else lovedDataUiState.lovedPrays
         }
 
-        val filteredSongs = remember(lovedSongs, searchValue) {
-            if (searchValue.isNotBlank()) {
-                val numOrNot = isNumber(searchValue)
+        val filteredSongs = remember(lovedDataUiState.lovedSongs, lovedDataUiState.searchValue) {
+            if (lovedDataUiState.searchValue.isNotBlank()) {
+                val numOrNot = isNumber(lovedDataUiState.searchValue)
                 if (numOrNot) {
-                    lovedSongs.filter { it.number == searchValue }
+                    lovedDataUiState.lovedSongs.filter { it.number == lovedDataUiState.searchValue }
                 } else {
-                    lovedSongs.filter {
-                        it.title.contains(searchValue, ignoreCase = true)
+                    lovedDataUiState.lovedSongs.filter {
+                        it.title.contains(lovedDataUiState.searchValue, ignoreCase = true)
                     }
                 }
-            } else lovedSongs
+            } else lovedDataUiState.lovedSongs
         }
 
         var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -142,25 +120,16 @@ fun LovedDataPage(navigator: Navigator) {
             stringResource(Res.string.songs), stringResource(Res.string.prays),
         )
 
-        @Composable
-        fun dataNotFound(text: String) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = text, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold)
-            }
-        }
-
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(
-                            text = stringResource(Res.string.loved),
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
+                        if (!lovedDataUiState.searchInputExpanded) {
+                            Text(
+                                text = stringResource(Res.string.loved),
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent
@@ -174,7 +143,12 @@ fun LovedDataPage(navigator: Navigator) {
                         }
                     },
                     actions = {
-                        searchWidget { searchValue = it }
+                        searchWidget(
+                            searchInputLabel = if (selectedTabIndex == 1) "Pesquisar oração favorita" else "Pesquisar cântico favorito",
+                            onExpand = { lovedDataViewModel.onEvent(LovedDataUiEvents.OnExpandSearchInput(it)) }
+                        ) { song ->
+                            lovedDataViewModel.onSearchPrayOrSong(song)
+                        }
                     }
                 )
             },
@@ -192,32 +166,26 @@ fun LovedDataPage(navigator: Navigator) {
                 fun tabContent(dataCollection: DataCollection) {
                     if (dataCollection == DataCollection.PRAYS) {
                         if (filteredPrays.isEmpty()) {
-                            dataNotFound(text = "Nenhuma oração encontrada.")
+                            DataNotFound(text = "Nenhuma oração encontrada nos favoritos.")
                         } else {
                             lazyColumn {
                                 items(filteredPrays) { pray ->
                                     PrayRow(
                                         navigator,
                                         pray = pray,
-                                        loved = pray.id in lovedIdPrays,
+                                        loved = pray.id in lovedDataUiState.lovedIdPrays,
                                         onToggleLoved = { id ->
-                                            coroutineScope.launch {
-                                                if (id in lovedIdPrays) {
-                                                    lovedIdPrays -= id
-                                                } else {
-                                                    lovedIdPrays += id
-                                                }
-                                                configViewModel.saveConfiguration(
-                                                    ConfigEntry.FavoritePrays, lovedIdPrays
+                                            lovedDataViewModel
+                                                .onEvent(LovedDataUiEvents
+                                                    .OnHeartClicked(DataCollection.PRAYS, id, configViewModel)
                                                 )
-                                            }
                                         })
                                 }
                             }
                         }
                     } else {
                         if (filteredSongs.isEmpty()) {
-                            dataNotFound(text = "Nenhum cântico encontrado.")
+                            DataNotFound(text = "Nenhum cântico encontrado nos favoritos.")
                         } else {
                             lazyColumn {
                                 items(filteredSongs) { song ->
@@ -225,18 +193,13 @@ fun LovedDataPage(navigator: Navigator) {
                                         navigator,
                                         modifier = Modifier,
                                         song,
-                                        loved = song.id in lovedIdSongs,
+                                        loved = song.id in lovedDataUiState.lovedIdSongs,
                                         onToggleLoved = { id ->
                                             coroutineScope.launch {
-                                                if (id in lovedIdSongs) {
-                                                    lovedIdSongs -= id
-                                                } else {
-                                                    lovedIdSongs += id
-                                                }
-
-                                                configViewModel.saveConfiguration(
-                                                    ConfigEntry.FavoriteSongs, lovedIdSongs
-                                                )
+                                                lovedDataViewModel
+                                                    .onEvent(LovedDataUiEvents
+                                                        .OnHeartClicked(DataCollection.SONGS, id, configViewModel)
+                                                    )
                                             }
                                         }
                                     )

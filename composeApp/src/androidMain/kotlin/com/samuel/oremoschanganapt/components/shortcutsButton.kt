@@ -41,8 +41,8 @@ import androidx.compose.ui.zIndex
 import cafe.adriel.voyager.navigator.Navigator
 import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.ui_core.AgroupedSongsScreen
-import com.samuel.oremoschanganapt.ui_core.LovedDataScreen
-import com.samuel.oremoschanganapt.presentation.CommonPrays.PraysScreen
+import com.samuel.oremoschanganapt.presentation.lovedData.LovedDataScreen
+import com.samuel.oremoschanganapt.presentation.commonPrays.PraysScreen
 import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.domain.isNumber
 import com.samuel.oremoschanganapt.songsList

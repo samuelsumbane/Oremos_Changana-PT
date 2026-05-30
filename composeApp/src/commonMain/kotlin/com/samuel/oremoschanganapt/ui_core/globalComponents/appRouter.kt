@@ -5,7 +5,7 @@ import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.ui_core.AgroupedSongsScreen
 import com.samuel.oremoschanganapt.ui_core.CommonSettingsScreen
 import com.samuel.oremoschanganapt.ui_core.MorePagesScreen
-import com.samuel.oremoschanganapt.presentation.CommonPrays.PraysScreen
+import com.samuel.oremoschanganapt.presentation.commonPrays.PraysScreen
 import com.samuel.oremoschanganapt.ui_core.PageName
 
 fun appRouter(navigator: Navigator, page: String) {

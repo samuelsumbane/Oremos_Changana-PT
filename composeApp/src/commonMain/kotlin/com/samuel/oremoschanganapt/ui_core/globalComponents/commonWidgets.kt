@@ -4,7 +4,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -61,7 +60,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
-import com.samuel.oremoschanganapt.ui_core.EachPageScreen
+import com.samuel.oremoschanganapt.presentation.CommonPage.EachPageScreen
 import com.samuel.oremoschanganapt.ui_core.ColorObject
 import com.samuel.oremoschanganapt.domain.DataCollection
 import com.samuel.oremoschanganapt.ui_core.FontSize
@@ -798,4 +797,15 @@ fun Modifier.ItemRowBackground(mainColor: Color, secondColor: Color): Modifier {
         ),
         shape = RoundedCornerShape(12.dp)
     )
+}
+
+@Composable
+fun DataNotFound(text: String) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = text, textAlign = TextAlign.Center, fontWeight = FontWeight.Bold)
+    }
 }

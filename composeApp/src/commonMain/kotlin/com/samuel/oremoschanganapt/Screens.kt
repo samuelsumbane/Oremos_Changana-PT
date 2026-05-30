@@ -121,6 +121,7 @@ class AppearanceScreen : Screen {
 @Composable
 expect fun searchWidget(
     searchInputLabel: String = "Pesquisar oração",
+    onExpand: (Boolean) -> Unit,
     searchValue: (String) -> Unit
 )
 

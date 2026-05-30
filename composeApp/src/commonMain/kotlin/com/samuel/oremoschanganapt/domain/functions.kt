@@ -17,7 +17,6 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
 
-enum class DataCollection { SONGS, PRAYS }
 
 
 // Verify if is number or not --------->>

@@ -22,16 +22,16 @@ import com.samuel.oremoschanganapt.ui_core.globalComponents.InputSearch
 @Composable
 fun AndroidSearchContainer(
     searchInputLabel: String = "Pesquisar oração",
-    isContainerActive: Boolean = false,
     showIcon: Boolean = true,
+    onExpand: (Boolean) -> Unit,
     searchValue: (String) -> Unit
 ) {
-    var activeContainer by remember { mutableStateOf(isContainerActive) }
+    var activeContainer by remember { mutableStateOf(false) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
 
     val columnW by remember(screenWidth) {
-        derivedStateOf { screenWidth - (screenWidth * 0.35) }
+        derivedStateOf { screenWidth - (screenWidth * 0.10) }
     }
 
     var searchText by remember { mutableStateOf("") }
@@ -40,10 +40,11 @@ fun AndroidSearchContainer(
     Column(
         Modifier
             .width(if (activeContainer) columnW.dp else 32.dp)
-            .height(64.dp)
+            .height(68.dp)
             .clickable {
                 activeContainer = !activeContainer
                 setFocus = activeContainer
+                onExpand(activeContainer)
             }
     ){
         if (activeContainer) {
@@ -66,7 +67,12 @@ fun AndroidSearchContainer(
                         .width(30.dp),
                         verticalArrangement = Arrangement.Center
                     ){
-                        IconButton(onClick = { activeContainer = !activeContainer }){
+                        IconButton(
+                            onClick = {
+                                activeContainer = !activeContainer
+                                onExpand(activeContainer)
+                            }
+                        ) {
                             Icon(Icons.Default.KeyboardArrowRight, contentDescription="Close search input",
                                 modifier = Modifier.width(30.dp).fillMaxHeight(0.9f)
                             )
@@ -78,7 +84,7 @@ fun AndroidSearchContainer(
         } else {
             Column( Modifier.fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
-            ){
+            ) {
                 Spacer(Modifier.height(10.dp))
                 Icon(Icons.Default.Search, contentDescription="Search",
                     modifier = Modifier.size(30.dp),

@@ -1,4 +1,4 @@
-package com.samuel.oremoschanganapt.presentation.CommonPrays
+package com.samuel.oremoschanganapt.presentation.commonPrays
 
 import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
 

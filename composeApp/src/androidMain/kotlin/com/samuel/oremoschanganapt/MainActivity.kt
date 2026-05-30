@@ -37,7 +37,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
 import com.samuel.oremoschanganapt.ui_core.ColorObject
-import com.samuel.oremoschanganapt.ui_core.EachPageScreen
+import com.samuel.oremoschanganapt.presentation.CommonPage.EachPageScreen
 import com.samuel.oremoschanganapt.components.AndroidPagerContent
 import com.samuel.oremoschanganapt.components.AndroidSearchContainer
 import com.samuel.oremoschanganapt.components.BottomAppBarPrincipal
@@ -56,7 +56,8 @@ import com.samuel.oremoschanganapt.view.Home
 import com.samuel.oremoschanganapt.view.RemindersPages.ConfigureReminder
 import com.samuel.oremoschanganapt.view.RemindersPages.RemindersPage
 import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
-import com.samuel.oremoschanganapt.presentation.CommonPrays.PraysScreen
+import com.samuel.oremoschanganapt.presentation.commonPrays.PraysScreen
+import com.samuel.oremoschanganapt.ui_core.MorePagesScreen
 import java.util.Locale
 
 class  MainActivity : ComponentActivity() {
@@ -87,7 +88,7 @@ class  MainActivity : ComponentActivity() {
             var initialLanguage by remember { mutableStateOf("") }
 
             val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
-            var starDestination by remember { mutableStateOf<Screen>(PraysScreen) }
+            var starDestination by remember { mutableStateOf<Screen>(MorePagesScreen) }
 //            var starDestination by remember { mutableStateOf<Screen>(HomeScreen()) }
 
 
@@ -307,10 +308,12 @@ actual fun BottomNav(
 @Composable
 actual fun searchWidget(
     searchInputLabel: String,
+    onExpand: (Boolean) -> Unit,
     searchValue: (String) -> Unit
 ) {
     AndroidSearchContainer(
         searchInputLabel = searchInputLabel,
+        onExpand = onExpand,
         searchValue = searchValue
     )
 }
