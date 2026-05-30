@@ -18,7 +18,10 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.samuel.oremoschanganapt.HomeScreen
 import com.samuel.oremoschanganapt.R
 import com.samuel.oremoschanganapt.ui.theme.BlueColor
@@ -26,14 +29,23 @@ import com.samuel.oremoschanganapt.ui.theme.splashColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+class SplashWindowScreen : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        SplashWindow(navigator)
+    }
+}
+
 
 @Composable
 fun SplashWindow(navigator: Navigator) {
+    val navigator = LocalNavigator.currentOrThrow
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            delay(1000)
+            delay(800)
             navigator.push(HomeScreen())
         }
     }

@@ -52,7 +52,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import kotlin.collections.iterator
 
-const val githubLink = "https://github.com/samuel/OremosChanganaPortugues.git"
+const val githubLink = "https://github.com/samuelsumbane/Oremos_Changana-PT.git"
 
 @Composable
 fun NormalText(text: String, modifier: Modifier = Modifier) {

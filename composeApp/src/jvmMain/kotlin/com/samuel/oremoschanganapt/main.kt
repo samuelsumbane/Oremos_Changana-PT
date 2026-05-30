@@ -40,12 +40,15 @@ import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.icon
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.context.startKoin
 import java.util.Locale
 import java.util.prefs.Preferences
 
-//import com.samuel.oremoschanganapt.
 
 fun main() = application {
+    startKoin {
+        modules(appModule)
+    }
     Window(
         onCloseRequest = ::exitApplication,
         title = "Oremos Changana-PT",
@@ -55,6 +58,8 @@ fun main() = application {
         ),
         icon = painterResource(Res.drawable.icon),
     ) {
+
+//        initKoin()
 
         val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
         // To keep the density as Android (jetpack compose)
@@ -92,7 +97,7 @@ fun main() = application {
 //                    Navigator(AppearanceScreen)
 //                    Navigator(DesktopSettingsScreen)
 //                    Navigator(RemindersScreen)
-                    Navigator(HomeScreen)
+                    Navigator(HomeScreen())
 //                Navigator(CommonAboutAppScreen)
                 }
             }
@@ -110,7 +115,7 @@ actual class ReminderRepository actual constructor() {
     }
 }
 
-actual object RemindersScreen : Screen {
+actual class RemindersScreen : Screen {
     @Composable
     override fun Content() {
         /** Nothing happens in desktop */
@@ -129,7 +134,7 @@ actual class ConfigureReminderScreen actual constructor(
 }
 
 
-actual object HomeScreen : Screen {
+actual class HomeScreen : Screen {
     @Composable
     override fun Content() {
         DesktopHomePage()
@@ -197,6 +202,8 @@ actual fun BottomNav(
 @Composable
 actual fun searchWidget(
     searchInputLabel: String,
+    expanded: Boolean,
+    onExpand: (Boolean) -> Unit,
     searchValue: (String) -> Unit
 ) {
     DesktopSearchContainer(searchInputLabel, searchValue)

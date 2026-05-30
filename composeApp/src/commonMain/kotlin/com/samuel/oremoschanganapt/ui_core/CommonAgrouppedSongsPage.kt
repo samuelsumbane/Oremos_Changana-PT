@@ -116,7 +116,7 @@ fun CommonAgroupedPage(navigator: Navigator) {
                                             .platformWidth()
                                             .height(55.dp)
                                             .border(
-                                                1.dp,
+                                                0.8.dp,
                                                 mainColor,
                                                 shape = RoundedCornerShape(14.dp)
                                             )

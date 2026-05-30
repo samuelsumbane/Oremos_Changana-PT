@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +44,8 @@ import com.samuel.oremoschanganapt.ui_core.globalComponents.MorePagesBtn
 import com.samuel.oremoschanganapt.domain.isAndroid
 import com.samuel.oremoschanganapt.domain.isDesktop
 import com.samuel.oremoschanganapt.presentation.lovedData.LovedDataScreen
+import com.samuel.oremoschanganapt.ui_core.globalComponents.ButtonsDivider
+import com.samuel.oremoschanganapt.ui_core.globalComponents.MorePagesColumn
 import oremoschangana.composeapp.generated.resources.Res
 import oremoschangana.composeapp.generated.resources.about
 import oremoschangana.composeapp.generated.resources.appendix
@@ -95,6 +98,7 @@ fun MorePages(navigator: Navigator, ) {
                         fontStyle = FontStyle.Italic,
                         modifier = Modifier.padding(top = 40.dp, bottom = 30.dp)
                     )
+
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth(fraction = if (isAndroid()) 0.90f else 0.40f)
@@ -102,135 +106,84 @@ fun MorePages(navigator: Navigator, ) {
                     ) {
 
                         items(1) {
-                            MorePagesButtonRow {
+                            MorePagesColumn {
                                 MorePagesBtn(
                                     icon = Res.drawable.appendix,
                                     description = "pagina de apêndice",
                                     text = "Apêndice",
-                                    Modifier.weight(1f),
-                                    inColumn = true,
-                                    shape = RoundedCornerShape(
-                                        curvePercent,
-                                        noCurve,
-                                        noCurve,
-                                        noCurve
-                                    )
                                 ) {
                                     navigator.push(ApendixScreen())
                                 }
 
-                                Spacer(Modifier.width(25.dp))
+                                ButtonsDivider()
 
                                 MorePagesBtn(
                                     icon = Res.drawable.party,
                                     description = "Pagina de festas móveis",
                                     text = "Festas Móveis",
-                                    Modifier.weight(1f),
-                                    inColumn = true,
-                                    shape = RoundedCornerShape(
-                                        noCurve,
-                                        curvePercent,
-                                        noCurve,
-                                        noCurve
-                                    )
                                 ) {
                                     navigator.push(FestasMoveisScreen())
                                 }
-                            }
 
-                            Spacer(Modifier.height(25.dp))
+                                ButtonsDivider()
 
-                            MorePagesButtonRow {
                                 MorePagesBtn(
                                     icon = Res.drawable.date_range,
                                     description = "Pagina de liccionario",
                                     text = "Leccionário",
-                                    Modifier.weight(1f),
-                                    inColumn = true,
-                                    shape = RoundedCornerShape(
-                                        noCurve,
-                                        noCurve,
-                                        noCurve,
-                                        curvePercent
-                                    )
                                 ) {
                                     navigator.push(LicionarioScreen())
                                 }
-                                Spacer(Modifier.width(25.dp))
+
+                                ButtonsDivider()
 
                                 MorePagesBtn(
                                     icon = Res.drawable.cruz,
                                     description = "pagina de santos e santas",
                                     text = "Santoral",
-                                    modifier = Modifier.weight(1f),
-                                    inColumn = true,
-                                    shape = RoundedCornerShape(
-                                        noCurve,
-                                        noCurve,
-                                        curvePercent,
-                                        noCurve
-                                    )
                                 ) {
                                     navigator.push(SantoralScreen())
                                 }
                             }
 
-                            Spacer(Modifier.height(35.dp))
-
-                            if (isAndroid()) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(370.dp),
-                                    verticalArrangement = Arrangement.spacedBy(15.dp)
-                                ) {
+                            MorePagesColumn {
+                                if (isAndroid()) {
                                     MorePagesBtn(
                                         icon = Res.drawable.notifications,
                                         description = "pagina de lembretes",
                                         text = "Lembretes",
-                                        Modifier.height(100.dp).weight(1f),
-                                        inColumn = false,
-                                        shape = RoundedCornerShape(curvePercent)
                                     ) {
                                         navigator.push(RemindersScreen())
                                     }
+
+                                    ButtonsDivider()
 
                                     MorePagesBtn(
                                         icon = Res.drawable.settings,
                                         description = "",
                                         text = "Configurações",
-                                        Modifier
-                                            .height(100.dp)
-                                            .weight(1f),
-                                        inColumn = false,
-                                        shape = RoundedCornerShape(curvePercent)
                                     ) { navigator.push(CommonSettingsScreen) }
+
+                                    ButtonsDivider()
 
                                     MorePagesBtn(
                                         icon = Res.drawable.heart,
                                         description = "Pagina de orações e cânticos favoritos",
                                         text = "Favoritos",
-                                        Modifier.height(100.dp).weight(1f),
-                                        inColumn = false,
-                                        shape = RoundedCornerShape(curvePercent)
                                     ) { navigator.push(LovedDataScreen) }
 
+                                    ButtonsDivider()
 
                                     MorePagesBtn(
                                         icon = null,
                                         description = "",
                                         text = stringResource(Res.string.about),
-                                        Modifier
-                                            .height(100.dp)
-                                            .weight(1f),
-                                        inColumn = false,
-                                        shape = RoundedCornerShape(curvePercent)
                                     ) { navigator.push(CommonAboutAppScreen) }
-                                    Text("")
                                 }
+                                Text("")
+
                             }
                         }
-                        //                        Spacer(Modifier.width(25.dp))
                     }
                 }
                 if (isDesktop()) AditionalVerticalScroll(modifier = Modifier, null, scrollState)

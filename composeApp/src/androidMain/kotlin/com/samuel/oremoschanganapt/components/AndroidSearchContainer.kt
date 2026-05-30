@@ -23,10 +23,11 @@ import com.samuel.oremoschanganapt.ui_core.globalComponents.InputSearch
 fun AndroidSearchContainer(
     searchInputLabel: String = "Pesquisar oração",
     showIcon: Boolean = true,
+    expanded: Boolean,
     onExpand: (Boolean) -> Unit,
     searchValue: (String) -> Unit
 ) {
-    var activeContainer by remember { mutableStateOf(false) }
+    var activeContainer by remember { mutableStateOf(expanded) }
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp
 
@@ -46,7 +47,7 @@ fun AndroidSearchContainer(
                 setFocus = activeContainer
                 onExpand(activeContainer)
             }
-    ){
+    ) {
         if (activeContainer) {
             Row (
                 Modifier.fillMaxWidth(),
@@ -66,7 +67,7 @@ fun AndroidSearchContainer(
                     Column(Modifier.fillMaxHeight()
                         .width(30.dp),
                         verticalArrangement = Arrangement.Center
-                    ){
+                    ) {
                         IconButton(
                             onClick = {
                                 activeContainer = !activeContainer

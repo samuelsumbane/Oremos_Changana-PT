@@ -141,7 +141,6 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                                     .padding(50.dp, 10.dp, 0.dp, 0.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-
                             AnimatedContent(
                                 targetState = songsUiState.activeInput,
                                 transitionSpec = {
@@ -158,9 +157,16 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                             ) { activeInput ->
                                 when (activeInput) {
                                     0 -> searchWidget("Pesquisar cântico", onExpand = {}) { song -> songsViewModel.fillSongsForm(searchValue = song) }
-                                    1 -> searchWidget("Pesquisa avançada", onExpand = {}) { song ->
-                                        songsViewModel.fillSongsForm(advancedSearchString = song)
-                                    }
+                                    1 -> searchWidget(
+                                        searchInputLabel = "Pesquisa avançada",
+                                        expanded = true,
+                                        onExpand = {
+                                            songsViewModel.fillSongsForm(
+                                                searchInputActive = true,
+                                                activeInput = 0
+                                            )
+                                        }
+                                    ) { song -> songsViewModel.fillSongsForm(advancedSearchString = song) }
                                 }
                             }
 
@@ -174,19 +180,17 @@ fun CommonSongsPage(navigator: Navigator, value: String, readbleValue: String) {
                                             activeInput = if (songsUiState.activeInput == 0) 1 else 0,
                                             searchInputActive = !songsUiState.searchInputActive
                                         )
-                                        if (songsUiState.searchInputActive) {
-                                            showSnackbar(
-                                                coroutine,
-                                                snackbarHostState,
-                                                message = "Pesquisa avançada activada\nEncontra o cântico pelo seu conteúdo"
-                                            )
-                                        }
+                                        showSnackbar(
+                                            coroutine,
+                                            snackbarHostState,
+                                            message = "Pesquisa avançada activada\nEncontra o cântico pelo seu conteúdo"
+                                        )
                                     }
                                 ) {
                                     Icon(
                                         painter = painterResource(Res.drawable.advanced_search),
                                         contentDescription = "Trocar o campo de pesquisa",
-                                        tint = if (songsUiState.searchInputActive) ColorObject.mainColor else MaterialTheme.colorScheme.tertiary,
+                                        tint = MaterialTheme.colorScheme.tertiary,
                                         modifier = Modifier.size(33.dp).padding(top = 6.dp),
                                     )
                                 }

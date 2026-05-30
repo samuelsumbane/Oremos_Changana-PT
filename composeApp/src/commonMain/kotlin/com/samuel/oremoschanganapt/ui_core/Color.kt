@@ -20,7 +20,9 @@ val Blue = Color(0xFF14BCFF)
 val Purple = Color(0xFF9C27B0)
 val Red = Color(0xFFD41004)
 val Green = Color(25, 201, 63)
-val Pink = Color(0xFFFFC1E3)
+//val Pink = Color(0xFFFFC1E3)
+val Pink = Color(233, 58, 154)
+
 val Tomato = Color(0xFFFF6347)
 val Turquoise = Color(0xFF40E0D0)   // Turquesa
 val OliveGreen = Color(0xFF6B8E23)

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.window.SplashScreen
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
@@ -36,28 +37,29 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import com.samuel.oremoschanganapt.ui_core.ColorObject
-import com.samuel.oremoschanganapt.presentation.CommonPage.EachPageScreen
 import com.samuel.oremoschanganapt.components.AndroidPagerContent
 import com.samuel.oremoschanganapt.components.AndroidSearchContainer
 import com.samuel.oremoschanganapt.components.BottomAppBarPrincipal
 import com.samuel.oremoschanganapt.components.ShortcutsButton
 import com.samuel.oremoschanganapt.data.androidpraysList
 import com.samuel.oremoschanganapt.data.androidsongsList
+import com.samuel.oremoschanganapt.domain.DataCollection
+import com.samuel.oremoschanganapt.presentation.CommonPage.EachPageScreen
+import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
+import com.samuel.oremoschanganapt.presentation.Songs.SongsScreen
+import com.samuel.oremoschanganapt.presentation.commonPrays.PraysScreen
+import com.samuel.oremoschanganapt.ui_core.ColorObject
+import com.samuel.oremoschanganapt.ui_core.Configs.appLocale
+import com.samuel.oremoschanganapt.ui_core.Configs.thememode
 import com.samuel.oremoschanganapt.ui_core.globalComponents.LoadingScreen
 import com.samuel.oremoschanganapt.ui_core.globalComponents.Pray
 import com.samuel.oremoschanganapt.ui_core.globalComponents.Song
-import com.samuel.oremoschanganapt.ui_core.Configs.appLocale
-import com.samuel.oremoschanganapt.ui_core.Configs.thememode
-import com.samuel.oremoschanganapt.domain.DataCollection
 import com.samuel.oremoschanganapt.ui_core.states.UIState.configFontSize
 import com.samuel.oremoschanganapt.ui_core.states.UIState.themeMode
 import com.samuel.oremoschanganapt.view.Home
 import com.samuel.oremoschanganapt.view.RemindersPages.ConfigureReminder
 import com.samuel.oremoschanganapt.view.RemindersPages.RemindersPage
-import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
-import com.samuel.oremoschanganapt.presentation.commonPrays.PraysScreen
-import com.samuel.oremoschanganapt.ui_core.MorePagesScreen
+import com.samuel.oremoschanganapt.view.SplashWindowScreen
 import java.util.Locale
 
 class  MainActivity : ComponentActivity() {
@@ -84,17 +86,15 @@ class  MainActivity : ComponentActivity() {
             var fontSize by remember { mutableStateOf("") }
             var themeColor by remember { mutableStateOf(Color.Transparent) }
             var secondThemeColor by remember { mutableStateOf(Color.Transparent) }
-//            val themeColor by getThemeColor(context).collectAsState(initial = Color.Transparent)
             var initialLanguage by remember { mutableStateOf("") }
 
             val configViewModel = remember { ConfigScreenViewModel(createSettings()) }
-            var starDestination by remember { mutableStateOf<Screen>(MorePagesScreen) }
 //            var starDestination by remember { mutableStateOf<Screen>(HomeScreen()) }
+            var starDestination by remember { mutableStateOf<Screen>(SplashWindowScreen()) }
 
 
             LaunchedEffect(Unit) {
                 val defaultConfigs = configViewModel.loadConfigurations()
-//                fontSize = defaultconfig
                 themeMode = defaultConfigs.themeMode
                 themeColor = Color(defaultConfigs.themeColor)
                 secondThemeColor = if (defaultConfigs.secondThemeColor == 0)
@@ -308,11 +308,13 @@ actual fun BottomNav(
 @Composable
 actual fun searchWidget(
     searchInputLabel: String,
+    expanded: Boolean,
     onExpand: (Boolean) -> Unit,
     searchValue: (String) -> Unit
 ) {
     AndroidSearchContainer(
         searchInputLabel = searchInputLabel,
+        expanded = expanded,
         onExpand = onExpand,
         searchValue = searchValue
     )

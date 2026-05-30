@@ -1,6 +1,8 @@
 package com.samuel.oremoschanganapt.ui_core.globalComponents
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,11 +10,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,63 +35,67 @@ fun MorePagesBtn(
     icon: DrawableResource?,
     description: String,
     text: String,
-    modifier: Modifier = Modifier,
-    inColumn: Boolean,
-    shape: RoundedCornerShape,
     onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = ColorObject.mainColor
+            containerColor = Color.Transparent
         ),
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .shadow(elevation = 12.dp, shape = shape, spotColor = Color.Black)
-            .height(120.dp),
-        shape = shape,
+            .height(50.dp),
         contentPadding = PaddingValues(15.dp),
     ) {
-
-        if (inColumn) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                val icon = icon?.let {
-                    Icon(
-                        painter = painterResource(it),
-                        contentDescription = description,
-                        modifier = Modifier.size(30.dp),
-                        tint = Color.White
-                    )
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = text,
-                    color = Color.White,
-                    fontSize = textFontSize(),
-                    fontWeight = FontWeight.SemiBold
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            icon?.let {
+                Icon(
+                    painter = painterResource(it),
+                    contentDescription = description,
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .size(24.dp),
+                    tint = ColorObject.mainColor
                 )
+            } ?: run {
+                Spacer(Modifier.padding(end = 44.dp))
             }
-        } else {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val icon = icon?.let {
-                    Icon(
-                        painter = painterResource(it),
-                        contentDescription = description,
-                        modifier = Modifier.size(30.dp),
-                        tint = Color.White
-                    )
-                }
-                Text(
-                    text = text,
-                    color = Color.White,
-                    fontSize = textFontSize(),
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
+            Text(
+                text = text,
+                color = MaterialTheme.colorScheme.tertiary,
+                fontSize = textFontSize(),
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
+}
+
+@Composable
+fun MorePagesColumn(
+    content: @Composable () -> Unit
+) {
+    val columnBackground = if (isSystemInDarkTheme()) Color(34, 38, 46) else Color.LightGray
+    Column(
+        modifier = Modifier
+            .padding(12.dp)
+            .background(columnBackground, RoundedCornerShape(16.dp))
+            .padding(0.dp, 10.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        content()
+    }
+}
+
+@Composable
+fun ButtonsDivider() {
+    HorizontalDivider(
+        modifier = Modifier
+            .padding(20.dp, 0.dp)
+            .fillMaxWidth(),
+        thickness = 0.5.dp,
+        color = Color.Black.copy(alpha = 0.2f)
+    )
 }
