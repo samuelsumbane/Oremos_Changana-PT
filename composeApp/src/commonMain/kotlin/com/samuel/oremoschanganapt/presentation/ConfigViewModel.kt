@@ -1,14 +1,13 @@
 package com.samuel.oremoschanganapt.presentation
 
-//import com.samuel.oremoschanganapt.AppSettings
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.russhwolf.settings.Settings
 import com.samuel.oremoschanganapt.AppConfigs
-import com.samuel.oremoschanganapt.ui_core.FontSizeName
+import com.samuel.oremoschanganapt.ui.theme.Cyan
 import com.samuel.oremoschanganapt.ui.theme.Green
+import com.samuel.oremoschanganapt.ui_core.FontSizeName
 
-//import com.samuel.oremoschanganapt.AppConfigs
 
 enum class OremosLangs(val string: String) {
     ChanganaPT("ChanganaPT")
@@ -27,7 +26,7 @@ sealed class ConfigEntry<T>(
 ) {
     object ThemeColor : ConfigEntry<Int>(
         key = "theme_color",
-        default = Green.toArgb(),
+        default = Cyan.toArgb(),
         saver = { settings, k, v -> settings.putInt(k, v) },
         loader = { settings, k, d -> settings.getInt(k, d) }
     )

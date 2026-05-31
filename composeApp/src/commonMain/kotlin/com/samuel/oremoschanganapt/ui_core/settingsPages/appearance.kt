@@ -43,9 +43,9 @@ import com.samuel.oremoschanganapt.ui.theme.Orange
 import com.samuel.oremoschanganapt.ui.theme.Pink
 import com.samuel.oremoschanganapt.ui.theme.Purple
 import com.samuel.oremoschanganapt.ui.theme.Red
-import com.samuel.oremoschanganapt.ui.theme.OliveGreen
+import com.samuel.oremoschanganapt.ui.theme.GreenYellow
 import com.samuel.oremoschanganapt.ui.theme.Tomato
-import com.samuel.oremoschanganapt.ui.theme.Turquoise
+import com.samuel.oremoschanganapt.ui.theme.Cyan
 import com.samuel.oremoschanganapt.presentation.ConfigEntry
 import com.samuel.oremoschanganapt.presentation.ConfigScreenViewModel
 import oremoschangana.composeapp.generated.resources.Res
@@ -81,8 +81,8 @@ fun AppearancePage(navigator: Navigator) {
         var themeColor by remember { mutableStateOf(ColorObject.mainColor) }
         val colorList = listOf(
             listOf(Lightgray, Lightblue, Blue, BlueColor),
-            listOf(Orange, Tomato, Red, OliveGreen),
-            listOf(Pink, Purple, Turquoise, Green)
+            listOf(Orange, Tomato, Red, GreenYellow),
+            listOf(Pink, Purple, Cyan, Green)
         )
 
         val configViewModel = remember { ConfigScreenViewModel(createSettings()) }

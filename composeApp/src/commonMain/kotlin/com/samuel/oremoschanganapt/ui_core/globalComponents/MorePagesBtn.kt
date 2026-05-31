@@ -77,7 +77,7 @@ fun MorePagesBtn(
 fun MorePagesColumn(
     content: @Composable () -> Unit
 ) {
-    val columnBackground = if (isSystemInDarkTheme()) Color(34, 38, 46) else Color.LightGray
+    val columnBackground = if (isSystemInDarkTheme()) Color(34, 38, 46) else Color(235, 235, 235)
     Column(
         modifier = Modifier
             .padding(12.dp)
